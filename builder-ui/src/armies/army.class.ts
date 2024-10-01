@@ -1,15 +1,15 @@
 export class Army {
   name: string;
   factionId: string;
-  faction: Faction;
+  faction?: Faction;
 
   constructor(name: string, factionId: string) {
     this.name = name;
     this.factionId = factionId;
   }
 
-  loadProperties((factionLibrary: Faction[]): void {
-    this.faction = factionLibrary.find(f => f.id === this.factionId) || null;
+  loadProperties(factionLibrary: Faction[]): void {
+    this.faction = factionLibrary.find((f) => f.id === this.factionId);
   }
 }
 

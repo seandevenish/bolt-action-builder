@@ -1,12 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Army } from '../army.class';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-army-card',
   standalone: true,
-  imports: [],
+  imports: [MatCardModule],
   templateUrl: './army-card.component.html',
-  styleUrl: './army-card.component.scss'
+  styleUrl: './army-card.component.scss',
 })
 export class ArmyCardComponent {
-
+  @Input() army?: Army;
 }
