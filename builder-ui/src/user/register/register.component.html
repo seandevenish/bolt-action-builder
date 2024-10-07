@@ -1,0 +1,31 @@
+<form [formGroup]="registerForm" (ngSubmit)="register()">
+  <div>
+    <label for="email">Email</label>
+    <input id="email" formControlName="email" type="email">
+    <div *ngIf="registerForm.get('email')!.invalid && registerForm.get('email')!.touched">
+      Email is required and must be a valid email.
+    </div>
+  </div>
+
+  <div>
+    <label for="password">Password</label>
+    <input id="password" formControlName="password" type="password">
+    <div *ngIf="registerForm.get('password')!.invalid && registerForm.get('password')!.touched">
+      Password is required and must be at least 6 characters.
+    </div>
+  </div>
+
+  <div *ngIf="error" class="error-message">
+    {{ error }}
+  </div>
+
+  <button type="submit" [disabled]="registerForm.invalid">
+    Register
+    <span *ngIf="busy.submit">
+      <img src="assets/spinner.gif" alt="Loading..." width="20"> Registering...
+    </span>
+  </button>
+</form>
+
+
+<button (click)="loginWithGoogle()">Login with Google</button>

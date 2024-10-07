@@ -1,0 +1,38 @@
+<form [formGroup]="loginForm" (ngSubmit)="loginWithEmail()">
+
+<div class="row">
+  <div class="col-md-4">
+
+    <div class="mb-3">
+      <label for="email" class="form-label">Email address</label>
+      <input type="email" class="form-control" id="email" formControlName="email">
+      <div class="form-text text-danger" *ngIf="loginForm.get('email')!.invalid && loginForm.get('email')!.touched">
+        Email is required and must be a valid email.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="password" class="form-label">Password</label>
+      <input type="password" class="form-control" id="password" formControlName="password">
+    </div>
+
+    <button class="btn btn-primary d-block mb-2" type="submit" [disabled]="loginForm.invalid">
+      Login with Email
+      <span *ngIf="busy.submit">
+        <img src="assets/spinner.gif" alt="Loading..." width="20"> Logging in...
+      </span>
+    </button>
+
+    <button class="btn btn-secondary d-block" (click)="loginWithGoogle()">
+      Login with Google
+    </button>
+
+    <div *ngIf="error" class="alert alert-danger">
+      {{ error }}
+    </div>
+
+  </div>
+</div>
+
+</form>
+

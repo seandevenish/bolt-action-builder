@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
+import { UserNavComponent } from './user-nav/user-nav.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, MatToolbarModule, MatIconModule],
+  imports: [RouterOutlet, MatIconModule, UserNavComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
