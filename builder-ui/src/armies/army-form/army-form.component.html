@@ -1,0 +1,41 @@
+<form [formGroup]="form" (submit)="submit()">
+
+  <div class="form-container">
+    <mat-form-field>
+      <mat-label>Faction</mat-label>
+      <mat-select formControlName="faction" cdkFocusInitial>
+        @for (faction of factions; track faction) {
+          <mat-option [value]="faction">{{faction.name}}</mat-option>
+        }
+      </mat-select>
+      @if (form.get('faction')!.hasError('required')) {
+        <mat-error>Please choose a faction</mat-error>
+      }
+      <!-- <mat-hint>{{form.get('faction')!.value?.sound}}</mat-hint> -->
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" required />
+      @if (form.get('faction')!.hasError('required')) {
+        <mat-error>Please enter a name</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label >Description</mat-label>
+      <textarea rows="3" matInput formControlName="description"></textarea>
+    </mat-form-field>
+  </div>
+
+  <div class="alert alert-danger" *ngIf="error">{{error}}</div>
+
+  <div mat-dialog-actions>
+    <button mat-flat-button type="submit" [disabled]="saving()">
+      <mat-spinner *ngIf="saving()" diameter="20" color="accent"></mat-spinner>
+      <span *ngIf="!saving()">{{isAdd ? 'Add Army' : 'Save'}}</span>
+    </button>
+    <button mat-stroked-button type="button" (click)="cancel()">Cancel</button>
+  </div>
+
+</form>

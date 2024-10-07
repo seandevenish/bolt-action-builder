@@ -1,1 +1,19 @@
-<app-army-card *ngFor="let army of armies" [army]="army"></app-army-card>
+<div class="d-flex align-items-center w-100">
+  <button mat-flat-button (click)="newArmy()" class="me-2">New Army</button>
+  <mat-form-field class="flex-grow-1 mb-0 with-buttons" appearance="outline">
+    <mat-icon matPrefix>search</mat-icon>
+    <input class="flex-grow-1" matInput type="search" placeholder="Search..." [formControl]="search" aria-label="Search">
+  </mat-form-field>
+</div>
+
+<mat-progress-bar mode="indeterminate" *ngIf="loading()"></mat-progress-bar>
+
+<div class="card" *ngFor="let group of filteredGroupedArmies">
+  <div class="card-body">
+    <h5 class="card-title">{{group.faction.name}}</h5>
+    <p class="card-text">An epic faction!</p>
+  </div>
+  <ul class="list-group list-group-flush">
+    <app-army-card *ngFor="let army of group.armies" [army]="army"></app-army-card>
+  </ul>
+</div>
