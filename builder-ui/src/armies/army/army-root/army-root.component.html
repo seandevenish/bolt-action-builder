@@ -1,0 +1,20 @@
+<mat-progress-bar mode="indeterminate" *ngIf="loading()"></mat-progress-bar>
+
+<div class="d-flex" *ngIf="army() != null && !loading()">
+
+  <h3>{{army()!.name}}</h3>
+
+  <button mat-button [matMenuTriggerFor]="menu" class="ms-auto">
+    <mat-icon fontIcon="settings"></mat-icon>
+    Settings
+  </button>
+  <mat-menu #menu="matMenu">
+    <button type="button" mat-menu-item (click)="delete()">
+      <mat-icon fontIcon="delete"></mat-icon>
+      Delete Army
+    </button>
+  </mat-menu>
+
+</div>
+
+<p>army-root works!</p>

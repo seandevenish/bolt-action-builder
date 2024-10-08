@@ -19,16 +19,16 @@ export class Army implements IFirestoreStorable {
     this.factionId = data.factionId;
     this.createdDate = newId ? new Date() : data.createdDate;
     this.modifiedDate = newId ? this.createdDate : data.createdDate;
-    this.update(data);
+    this.update(data, true);
     if (factionLibrary) this.loadProperties(factionLibrary);
   }
 
-  update(data: Partial<Army>) {
+  update(data: Partial<Army>, bypassModified: boolean = false) {
     if (data.name) this.name = data.name;
     this.description = data.description;
     if (data.factionId) this.factionId = data.factionId;
     if (data.faction) this.factionId = data.faction.id;
-    this.modifiedDate = new Date();
+    if (!bypassModified) this.modifiedDate = new Date();
   }
 
   loadProperties(factionLibrary: Faction[]): void {

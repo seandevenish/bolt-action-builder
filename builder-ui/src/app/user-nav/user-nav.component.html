@@ -1,13 +1,17 @@
 <ng-container *ngIf="isLoggedIn()">
 
-  <div class="dropdown">
-    <button class="btn btn-dark dropdown-toggle" type="button" id="user-menu" data-bs-toggle="dropdown" aria-expanded="false">
-      <img [src]="avatarUrl()" alt="User Avatar" *ngIf="avatarUrl()" class="user-avatar">
-      {{username()}}
-    </button>
-    <ul class="dropdown-menu" aria-labelledby="user-menu">
-      <li><a class="dropdown-item" type="button" (click)="signout()">Logout</a></li>
-    </ul>
-  </div>
+  <a mat-button routerLink="armies" color="secondary" class="me-2">
+    <mat-icon fontIcon="menu"></mat-icon>
+    Armies
+  </a>
+
+  <button mat-flat-button [matMenuTriggerFor]="menu">
+    <img [src]="avatarUrl()" alt="User Avatar" *ngIf="avatarUrl()" class="user-avatar">
+    <mat-icon fontIcon="person" *ngIf="!avatarUrl()"></mat-icon>
+    {{username()}}
+  </button>
+  <mat-menu #menu="matMenu">
+    <button type="button" mat-menu-item (click)="signout()">Logout</button>
+  </mat-menu>
 
 </ng-container>

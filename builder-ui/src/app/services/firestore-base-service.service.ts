@@ -1,4 +1,4 @@
-import { Firestore, collection, doc, getDocs, addDoc, updateDoc, deleteDoc } from '@angular/fire/firestore';
+import { Firestore, collection, doc, getDocs, addDoc, updateDoc, deleteDoc, getDoc } from '@angular/fire/firestore';
 import { AuthService } from '../../user/auth.service';
 import { firstValueFrom } from 'rxjs';
 import { inject } from '@angular/core';
@@ -35,6 +35,14 @@ export abstract class FirestoreBaseService<T extends IFirestoreStorable> {
     return collection(this.firestore, `users/${user.uid}/${this.collectionPath}`);
   }
 
+  protected async getPath(id: string) {
+    const user = await firstValueFrom(this.authService.state$);
+    if (!user) {
+      throw new Error('User is not authenticated');
+    }
+    return `users/${user.uid}/${this.collectionPath}/${id}`;
+  }
+
   private getFirestoreError(error: any): IFirestoreError {
     console.error('Database operation failed:', error);
     return {
@@ -49,6 +57,23 @@ export abstract class FirestoreBaseService<T extends IFirestoreStorable> {
       const userCollection = await this.getUserCollection();
       const snapshot = await getDocs(userCollection);
       return snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }) as T);
+    } catch (error) {
+      throw this.getFirestoreError(error);
+    }
+  }
+
+  async get(id: string): Promise<T> {
+    try {
+      const path = await this.getPath(id);
+      const documentRef = doc(this.firestore, path);
+      const documentSnapshot = await getDoc(documentRef);
+
+      if (!documentSnapshot.exists()) {
+        throw new Error(`Document with ID ${id} does not exist`);
+      }
+
+      // Return the document data with the ID
+      return { ...documentSnapshot.data(), id: documentSnapshot.id } as T;
     } catch (error) {
       throw this.getFirestoreError(error);
     }

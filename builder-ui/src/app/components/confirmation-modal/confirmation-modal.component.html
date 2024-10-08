@@ -1,0 +1,32 @@
+<h3 mat-dialog-title>Confirm</h3>
+
+<form [formGroup]="form" (submit)="confirm()">
+
+  <mat-dialog-content>
+
+    <div [innerHTML]="text"></div>
+
+    <div class="mb-3" *ngIf="passPhrase">
+      Please type in <strong><span [innerHTML]="passPhraseHtml"></span></strong> to confirm.
+      <div class="form-group required">
+        <input type="text" class="form-control" formControlName="passPhrase" aria-label="Passphrase" />
+      </div>
+      <mat-form-field *ngIf="passPhrase">
+        <mat-label>Pass Phrase</mat-label>
+        <input matInput formControlName="passPhrase" required />
+        @if (form.get('passPhrase')!.hasError('required')) {
+          <mat-error>Please enter a name</mat-error>
+        }
+      </mat-form-field>
+    </div>
+
+  </mat-dialog-content>
+
+  <div mat-dialog-actions>
+    <button mat-flat-button type="submit" color="danger">
+      Yes{{danger ? ', I understand the consequences' : ''}}
+    </button>
+    <button mat-stroked-button type="button" (click)="cancel()">Cancel</button>
+  </div>
+
+</form>

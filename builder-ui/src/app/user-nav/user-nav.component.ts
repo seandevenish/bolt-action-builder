@@ -1,11 +1,15 @@
 import { Component, signal } from '@angular/core';
 import { AuthService } from '../../user/auth.service';
 import { NgIf } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-user-nav',
   standalone: true,
-  imports: [NgIf],
+  imports: [NgIf, MatButtonModule, MatIconModule, MatMenuModule, RouterLink],
   templateUrl: './user-nav.component.html',
   styleUrl: './user-nav.component.scss'
 })

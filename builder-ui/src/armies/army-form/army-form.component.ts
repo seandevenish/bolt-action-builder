@@ -81,8 +81,8 @@ export class ArmyFormComponent implements OnInit, OnDestroy {
     if (this.form.invalid) return;
     this.saving.set(true);
     const army = new Army({...this.data.army, ...this.form.value});
-    if (this.isAdd) this._armyService.add(army);
-    else this._armyService.update(this.id, army).then(() =>
+    const obs$ = this.isAdd ? this._armyService.add(army) : this._armyService.update(this.id, army);
+    obs$.then(() =>
       this.dialogRef.close(army)
     ).catch((e: FirestoreError) => {
       this.error = e.message;

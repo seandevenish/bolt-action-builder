@@ -1,0 +1,20 @@
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+$theme: mat.define-theme((
+  color: (
+    theme-type: light,
+    primary: mat.$red-palette,
+    tertiary: mat.$magenta-palette
+  ),
+  typography: (
+    brand-family: 'Poppins',
+    bold-weight: 900
+  )
+));
+
+.main-theme {
+  @include mat.all-component-themes($theme);
+  @include mat.form-field-density(-3);
+}

@@ -18,4 +18,3 @@ export class ArmyService extends FirestoreBaseService<Army> {
     return armies.map(a => new Army(a, factionLibrary));
   }
 }
-

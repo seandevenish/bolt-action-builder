@@ -32,6 +32,13 @@ export const routes: Routes = [
             (mod) => mod.ArmiesListComponent
           ),
       },
+      {
+        path: 'armies/:armyId',
+        loadComponent: () =>
+          import('../armies/army/army-root/army-root.component').then(
+            (mod) => mod.ArmyRootComponent
+          ),
+      },
     ]
   }
 

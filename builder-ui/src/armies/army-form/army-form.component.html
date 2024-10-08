@@ -1,6 +1,8 @@
+<h3 mat-dialog-title>{{ isAdd ? 'New Army' : 'Edit Army' }}</h3>
+
 <form [formGroup]="form" (submit)="submit()">
 
-  <div class="form-container">
+  <mat-dialog-content class="form-container">
     <mat-form-field>
       <mat-label>Faction</mat-label>
       <mat-select formControlName="faction" cdkFocusInitial>
@@ -26,9 +28,9 @@
       <mat-label >Description</mat-label>
       <textarea rows="3" matInput formControlName="description"></textarea>
     </mat-form-field>
-  </div>
 
-  <div class="alert alert-danger" *ngIf="error">{{error}}</div>
+    <div class="alert alert-danger" *ngIf="error">{{error}}</div>
+  </mat-dialog-content>
 
   <div mat-dialog-actions>
     <button mat-flat-button type="submit" [disabled]="saving()">

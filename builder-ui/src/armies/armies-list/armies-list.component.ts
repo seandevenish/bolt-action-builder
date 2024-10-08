@@ -1,10 +1,11 @@
 import { Component, OnDestroy, OnInit, signal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { Army } from '../army.class';
-import { CommonModule, NgFor } from '@angular/common';
+import { CommonModule, DatePipe, NgFor } from '@angular/common';
 import { ArmyCardComponent } from '../army-card/army-card.component';
 import { MatDialog } from '@angular/material/dialog';
-import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatListModule } from '@angular/material/list';
 import { ArmyFormComponent } from '../army-form/army-form.component';
 import { Faction } from '../faction';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
@@ -12,11 +13,12 @@ import { debounceTime, Subject, takeUntil, tap } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { ArmyService } from '../army.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-armies-list',
   standalone: true,
-  imports: [MatIconModule, MatButtonModule, MatInputModule, MatProgressBarModule, NgFor, ArmyCardComponent, ReactiveFormsModule, CommonModule],
+  imports: [CommonModule, RouterLink, MatIconModule, MatButtonModule, MatInputModule, MatProgressBarModule, MatListModule, NgFor, DatePipe, ArmyCardComponent, ReactiveFormsModule, CommonModule],
   templateUrl: './armies-list.component.html',
   styleUrl: './armies-list.component.scss',
 })
@@ -38,15 +40,18 @@ export class ArmiesListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.loadArmies();
+    this.search.valueChanges.pipe(debounceTime(300), takeUntil(this._unsubscribeAll$)).subscribe((searchTerm) => {
+      this.filterArmies(searchTerm);
+    });
+  }
+
+  private loadArmies() {
     this.loading.set(true);
     this._armyService.getAll().then(a => {
       this.groupArmiesByFaction(a);
       this.filteredGroupedArmies = this.groupedArmies; // Initially display all armies
     }).catch(e => this.error = e).finally(() => this.loading.set(false));
-
-    this.search.valueChanges.pipe(debounceTime(300), takeUntil(this._unsubscribeAll$)).subscribe((searchTerm) => {
-      this.filterArmies(searchTerm);
-    });
   }
 
   ngOnDestroy(): void {
@@ -55,6 +60,7 @@ export class ArmiesListComponent implements OnInit, OnDestroy {
   }
 
   filterArmies(searchTerm: string | null) {
+
     if (!searchTerm) {
       this.filteredGroupedArmies = this.groupedArmies;
       return;
@@ -91,7 +97,8 @@ export class ArmiesListComponent implements OnInit, OnDestroy {
         if (!result) {
           return;
         }
-        //this.armies.push(result);
+        // open army here
+        this.loadArmies();
       });
   }
 

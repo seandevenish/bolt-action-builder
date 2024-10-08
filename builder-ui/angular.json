@@ -35,9 +35,7 @@
               "@angular/material/prebuilt-themes/cyan-orange.css",
               "src/assets/styles/main.scss"
             ],
-            "scripts": [
-              "./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
-            ]
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -97,9 +95,7 @@
               "@angular/material/prebuilt-themes/cyan-orange.css",
               "src/assets/styles/main.scss"
             ],
-            "scripts": [
-              "./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
-            ]
+            "scripts": []
           }
         }
       }
