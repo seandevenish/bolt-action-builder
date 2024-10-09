@@ -6,15 +6,20 @@ $theme: mat.define-theme((
   color: (
     theme-type: light,
     primary: mat.$red-palette,
-    tertiary: mat.$magenta-palette
+    tertiary: mat.$magenta-palette,
   ),
   typography: (
     brand-family: 'Poppins',
+    plain-family: 'Poppins',
     bold-weight: 900
+  ),
+  density: (
+    scale: -5
   )
 ));
 
 .main-theme {
+  @include mat.core-theme($theme);
   @include mat.all-component-themes($theme);
-  @include mat.form-field-density(-3);
+  @include mat.button-density(0);
 }

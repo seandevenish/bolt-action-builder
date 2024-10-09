@@ -1,17 +1,32 @@
-<ng-container *ngIf="isLoggedIn()">
+<div class="d-flex align-items-center" *ngIf="isLoggedIn()">
 
   <a mat-button routerLink="armies" color="secondary" class="me-2">
     <mat-icon fontIcon="menu"></mat-icon>
     Armies
   </a>
 
-  <button mat-flat-button [matMenuTriggerFor]="menu">
-    <img [src]="avatarUrl()" alt="User Avatar" *ngIf="avatarUrl()" class="user-avatar">
-    <mat-icon fontIcon="person" *ngIf="!avatarUrl()"></mat-icon>
-    {{username()}}
+  <!-- Small Screen -->
+  <button mat-icon-button density="-5" [matMenuTriggerFor]="menu1" class="d-inline-block d-md-none" aria-label="User Menu">
+    <mat-icon fontIcon="person"></mat-icon>
   </button>
-  <mat-menu #menu="matMenu">
-    <button type="button" mat-menu-item (click)="signout()">Logout</button>
+  <mat-menu #menu1="matMenu">
+    <div class="px-3 py-1 text-muted">{{username()}}</div>
+    <button type="button" mat-menu-item (click)="signout()">
+      <mat-icon>logout</mat-icon>
+      Logout
+    </button>
   </mat-menu>
 
-</ng-container>
+  <!-- Large Screen -->
+  <button mat-flat-button [matMenuTriggerFor]="menu2" class="d-none d-md-inline-block d-flex align-items-center">
+    <mat-icon fontIcon="person"></mat-icon>
+    <span>{{username()}}</span>
+  </button>
+  <mat-menu #menu2="matMenu">
+    <button type="button" mat-menu-item (click)="signout()">
+      <mat-icon>logout</mat-icon>
+      Logout
+    </button>
+  </mat-menu>
+
+</div>
