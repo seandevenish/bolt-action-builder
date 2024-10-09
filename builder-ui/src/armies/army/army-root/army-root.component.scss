@@ -1,0 +1,21 @@
+.cdk-drag-preview {
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.cdk-drag-placeholder {
+  opacity: 0.5;
+}
+
+.mat-expansion-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* Aligns items to the left */
+}
+
+.drag-handle {
+  display: flex;
+  align-items: center;
+  cursor: move;
+  margin-right: 0.7rem; /* Add some space between the handle and the title */
+  color: rgba(0, 0, 0, 0.54); /* Slightly dimmed color for the icon */
+}

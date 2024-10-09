@@ -6,7 +6,8 @@ $theme: mat.define-theme((
   color: (
     theme-type: light,
     primary: mat.$red-palette,
-    tertiary: mat.$magenta-palette,
+    // secondary: mat.$brown-palette,
+    // tertiary: mat.$grey-palette
   ),
   typography: (
     brand-family: 'Poppins',
@@ -22,4 +23,8 @@ $theme: mat.define-theme((
   @include mat.core-theme($theme);
   @include mat.all-component-themes($theme);
   @include mat.button-density(0);
+  @include mat.expansion-density(0);
 }
+
+
+@import "material-variants";

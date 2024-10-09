@@ -3,7 +3,7 @@ import { generateGuid } from "../app/utilities/guid";
 export class Platoon {
   id: string;
   platoonName: string;
-  units: string[];
+  units: string[]; //Todo: this is a placeholder and will become more compelx in time
   commander: string;
 
   constructor(data: Partial<Platoon>) {

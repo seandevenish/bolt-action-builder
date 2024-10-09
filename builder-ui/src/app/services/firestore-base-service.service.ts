@@ -43,7 +43,7 @@ export abstract class FirestoreBaseService<T extends IFirestoreStorable> {
     return `users/${user.uid}/${this.collectionPath}/${id}`;
   }
 
-  private getFirestoreError(error: any): IFirestoreError {
+  protected getFirestoreError(error: any): IFirestoreError {
     console.error('Database operation failed:', error);
     return {
       message: error.message || 'An unexpected error occurred while communicating with the database.',

@@ -1,0 +1,5 @@
+@use '@angular/material' as mat;
+
+.tertiary-toolbar {
+  @include mat.toolbar-color($theme);
+}
