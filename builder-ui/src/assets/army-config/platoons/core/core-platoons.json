@@ -1,0 +1,73 @@
+{
+  "platoons": [
+    {
+      "id": "RIFL",
+      "name": "Rifle Platoon",
+      "category": "Infantry",
+      "unitRequirements": [
+        { "types": ["Headquarters"], "subTypes": ["PlatoonCommander"], "min": 1, "max": 1 },
+        { "types": ["InfantrySquad"], "min": 2, "max": 4 },
+        { "types": ["Medic"], "min": 0, "max": 1 },
+        { "types": ["ForwardObserver"], "min": 0, "max": 1 },
+        { "types": ["SniperTeam"], "min": 0, "max": 1 },
+        { "types": ["AntiTankTeam"], "min": 0, "max": 1 },
+        { "types": ["MortarTeam"], "subTypes": ["LightMortar"], "min": 0, "max": 1 },
+        { "types": ["TransportVehicle"], "min": 0, "maxPerUnit": 1 }
+      ]
+    },
+    {
+      "id": "HVWP",
+      "name": "Heavy Weapons Platoon",
+      "category": "Support",
+      "unitRequirements": [
+        { "types": ["Headquarters"], "subTypes": ["PlatoonCommander"], "min": 1, "max": 1 },
+        { "types": ["MachineGunTeam", "MortarTeam"], "min": 2, "max": 2 },
+        { "types": ["MortarTeam"], "min": 0, "max": 3 },
+        { "types": ["MachineGunTeam"], "min": 0, "max": 3 },
+        { "types": ["AntiTankTeam"], "min": 0, "max": 3 },
+        { "types": ["TransportVehicle"], "min": 0, "maxPerUnit": 1 }
+      ]
+    },
+    {
+      "id": "ENGR",
+      "name": "Engineer Platoon",
+      "category": "Support",
+      "unitRequirements": [
+        { "types": ["Headquarters"], "subTypes": ["PlatoonCommander"], "min": 1, "max": 1 },
+        { "types": ["EngineerSquad"], "min": 2, "max": 4 },
+        { "types": ["FlamethrowerTeam"], "min": 0, "max": 3 },
+        { "types": ["TransportVehicle"], "min": 0, "maxPerUnit": 1 }
+      ]
+    },
+    {
+      "id": "ARMR",
+      "name": "Armoured Platoon",
+      "category": "Support",
+      "unitRequirements": [
+        { "types": ["Vehicle"], "min": 1, "max": 1 },
+        { "types": ["Vehicle"], "min": 1, "max": 4 }
+      ]
+    },
+    {
+      "id": "ARTL",
+      "name": "Artillery Platoon",
+      "category": "Support",
+      "unitRequirements": [
+        { "types": ["Headquarters"], "subTypes": ["PlatoonCommander"], "min": 1, "max": 1 },
+        { "types": ["FieldArtillery"], "min": 1, "max": 4 },
+        { "types": ["TransportVehicle"], "min": 0, "maxPerUnit": 1 }
+      ]
+    },
+    {
+      "id": "RECE",
+      "name": "Recce Infantry Platoon",
+      "category": "Support",
+      "unitRequirements": [
+        { "types": ["Headquarters"], "subTypes": ["PlatoonCommander"], "min": 1, "max": 1 },
+        { "types": ["InfantrySquad"], "min": 1, "max": 4 },
+        { "types": ["ForwardObserver"], "min": 0, "max": 1 },
+        { "types": ["TransportVehicle"], "min": 0, "minPerUnit": 1, "maxPerUnit": 1 }
+      ]
+    }
+  ]
+}

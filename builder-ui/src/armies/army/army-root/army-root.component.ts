@@ -1,3 +1,4 @@
+import { PlatoonSelectorRepositoryService } from './../../../platoons/platoon-selector-repository.service';
 import { AfterViewInit, ChangeDetectorRef, Component, NgZone, OnDestroy, OnInit, QueryList, signal, ViewChildren } from '@angular/core';
 import { ArmyService } from '../../army.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -15,6 +16,7 @@ import { ConfirmationService } from '../../../app/services/confirmation.service'
 import { Platoon } from '../../../platoons/platoon.class';
 import { PlatoonComponent } from '../../../platoons/platoon/platoon.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { PlatoonSelector } from '../../../platoons/platoon-selector.class';
 
 @Component({
   selector: 'app-army-root',
@@ -32,12 +34,15 @@ export class ArmyRootComponent implements OnInit, OnDestroy, AfterViewInit {
 
   multiExpand = signal(false);
 
+  platoonSelectors: PlatoonSelector[] = [];
+
   private readonly _unsubscribeAll$ = new Subject<void>();
 
   @ViewChildren(MatAccordion) expansionAccordions!: QueryList<MatAccordion>;
   @ViewChildren('platoonPanel') expansionPanels!: QueryList<MatExpansionPanel>;
 
   constructor(private readonly _armyService: ArmyService,
+    private readonly _platoonSelectorService: PlatoonSelectorRepositoryService,
     private readonly _route: ActivatedRoute,
     private readonly _router: Router,
     private readonly _confirmationService: ConfirmationService,
@@ -50,8 +55,7 @@ export class ArmyRootComponent implements OnInit, OnDestroy, AfterViewInit {
     this._route.paramMap.pipe(
       map(p => p.get('armyId') as string),
       tap(p => this.loading.set(true)),
-      switchMap(r => from(this._armyService.get(r))),
-      tap(r => this.army.set(r)),
+      switchMap(r => this.loadArmy(r)),
       tap(r => this.loading.set(false)),
       takeUntil(this._unsubscribeAll$)
     ).subscribe();
@@ -78,6 +82,14 @@ export class ArmyRootComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
+  private loadArmy(id: string) {
+    return from(this._armyService.get(id)).pipe(
+      tap(a => this.army.set(a)),
+      switchMap(a => this._platoonSelectorService.getPlatoonsForForceSelector(a.factionId)),
+      tap(a => this.platoonSelectors = a)
+    );
+  }
+
   delete() {
     const id = this.army()?.id;
     if (!id ) return;
@@ -90,8 +102,8 @@ export class ArmyRootComponent implements OnInit, OnDestroy, AfterViewInit {
     }, true);
   }
 
-  addPlatoon() {
-    const newPlatoon = new Platoon({});
+  addPlatoon(selector: PlatoonSelector) {
+    const newPlatoon = new Platoon({}, selector);
     this.platoons.update((platoons) => [...platoons, newPlatoon]);
     this.pendingAdd = true;
   }

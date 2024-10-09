@@ -40,10 +40,10 @@
           <div class="drag-handle" cdkDragHandle>
             <mat-icon>drag_indicator</mat-icon>
           </div>
-          {{ platoon.platoonName }}
+          {{ platoon.name }}
         </mat-panel-title>
         <mat-panel-description>
-          Other details here...
+          {{ platoon.platoonName }}
         </mat-panel-description>
       </mat-expansion-panel-header>
 
@@ -61,9 +61,16 @@
 
     <!-- Add Platoon Button -->
     <div class="mt-3">
-      <button mat-flat-button color="primary" (click)="addPlatoon()">
+      <button mat-flat-button color="primary" [matMenuTriggerFor]="addPlatoonMenu">
         + Add Platoon
       </button>
+
+      <mat-menu #addPlatoonMenu="matMenu">
+        <button mat-menu-item *ngFor="let platoon of platoonSelectors" (click)="addPlatoon(platoon)">
+          {{ platoon.name }}
+        </button>
+      </mat-menu>
+
     </div>
   </mat-accordion>
 
