@@ -5,7 +5,7 @@
       "name": "Rifle Platoon",
       "category": "Infantry",
       "unitRequirements": [
-        { "types": ["Headquarters"], "subTypes": ["PlatoonCommander"], "min": 1, "max": 1 },
+        { "types": ["Headquarters"], "subTypes": ["PlatoonCommander"], "min": 1, "max": 1, "requirementName": "Platoon Commander" },
         { "types": ["InfantrySquad"], "min": 2, "max": 4 },
         { "types": ["Medic"], "min": 0, "max": 1 },
         { "types": ["ForwardObserver"], "min": 0, "max": 1 },

@@ -9,7 +9,7 @@ export class Platoon {
   units: string[]; //Todo: this is a placeholder and will become more compelx in time
 
   get name() {
-    return this.selector?.name;
+  return this.selector?.name;
   }
 
   constructor(data: Partial<Platoon>, selector?: PlatoonSelector) {

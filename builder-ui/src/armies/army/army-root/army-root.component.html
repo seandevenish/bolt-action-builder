@@ -35,7 +35,7 @@
 
   <mat-accordion cdkDropList [cdkDropListData]="platoons()" (cdkDropListDropped)="drop($event)" [multi]="multiExpand()" #platoonAccordion>
     <mat-expansion-panel *ngFor="let platoon of platoons(); let i = index" cdkDrag #platoonPanel>
-      <mat-expansion-panel-header>
+      <mat-expansion-panel-header class="ps-2">
         <mat-panel-title>
           <div class="drag-handle" cdkDragHandle>
             <mat-icon>drag_indicator</mat-icon>
