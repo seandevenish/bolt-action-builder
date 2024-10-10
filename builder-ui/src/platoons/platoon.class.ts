@@ -29,12 +29,15 @@ export class Platoon {
     }
   }
 
+  assignSelector(platoonSelectors: PlatoonSelector[]): void {
+    this.selector = platoonSelectors.find(p => p.id == this.selectorId);
+  }
+
   toStoredObject(): Record<string, any> {
     return {
       id: this.id,
       selectorId: this.selectorId,
-      platoonName: this.platoonName,
-      units: this.units
+      platoonName: this.platoonName ?? null
     };
   }
 }

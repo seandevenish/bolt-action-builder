@@ -6,13 +6,21 @@ import { FirestoreBaseService } from '../app/services/firestore-base-service.ser
 import { factionLibrary } from './faction';
 import { firstValueFrom } from 'rxjs';
 import { Platoon } from '../platoons/platoon.class';
+import { PlatoonSelectorRepositoryService } from '../platoons/platoon-selector-repository.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ArmyService extends FirestoreBaseService<Army> {
-  constructor(authService: AuthService) {
+
+  constructor(private readonly _authService: AuthService
+  ) {
     super('armies');
+  }
+
+  override async get(id: string): Promise<Army> {
+    const army = await super.get(id);
+    return new Army(army, factionLibrary);
   }
 
   override async getAll(): Promise<Army[]> {
@@ -20,9 +28,30 @@ export class ArmyService extends FirestoreBaseService<Army> {
     return armies.map(a => new Army(a, factionLibrary));
   }
 
+  async getPlatoonsForArmy(armyId: string): Promise<Platoon[]> {
+    try {
+      const user = await firstValueFrom(this._authService.state$);
+      if (!user) {
+        throw new Error('User is not authenticated');
+      }
+
+      const platoonsCollectionPath = `users/${user.uid}/armies/${armyId}/platoons`;
+      const platoonsCollectionRef = collection(this.firestore, platoonsCollectionPath);
+      const snapshot = await getDocs(platoonsCollectionRef);
+
+      // Map the Firestore documents to Platoon instances
+      return snapshot.docs.map((doc) => {
+        const platoonData = doc.data();
+        return new Platoon({ ...platoonData, id: doc.id });
+      });
+    } catch (error) {
+      throw this.getFirestoreError(error);
+    }
+  }
+
   async updateArmyAndPlatoons(army: Army, platoons: Platoon[]): Promise<void> {
     try {
-      const user = await firstValueFrom(this.authService.state$);
+      const user = await firstValueFrom(this._authService.state$);
       if (!user) {
         throw new Error('User is not authenticated');
       }

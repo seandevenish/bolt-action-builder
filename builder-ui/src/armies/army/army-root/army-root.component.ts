@@ -17,6 +17,7 @@ import { Platoon } from '../../../platoons/platoon.class';
 import { PlatoonComponent } from '../../../platoons/platoon/platoon.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { PlatoonSelector } from '../../../platoons/platoon-selector.class';
+import { factionLibrary } from '../../faction';
 
 @Component({
   selector: 'app-army-root',
@@ -84,9 +85,22 @@ export class ArmyRootComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private loadArmy(id: string) {
     return from(this._armyService.get(id)).pipe(
+      map(a => new Army(a, factionLibrary)),
       tap(a => this.army.set(a)),
-      switchMap(a => this._platoonSelectorService.getPlatoonsForForceSelector(a.factionId)),
-      tap(a => this.platoonSelectors = a)
+      switchMap(army =>
+        from(this._armyService.getPlatoonsForArmy(army.id)).pipe(
+          tap(platoons => this.platoons.set(platoons)),
+          map(() => army)
+        )
+      ),
+      switchMap(army =>
+        this._platoonSelectorService.getPlatoonsForForceSelector(army.factionId).pipe(
+          tap(platoonSelectors => {
+            this.platoonSelectors = platoonSelectors;
+            this.platoons().forEach(p => p.assignSelector(platoonSelectors));
+          })
+        )
+      )
     );
   }
 
@@ -100,6 +114,12 @@ export class ArmyRootComponent implements OnInit, OnDestroy, AfterViewInit {
       .catch(e => console.log(e))
       .finally(() => this.loading.set(false));
     }, true);
+  }
+
+  save() {
+    const army = this.army()!;
+    const platoons = this.platoons();
+    this._armyService.updateArmyAndPlatoons(army, platoons);
   }
 
   addPlatoon(selector: PlatoonSelector) {
