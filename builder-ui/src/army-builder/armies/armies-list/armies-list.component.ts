@@ -7,13 +7,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatListModule } from '@angular/material/list';
 import { ArmyFormComponent } from '../army-form/army-form.component';
-import { Faction } from '../faction';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, Subject, takeUntil, tap } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { ArmyService } from '../army.service';
 import { RouterLink } from '@angular/router';
+import { Faction } from '../../faction';
 
 @Component({
   selector: 'app-armies-list',

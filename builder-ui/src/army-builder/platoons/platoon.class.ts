@@ -1,4 +1,4 @@
-import { generateGuid } from "../app/utilities/guid";
+import { generateGuid } from "../../app/utilities/guid";
 import { PlatoonSelector } from "./platoon-selector.class";
 
 export class Platoon {

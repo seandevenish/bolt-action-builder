@@ -1,12 +1,11 @@
-import { inject, Injectable } from '@angular/core';
-import { collection, doc, Firestore, getDocs, writeBatch } from 'firebase/firestore';
+import { Injectable } from '@angular/core';
+import { collection, doc, getDocs, writeBatch } from 'firebase/firestore';
 import { Army } from './army.class';
-import { AuthService } from '../user/auth.service';
-import { FirestoreBaseService } from '../app/services/firestore-base-service.service';
-import { factionLibrary } from './faction';
 import { firstValueFrom } from 'rxjs';
 import { Platoon } from '../platoons/platoon.class';
-import { PlatoonSelectorRepositoryService } from '../platoons/platoon-selector-repository.service';
+import { FirestoreBaseService } from '../../app/services/firestore-base-service.service';
+import { AuthService } from '../../user/auth.service';
+import { factionLibrary } from '../faction';
 
 @Injectable({
   providedIn: 'root'

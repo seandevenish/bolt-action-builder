@@ -1,6 +1,6 @@
-import { IFirestoreStorable } from "../app/services/firestore-base-service.service";
-import { generateGuid } from "../app/utilities/guid";
-import { Faction } from "./faction";
+import { IFirestoreStorable } from "../../app/services/firestore-base-service.service";
+import { generateGuid } from "../../app/utilities/guid";
+import { Faction } from "../faction";
 
 export class Army implements IFirestoreStorable {
   id: string;

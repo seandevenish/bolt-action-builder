@@ -10,11 +10,11 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CommonModule } from '@angular/common';
-import { generateGuid } from '../../app/utilities/guid';
-import { Faction, factionLibrary } from '../faction';
 import { distinctUntilChanged, filter, map, Subject, takeUntil, tap } from 'rxjs';
 import { ArmyService } from '../army.service';
 import { FirestoreError } from 'firebase/firestore';
+import { generateGuid } from '../../../app/utilities/guid';
+import { Faction, factionLibrary } from '../../faction';
 
 @Component({
   selector: 'app-army-form',

@@ -1,9 +1,6 @@
-import { PlatoonSelectorRepositoryService } from './../../../platoons/platoon-selector-repository.service';
-import { AfterViewInit, ChangeDetectorRef, Component, NgZone, OnDestroy, OnInit, QueryList, signal, ViewChildren } from '@angular/core';
-import { ArmyService } from '../../army.service';
+import { AfterViewInit, Component, NgZone, OnDestroy, OnInit, QueryList, signal, ViewChildren } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { from, map, Subject, switchMap, takeUntil, tap } from 'rxjs';
-import { Army } from '../../army.class';
 import { CommonModule } from '@angular/common';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatButtonModule } from '@angular/material/button';
@@ -13,11 +10,14 @@ import { CdkDragDrop, DragDropModule, moveItemInArray } from '@angular/cdk/drag-
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { ConfirmationService } from '../../../app/services/confirmation.service';
-import { Platoon } from '../../../platoons/platoon.class';
-import { PlatoonComponent } from '../../../platoons/platoon/platoon.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { PlatoonSelector } from '../../../platoons/platoon-selector.class';
 import { factionLibrary } from '../../faction';
+import { PlatoonSelectorRepositoryService } from '../../platoons/platoon-selector-repository.service';
+import { PlatoonSelector } from '../../platoons/platoon-selector.class';
+import { Platoon } from '../../platoons/platoon.class';
+import { PlatoonComponent } from '../../platoons/platoon/platoon.component';
+import { Army } from '../army.class';
+import { ArmyService } from '../army.service';
 
 @Component({
   selector: 'app-army-root',

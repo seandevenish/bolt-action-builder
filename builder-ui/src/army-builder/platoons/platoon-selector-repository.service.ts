@@ -11,7 +11,7 @@ export class PlatoonSelectorRepositoryService {
   private readonly coreConfigUrl = 'assets/army-config/platoons/core/core-platoons.json';
   private readonly factionConfigUrlTemplate = `${this.coreConfigUrl}/factions/`; // Base path for faction-specific JSON
 
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   /**
    * Fetches the core platoons and faction-specific platoons from their respective JSON files.

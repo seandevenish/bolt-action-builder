@@ -28,14 +28,14 @@ export const routes: Routes = [
       {
         path: 'armies',
         loadComponent: () =>
-          import('../armies/armies-list/armies-list.component').then(
+          import('../army-builder/armies/armies-list/armies-list.component').then(
             (mod) => mod.ArmiesListComponent
           ),
       },
       {
         path: 'armies/:armyId',
         loadComponent: () =>
-          import('../armies/army/army-root/army-root.component').then(
+          import('../army-builder/armies/army-root/army-root.component').then(
             (mod) => mod.ArmyRootComponent
           ),
       },
