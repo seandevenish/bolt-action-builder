@@ -1,7 +1,7 @@
 import { UnitType, UnitSubType } from './unit-type.enum';
 import { VeterancyLevel } from "./veterancy-level";
 import { Faction } from '../armies/faction';
-import { SpecialRule } from './special-rule.interface';
+import { SpecialRule } from '../special-rules/special-rule.interface';
 
 export class UnitSelector {
   id: string;
