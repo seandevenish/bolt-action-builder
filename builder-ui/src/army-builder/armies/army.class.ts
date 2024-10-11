@@ -18,7 +18,7 @@ export class Army implements IFirestoreStorable {
     this.name = data.name;
     this.factionId = data.factionId;
     this.createdDate = newId ? new Date() : data.createdDate;
-    this.modifiedDate = newId ? this.createdDate : data.createdDate;
+    this.modifiedDate = newId ? this.createdDate : data.modifiedDate;
     this.update(data, true);
     if (factionLibrary) this.loadProperties(factionLibrary);
   }
@@ -40,7 +40,10 @@ export class Army implements IFirestoreStorable {
       id: this.id,
       name: this.name,
       description: this.description,
-      factionId: this.factionId
+      factionId: this.factionId,
+      createdDate: this.createdDate,
+      modifiedDate: this.modifiedDate,
+      points: this.points
     };
   }
 }

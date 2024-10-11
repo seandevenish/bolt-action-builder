@@ -1,4 +1,4 @@
-<div class="d-flex align-items-center" *ngIf="isLoggedIn()">
+<div class="flex items-center" *ngIf="isLoggedIn()">
 
   <a mat-button routerLink="armies" color="secondary" class="mr-2">
     <mat-icon fontIcon="menu"></mat-icon>
@@ -6,8 +6,8 @@
   </a>
 
   <!-- Small Screen -->
-  <button mat-icon-button density="-5" [matMenuTriggerFor]="menu1" class="!inline-block md:!hidden" aria-label="User Menu">
-    <mat-icon fontIcon="person"></mat-icon>
+  <button mat-icon-button [matMenuTriggerFor]="menu1" aria-label="User Menu">
+    <mat-icon>person</mat-icon>
   </button>
   <mat-menu #menu1="matMenu">
     <div class="px-3 py-1 text-muted">{{username()}}</div>
@@ -18,7 +18,7 @@
   </mat-menu>
 
   <!-- Large Screen -->
-  <button mat-flat-button [matMenuTriggerFor]="menu2" class="!hidden md:!inline-block flex items-center">
+  <!-- <button mat-flat-button [matMenuTriggerFor]="menu2" class="!hidden md:!inline-block flex items-center">
     <mat-icon fontIcon="person"></mat-icon>
     <span>{{username()}}</span>
   </button>
@@ -27,6 +27,6 @@
       <mat-icon>logout</mat-icon>
       Logout
     </button>
-  </mat-menu>
+  </mat-menu> -->
 
 </div>
