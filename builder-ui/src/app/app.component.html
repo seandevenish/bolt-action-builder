@@ -1,4 +1,11 @@
 
+<div class="hidden md:hidden">
+  This text should always be hidden.
+</div>
+<div class="block md:hidden">
+  This text should be visible on small screens but hidden on medium screens and larger.
+</div>
+
 <mat-toolbar class="tertiary">
   <mat-toolbar-row>
     <div class="d-flex align-items-center">
@@ -10,6 +17,6 @@
   </mat-toolbar-row>
 </mat-toolbar>
 
-<div class="p-2 p-md-3">
+<div class="p-2 md:p-3">
   <router-outlet></router-outlet>
 </div>

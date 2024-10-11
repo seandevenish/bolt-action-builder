@@ -1,7 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import "variables";
 @import "material/material";
-@import "../../../node_modules/bootstrap/scss/bootstrap";
+@import "tailwind/tailwind";
 @import "global";
 @import "custom/custom";
-

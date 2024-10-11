@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, ViewEncapsulation } from '@angular/core';
 import { AuthService } from '../../user/auth.service';
 import { NgIf } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';

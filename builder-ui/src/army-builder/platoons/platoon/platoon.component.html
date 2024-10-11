@@ -1,27 +1,25 @@
-<div class="container">
-  <div class="row">
+<div class="max-w-screen-lg mx-auto px-4">
+  <div class="grid grid-cols-4 gap-4">
     <div
       *ngFor="let visualizer of visualiser.visualizers"
-      class="mb-2"
       [ngClass]="{
-        'col-md-3 col-sm-6 mb-4': visualizer.groupable,
-        'col-12 mb-4': !visualizer.groupable
+        '': visualizer.groupable,
+        'col-span-full': !visualizer.groupable
       }"
-      class="requirement-container"
     >
       <!-- Display the header for the requirement -->
-      <div class="requirement-header">
+      <div class="requirement-header font-semibold text-slate-900">
         {{ visualizer['currentRequirement'].requirementName || visualizer['currentRequirement'].types[0] }}
       </div>
 
-      <div class="row">
+      <div [ngClass]="{
+        '': visualizer.groupable,
+        'grid grid-cols-4 gap-4': !visualizer.groupable
+      }">
         <!-- Render filled units as cards -->
         <ng-container *ngFor="let unit of platoon.units">
-          <div [ngClass]="{
-            'col-md-3 col-sm-6 mb-4': !visualizer.groupable,
-            'col-12 mb-4': visualizer.groupable
-          }">
-            <mat-card class="filled-unit-card full-width">
+          <div>
+            <mat-card class="filled-unit-card w-full">
               <mat-card-content>
                 <!-- {{ unit.type }} {{ unit.subType || '' }} -->
               </mat-card-content>
@@ -31,15 +29,17 @@
 
         <!-- Render unfilled slots as buttons -->
         <ng-container *ngFor="let slot of visualizer.slots">
-          <div [ngClass]="{
-              'col-md-3 col-sm-6 mb-4': !visualizer.groupable,
-              'col-12 mb-4': visualizer.groupable
-            }">
-            <button *ngIf="slot.isMandatory; else raisedButton" mat-flat-button color="primary" class="w-100 mandatory">
+          <div>
+            <button
+              *ngIf="slot.isMandatory; else raisedButton"
+              mat-flat-button
+              color="primary"
+              class="w-full mandatory"
+            >
               Add Unit
             </button>
             <ng-template #raisedButton>
-              <button mat-raised-button color="primary" class="w-100">
+              <button mat-raised-button color="primary" class="w-full">
                 Add Unit
               </button>
             </ng-template>

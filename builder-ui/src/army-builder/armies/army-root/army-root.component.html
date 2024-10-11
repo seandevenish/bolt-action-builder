@@ -1,10 +1,10 @@
-<div class="m-n3 tertiary-toolbar" *ngIf="army() != null && !loading()">
+<div class="-px-2 md:-px-3 tertiary-toolbar" *ngIf="army() != null && !loading()">
 
   <mat-toolbar>
 
     <h6 class="mb-0 text-truncate">{{army()!.name}}</h6>
 
-    <button type="button" mat-icon-button matTooltip="Expand All" aria-label="Expand All" (click)="expandAll()" class="ms-auto">
+    <button type="button" mat-icon-button matTooltip="Expand All" aria-label="Expand All" (click)="expandAll()" class="ml-auto">
         <mat-icon fontIcon="add_circle"></mat-icon>
     </button>
 

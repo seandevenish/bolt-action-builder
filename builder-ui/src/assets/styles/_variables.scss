@@ -1,10 +1,1 @@
-@use '@angular/material' as mat;
-@include mat.checkbox-density(-1);
-
-$primary: #FEB800;
-$accent: #ffab2d;
 $background-gray: white;
-$font-family-sans-serif: Poppins, Arial, sans-serif;
-$gradient-background: linear-gradient(181deg, rgba(255, 171, 45, 1) 7%, rgba(255, 236, 100, 1) 96%);
-
-$enable-negative-margins: true
