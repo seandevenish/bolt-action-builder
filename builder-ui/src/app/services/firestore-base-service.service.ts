@@ -1,4 +1,4 @@
-import { Firestore, collection, doc, getDocs, addDoc, updateDoc, deleteDoc, getDoc } from '@angular/fire/firestore';
+import { Firestore, collection, doc, getDocs, addDoc, updateDoc, deleteDoc, getDoc, Timestamp } from '@angular/fire/firestore';
 import { AuthService } from '../../user/auth.service';
 import { firstValueFrom } from 'rxjs';
 import { inject } from '@angular/core';
@@ -56,7 +56,10 @@ export abstract class FirestoreBaseService<T extends IFirestoreStorable> {
     try {
       const userCollection = await this.getUserCollection();
       const snapshot = await getDocs(userCollection);
-      return snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }) as T);
+      return snapshot.docs.map((doc) => {
+        const data = this.convertTimestampsToDate(doc.data());
+        return { ...data, id: doc.id } as T;
+      });
     } catch (error) {
       throw this.getFirestoreError(error);
     }
@@ -73,7 +76,8 @@ export abstract class FirestoreBaseService<T extends IFirestoreStorable> {
       }
 
       // Return the document data with the ID
-      return { ...documentSnapshot.data(), id: documentSnapshot.id } as T;
+      const data = this.convertTimestampsToDate(documentSnapshot.data());
+      return { ...data, id: documentSnapshot.id } as T;
     } catch (error) {
       throw this.getFirestoreError(error);
     }
@@ -112,5 +116,19 @@ export abstract class FirestoreBaseService<T extends IFirestoreStorable> {
     } catch (error) {
       throw this.getFirestoreError(error);
     }
+  }
+
+  private convertTimestampsToDate(data: any): any {
+    if (data instanceof Timestamp) {
+      return data.toDate();
+    } else if (Array.isArray(data)) {
+      return data.map(item => this.convertTimestampsToDate(item));
+    } else if (data && typeof data === 'object') {
+      return Object.keys(data).reduce((acc, key) => {
+        acc[key] = this.convertTimestampsToDate(data[key]);
+        return acc;
+      }, {} as Record<string, any>);
+    }
+    return data;
   }
 }

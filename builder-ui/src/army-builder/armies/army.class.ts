@@ -17,18 +17,17 @@ export class Army implements IFirestoreStorable {
     this.id = data.id ? data.id : generateGuid();
     this.name = data.name;
     this.factionId = data.factionId;
-    this.createdDate = newId ? new Date() : data.createdDate;
-    this.modifiedDate = newId ? this.createdDate : data.modifiedDate;
-    this.update(data, true);
+    this.createdDate = data.createdDate;
+    this.modifiedDate = data.modifiedDate;
+    this.update(data);
     if (factionLibrary) this.loadProperties(factionLibrary);
   }
 
-  update(data: Partial<Army>, bypassModified: boolean = false) {
+  update(data: Partial<Army>) {
     if (data.name) this.name = data.name;
     this.description = data.description;
     if (data.factionId) this.factionId = data.factionId;
     if (data.faction) this.factionId = data.faction.id;
-    if (!bypassModified) this.modifiedDate = new Date();
   }
 
   loadProperties(factionLibrary: Faction[]): void {
@@ -41,8 +40,8 @@ export class Army implements IFirestoreStorable {
       name: this.name,
       description: this.description,
       factionId: this.factionId,
-      createdDate: this.createdDate,
-      modifiedDate: this.modifiedDate,
+      createdDate: this.createdDate ?? new Date(),
+      modifiedDate: new Date(),
       points: this.points
     };
   }

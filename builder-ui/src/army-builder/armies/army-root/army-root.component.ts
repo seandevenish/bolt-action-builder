@@ -2,6 +2,7 @@ import { AfterViewInit, Component, NgZone, OnDestroy, OnInit, QueryList, signal,
 import { ActivatedRoute, Router } from '@angular/router';
 import { from, map, Subject, switchMap, takeUntil, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import {MatSnackBar} from '@angular/material/snack-bar';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -18,19 +19,23 @@ import { Platoon } from '../../platoons/platoon.class';
 import { PlatoonComponent } from '../../platoons/platoon/platoon.component';
 import { Army } from '../army.class';
 import { ArmyService } from '../army.service';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-army-root',
   standalone: true,
-  imports: [CommonModule, MatProgressBarModule, MatButtonModule, MatIconModule, MatMenuModule, MatToolbarModule, MatTooltipModule, MatExpansionModule, PlatoonComponent, DragDropModule],
+  imports: [CommonModule, MatProgressBarModule, MatButtonModule, MatProgressSpinnerModule, MatIconModule, MatMenuModule, MatToolbarModule, MatTooltipModule, MatExpansionModule, PlatoonComponent, DragDropModule],
   templateUrl: './army-root.component.html',
   styleUrl: './army-root.component.scss'
 })
 export class ArmyRootComponent implements OnInit, OnDestroy, AfterViewInit {
 
+  error: any;
+
   army = signal<Army|null>(null);
   platoons = signal<Platoon[]>([]);
   loading = signal(false);
+  saving = signal<false|'saveOnly'|'saveAndClose'>(false);
   pendingAdd = false;
 
   multiExpand = signal(false);
@@ -47,7 +52,8 @@ export class ArmyRootComponent implements OnInit, OnDestroy, AfterViewInit {
     private readonly _route: ActivatedRoute,
     private readonly _router: Router,
     private readonly _confirmationService: ConfirmationService,
-    private readonly _ngZone: NgZone
+    private readonly _ngZone: NgZone,
+    private readonly _snackbar: MatSnackBar
   ) {
 
   }
@@ -116,10 +122,14 @@ export class ArmyRootComponent implements OnInit, OnDestroy, AfterViewInit {
     }, true);
   }
 
-  save() {
+  save(closeAfter: boolean) {
     const army = this.army()!;
     const platoons = this.platoons();
-    this._armyService.updateArmyAndPlatoons(army, platoons);
+    this.saving.set(closeAfter ? 'saveAndClose' : 'saveOnly');
+    this._armyService.updateArmyAndPlatoons(army, platoons).then(() => {
+      if (closeAfter) this._router.navigate(['../'], { relativeTo: this._route });
+      else this._snackbar.open('Successfully Saved Army', 'Dismiss', {duration: 3000});
+    }).catch(e => this.error = e).finally(() => this.saving.set(false));
   }
 
   addPlatoon(selector: PlatoonSelector) {
