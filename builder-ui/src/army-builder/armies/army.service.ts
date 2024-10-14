@@ -6,15 +6,43 @@ import { Platoon } from '../platoons/platoon.class';
 import { FirestoreBaseService } from '../../app/services/firestore-base-service.service';
 import { AuthService } from '../../user/auth.service';
 import { factionLibrary } from '../faction';
+import { IArmyInfo } from './army-info.interface';
+import { PlatoonSelectorRepositoryService } from '../platoons/platoon-selector-repository.service';
+import { UnitSelectorRepositoryService } from '../units/unit-selector-repository.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ArmyService extends FirestoreBaseService<Army> {
 
-  constructor(private readonly _authService: AuthService
+  constructor(
+    private readonly _authService: AuthService,
+    private readonly _platoonSelectorService: PlatoonSelectorRepositoryService,
+    private readonly _unitSelectorService: UnitSelectorRepositoryService
   ) {
     super('armies');
+  }
+
+  async loadArmyInfo(armyId: string): Promise<IArmyInfo> {
+    const user = await firstValueFrom(this._authService.state$);
+    if (!user) {
+      throw new Error('User is not authenticated');
+    }
+
+    const army = await this.get(armyId);
+    const platoons = await this.getPlatoonsForArmy(armyId);
+    const platoonSelectors = await firstValueFrom(this._platoonSelectorService.getPlatoonsForForceSelector(army.factionId));
+    const unitSelectors = await firstValueFrom(this._unitSelectorService.getUnitsForFaction(army.factionId));
+
+    // Assign the selectors to platoons
+    platoons.forEach(platoon => platoon.assignSelector(platoonSelectors, unitSelectors));
+
+    return {
+      army,
+      platoons,
+      platoonSelectors,
+      unitSelectors
+    };
   }
 
   override async get(id: string): Promise<Army> {

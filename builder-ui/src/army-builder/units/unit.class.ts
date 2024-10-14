@@ -13,8 +13,8 @@ export class UnitFactory {
   static generateNewUnit(selector: UnitSelector) {
     const base = {
       selectorId: selector.id,
-      experience: selector.availableExperienceLevels.includes(Experience.Regular) ? 
-        Experience.Regular : 
+      experience: selector.availableExperienceLevels.includes(Experience.Regular) ?
+        Experience.Regular :
         selector.availableExperienceLevels[selector.availableExperienceLevels.length - 1],
     }
 
@@ -25,7 +25,7 @@ export class UnitFactory {
       });
     }
 
-    //todo: add other types
+    throw Error('Unknown selector type')
   }
 }
 
@@ -86,7 +86,7 @@ export abstract class Unit<TSelector extends UnitSelector = UnitSelector> implem
       options: this.options
     };
   }
-  
+
 
   public update(weapons: Weapon[], specialRules: SpecialRule[]) {
     this._errors = this.validate(weapons);
@@ -98,7 +98,7 @@ export abstract class Unit<TSelector extends UnitSelector = UnitSelector> implem
 export class InfantryUnit extends Unit<InfantryUnitSelector> {
   men: number;
   keyPersonWeaponId?: string
-  generalWeaponIds?: Record<string, number>; // todo: will this serialise from json ok?
+  generalWeaponIds?: Record<string, number>;
 
   constructor(data: {
     selectorId: string,
@@ -146,7 +146,7 @@ export class InfantryUnit extends Unit<InfantryUnitSelector> {
         if (qty > selector.max) errors.push(`You have ${qty - selector.max} more ${weapon.name}s than this unit allows.`)
           menForWeaponAddons += weapon.crew ?? 1;
       })
-      if (menForWeaponAddons > nonKeyPersonMen) 
+      if (menForWeaponAddons > nonKeyPersonMen)
         errors.push(`Weapon addons required ${menForWeaponAddons} men but you only have ${nonKeyPersonMen} men available.`)
     }
     //Validate General Options
@@ -165,13 +165,13 @@ export class InfantryUnit extends Unit<InfantryUnitSelector> {
     if (this.selector == null) throw Error('Selector missing, unable to calculate cost.');
     const base = this.selector.cost[this.experience];
     const perMan = (this.men - this.selector.baseMen) * this.selector.costPerMan[this.experience];
-    const options = this.selector.options.reduce((v, o) => { 
+    const options = this.selector.options.reduce((v, o) => {
       const selected = this.options.some(s => s == o.id);
       if (!selected) return v;
       return v + (o.costPerMan ?? 0) * this.men + (o.cost ?? 0);
     }, 0);
-    const weaponOptions = this.selector.generalWeaponOptions.reduce((v, o) => { 
-      const qty = this.generalWeaponIds[o.weaponId] ?? 0;
+    const weaponOptions = this.selector.generalWeaponOptions.reduce((v, o) => {
+      const qty = this.generalWeaponIds?.[o.weaponId] ?? 0;
       return v + (qty * o.cost);
     }, 0);
     this._cost = base + perMan + options + weaponOptions;
@@ -186,5 +186,5 @@ export class InfantryUnit extends Unit<InfantryUnitSelector> {
       selectorId: this.selectorId
     };
   }
-  
+
 }

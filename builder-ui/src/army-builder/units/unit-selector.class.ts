@@ -33,7 +33,8 @@ export class UnitSelector {
   options: IGeneralOptionSelector[] = [];
 
   get availableExperienceLevels(): Experience[] {
-    return Object.keys(this.cost);
+    return Object.keys(this.cost)
+      .map(key => Experience[key as keyof typeof Experience]); // Map string keys to enum values;
   }
 
   constructor(data: {
@@ -91,7 +92,7 @@ export class InfantryUnitSelector extends UnitSelector {
     this.maxMen = data.maxMen;
   }
 
-  
+
 }
 
 export class WeaponTeamSelector extends UnitSelector {

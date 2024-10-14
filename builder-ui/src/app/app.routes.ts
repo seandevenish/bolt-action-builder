@@ -24,6 +24,7 @@ export const routes: Routes = [
   {
     path: '',
     canActivate: [authGuard],
+    canActivateChild: [authGuard],
     children: [
       {
         path: 'armies',

@@ -8,8 +8,8 @@ import { catchError, map, Observable, of, forkJoin } from 'rxjs';
 })
 export class UnitSelectorRepositoryService {
 
-  private readonly coreConfigUrl = 'assets/unit-config/core-units.json';
-  private readonly factionConfigUrlTemplate = 'assets/unit-config/factions/'; // Base path for faction-specific JSON
+  private readonly coreConfigUrl = 'assets/army-config/units/core/core-units.json';
+  private readonly factionConfigUrlTemplate = 'assets/army-config/units/factions/'; // Base path for faction-specific JSON
 
   constructor(private readonly http: HttpClient) {}
 
@@ -46,9 +46,9 @@ export class UnitSelectorRepositoryService {
       )
     }).pipe(
       map(({ coreUnits, infantryUnits, vehicleUnits, teamUnits }) => [
-        ...coreUnits, 
-        ...infantryUnits, 
-        ...vehicleUnits, 
+        ...coreUnits,
+        ...infantryUnits,
+        ...vehicleUnits,
         ...teamUnits
       ])
     );

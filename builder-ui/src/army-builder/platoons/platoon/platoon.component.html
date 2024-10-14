@@ -1,20 +1,20 @@
 <div class="max-w-screen-lg mx-auto px-4">
   <div class="grid grid-cols-4 gap-4">
     <div
-      *ngFor="let visualizer of visualiser.visualizers"
+      *ngFor="let visualiser of visualiser.visualizers"
       [ngClass]="{
-        '': visualizer.groupable,
-        'col-span-full': !visualizer.groupable
+        '': visualiser.groupable,
+        'col-span-full': !visualiser.groupable
       }"
     >
       <!-- Display the header for the requirement -->
       <div class="text-sm font-semibold !text-slate-600 mb-2">
-        {{ visualizer['currentRequirement'].requirementName || visualizer['currentRequirement'].types[0] }}
+        {{ visualiser['currentRequirement'].requirementName || visualiser['currentRequirement'].types[0] }}
       </div>
 
       <div [ngClass]="{
-        '': visualizer.groupable,
-        'grid grid-cols-4 gap-4': !visualizer.groupable
+        '': visualiser.groupable,
+        'grid grid-cols-4 gap-4': !visualiser.groupable
       }">
         <!-- Render filled units as cards -->
         <ng-container *ngFor="let unit of platoon.units">
@@ -28,14 +28,14 @@
         </ng-container>
 
         <!-- Render unfilled slots as buttons -->
-        <ng-container *ngFor="let slot of visualizer.slots">
+        <ng-container *ngFor="let slot of visualiser.slots">
           <div>
             <button
               *ngIf="slot.isMandatory; else raisedButton"
               mat-flat-button
               color="primary"
               class="w-full mandatory"
-              [matMenuTriggerFor]="unitMenu" 
+              [matMenuTriggerFor]="unitMenu"
             >
               Add Unit
             </button>
@@ -45,18 +45,17 @@
               </button>
             </ng-template>
           </div>
+          <mat-menu #unitMenu="matMenu">
+            <button
+              mat-menu-item
+              *ngFor="let selector of visualiser.availableUnitSelectors"
+              (click)="addUnit(visualiser, selector)"
+            >
+              {{ selector.name }} <!-- Assuming each selector has a 'name' property -->
+            </button>
+          </mat-menu>
         </ng-container>
       </div>
     </div>
   </div>
 </div>
-
-<mat-menu #unitMenu="matMenu">
-  <button
-    mat-menu-item
-    *ngFor="let selector of availableUnitSelectors"
-    (click)="addUnit(selector)"
-  >
-    {{ selector.name }} <!-- Assuming each selector has a 'name' property -->
-  </button>
-</mat-menu>

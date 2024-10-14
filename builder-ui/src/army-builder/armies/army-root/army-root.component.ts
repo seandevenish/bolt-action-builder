@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, NgZone, OnDestroy, OnInit, QueryList, signal, ViewChildren } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { from, map, Subject, switchMap, takeUntil, tap } from 'rxjs';
+import { catchError, EMPTY, finalize, from, map, Subject, switchMap, takeUntil, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
@@ -12,7 +12,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { ConfirmationService } from '../../../app/services/confirmation.service';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { factionLibrary } from '../../faction';
 import { PlatoonSelectorRepositoryService } from '../../platoons/platoon-selector-repository.service';
 import { PlatoonSelector } from '../../platoons/platoon-selector.class';
 import { Platoon } from '../../platoons/platoon.class';
@@ -22,6 +21,8 @@ import { ArmyService } from '../army.service';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { UnitSelector } from '../../units/unit-selector.class';
 import { UnitSelectorRepositoryService } from '../../units/unit-selector-repository.service';
+import { IArmyInfo } from '../army-info.interface';
+import { FirestoreError } from 'firebase/firestore';
 
 @Component({
   selector: 'app-army-root',
@@ -66,7 +67,20 @@ export class ArmyRootComponent implements OnInit, OnDestroy, AfterViewInit {
     this._route.paramMap.pipe(
       map(p => p.get('armyId') as string),
       tap(p => this.loading.set(true)),
-      switchMap(r => this.loadArmy(r)),
+      switchMap(armyId => from(this._armyService.loadArmyInfo(armyId)).pipe(
+        catchError(e => {
+          this.showError(e);
+          this.loading.set(false);
+          return EMPTY;
+        }),
+        finalize(() => this.loading.set(false))
+      )),
+      tap((armyInfo: IArmyInfo) => {
+        this.army.set(armyInfo.army);
+        this.platoons.set(armyInfo.platoons);
+        this.platoonSelectors = armyInfo.platoonSelectors;
+        this.unitSelectors = armyInfo.unitSelectors;
+      }),
       tap(r => this.loading.set(false)),
       takeUntil(this._unsubscribeAll$)
     ).subscribe();
@@ -91,31 +105,6 @@ export class ArmyRootComponent implements OnInit, OnDestroy, AfterViewInit {
       }
       this.pendingAdd = false;
     });
-  }
-
-  private loadArmy(id: string) {
-    return from(this._armyService.get(id)).pipe(
-      map(a => new Army(a, factionLibrary)),
-      tap(a => this.army.set(a)),
-      switchMap(army =>
-        from(this._armyService.getPlatoonsForArmy(army.id)).pipe(
-          tap(platoons => this.platoons.set(platoons)),
-          map(() => army)
-        )
-      ),
-      switchMap(army =>
-        this._platoonSelectorService.getPlatoonsForForceSelector(army.factionId).pipe(
-          tap(platoonSelectors => this.platoonSelectors = platoonSelectors),
-          switchMap(() => 
-            this._unitSelectorService.getUnitsForFaction(army.factionId) // Fetch unit selectors
-          ),
-          tap(unitSelectors => {
-            this.unitSelectors = unitSelectors;  // Store unit selectors
-            this.platoons().forEach(p => p.assignSelector(this.platoonSelectors, this.unitSelectors));  // Pass both selectors
-          })
-        )
-      )
-    );
   }
 
   delete() {
@@ -170,6 +159,12 @@ export class ArmyRootComponent implements OnInit, OnDestroy, AfterViewInit {
   collapseAll() {
     this.multiExpand.set(false);
     this.expansionAccordions.forEach(p => p.closeAll());
+  }
+
+  showError(e: any | FirestoreError) {
+    console.log(e);
+    if (e instanceof FirestoreError) this.error = e.message;
+    else this.error = e;
   }
 
 }
