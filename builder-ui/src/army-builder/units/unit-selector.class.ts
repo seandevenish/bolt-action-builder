@@ -32,6 +32,10 @@ export class UnitSelector {
   specialRuleIds?: string[] = [];
   options: IGeneralOptionSelector[] = [];
 
+  get availableExperienceLevels(): Experience[] {
+    return Object.keys(this.cost);
+  }
+
   constructor(data: {
     id: string;
     name: string;
@@ -86,6 +90,8 @@ export class InfantryUnitSelector extends UnitSelector {
     this.baseMen = data.baseMen;
     this.maxMen = data.maxMen;
   }
+
+  
 }
 
 export class WeaponTeamSelector extends UnitSelector {

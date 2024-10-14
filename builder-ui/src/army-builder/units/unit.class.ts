@@ -8,12 +8,37 @@ export interface IUnit {
   selector?: UnitSelector;
 }
 
+export class UnitFactory {
+
+  static generateNewUnit(selector: UnitSelector) {
+    const base = {
+      selectorId: selector.id,
+      experience: selector.availableExperienceLevels.includes(Experience.Regular) ? 
+        Experience.Regular : 
+        selector.availableExperienceLevels[selector.availableExperienceLevels.length - 1],
+    }
+
+    if (selector instanceof InfantryUnitSelector) {
+      return new InfantryUnit({
+        ...base,
+        men: selector.baseMen
+      });
+    }
+
+    //todo: add other types
+  }
+}
+
 export abstract class Unit<TSelector extends UnitSelector = UnitSelector> implements IUnit, IFirestoreStorable {
   id: string = '';
   selectorId: string;
   experience: Experience;
   options: string[];
   selector?: TSelector;
+
+  get availableExperienceLevels(): Experience[] {
+    return this.selector?.availableExperienceLevels ?? [];
+  }
 
   private _errors: string[] | null = null;
   get errors() { return this._errors; }
@@ -72,12 +97,8 @@ export abstract class Unit<TSelector extends UnitSelector = UnitSelector> implem
 
 export class InfantryUnit extends Unit<InfantryUnitSelector> {
   men: number;
-  keyPersonWeaponId?: string;
-  generalWeaponIds: Record<string, number>; // todo: will this serialise from json ok?
-  get availableExperienceLevels() {
-    if (!this.selector) return [];
-    return Object.keys(this.selector.cost);
-  }
+  keyPersonWeaponId?: string
+  generalWeaponIds?: Record<string, number>; // todo: will this serialise from json ok?
 
   constructor(data: {
     selectorId: string,
@@ -85,7 +106,7 @@ export class InfantryUnit extends Unit<InfantryUnitSelector> {
     options?: string[],
     men: number,
     keyPersonWeaponId?: string,
-    generalWeaponIds: Record<string, number>
+    generalWeaponIds?: Record<string, number>
   }) {
     super(data);
     this.men = data.men;
@@ -113,19 +134,21 @@ export class InfantryUnit extends Unit<InfantryUnitSelector> {
     // Validate Weapon Options
     const nonKeyPersonMen = this.men - 1;
     let menForWeaponAddons = 0;
+    if (this.generalWeaponIds) {
     Object.keys(this.generalWeaponIds).forEach(k => {
-      const qty = this.generalWeaponIds[k];
-      const selector = this.selector?.generalWeaponOptions.find(o => o.weaponId);
-      const weapon = weapons.find(w => w.id == k);
-      if (!selector || !weapon) {
-        errors.push(`Invalid weapons present`);
-        return;
-      }
-      if (qty > selector.max) errors.push(`You have ${qty - selector.max} more ${weapon.name}s than this unit allows.`)
-        menForWeaponAddons += weapon.crew ?? 1;
-    })
-    if (menForWeaponAddons > nonKeyPersonMen) 
-      errors.push(`Weapon addons required ${menForWeaponAddons} men but you only have ${nonKeyPersonMen} men available.`)
+        const qty = this.generalWeaponIds![k];
+        const selector = this.selector?.generalWeaponOptions.find(o => o.weaponId);
+        const weapon = weapons.find(w => w.id == k);
+        if (!selector || !weapon) {
+          errors.push(`Invalid weapons present`);
+          return;
+        }
+        if (qty > selector.max) errors.push(`You have ${qty - selector.max} more ${weapon.name}s than this unit allows.`)
+          menForWeaponAddons += weapon.crew ?? 1;
+      })
+      if (menForWeaponAddons > nonKeyPersonMen) 
+        errors.push(`Weapon addons required ${menForWeaponAddons} men but you only have ${nonKeyPersonMen} men available.`)
+    }
     //Validate General Options
     this.options.forEach(o => {
       const selectorOption = this.selector?.options.find(s => s.id == o);

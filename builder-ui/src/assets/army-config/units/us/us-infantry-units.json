@@ -134,7 +134,8 @@
             "cost": 15
           },
           {
-            "weaponId": "BAR",
+            "weaponId": "AR",
+            "description": "BAR M1918A2 Automatic Rifle",
             "max": 2,
             "cost": 6
           }
