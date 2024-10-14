@@ -8,18 +8,33 @@
 
 <mat-progress-bar mode="indeterminate" *ngIf="loading()"></mat-progress-bar>
 
-<mat-nav-list>
-  <ng-container *ngFor="let group of filteredGroupedArmies; let i = index">
+<ng-container *ngFor="let group of filteredGroupedArmies; let i = index">
 
-    <p class="text-md text-slate-900 font-semibold !mb-0" [class.!mt-4]="i > 0" matSubheader>{{group.faction.name}}</p>
+  <p class="text-md text-slate-900 font-semibold !mb-0" [class.!mt-4]="i > 0" matSubheader>{{group.faction.name}}</p>
 
+  <ul class="max-w-4xl divide-y divide-gray-200 dark:divide-gray-700">
     @for (army of group.armies; track army) {
-      <a mat-list-item [routerLink]="[army.id]">
-        <mat-icon matListItemIcon>folder</mat-icon>
-        <div matListItemTitle>{{army.name}}</div>
-        <div matListItemLine>{{army.modifiedDate | date}}</div>
-      </a>
+      <li class="p-2 px-1 sm:p-3 md:px-4 hover:bg-gray-100 dark:hover:bg-gray-700">
+        <a class="block w-full flex items-center space-x-4 rtl:space-x-reverse" [routerLink]="[army.id]">
+          <div class="flex-shrink-0">
+            <div class="w-9 h-9 rounded-full bg-gray-200 text-gray-500 flex items-center justify-center">
+              <mat-icon matListItemIcon>folder</mat-icon>
+            </div>
+          </div>
+          <div class="flex-1 min-w-0">
+            <p class="text-md font-semibold text-gray-900 truncate dark:text-white !mb-0">
+              {{army.name}}
+            </p>
+            <p class="text-sm text-gray-500 truncate dark:text-gray-400 !mb-0">
+              {{army.modifiedDate | date}}
+            </p>
+          </div>
+          <div class="inline-flex items-center text-base font-normal text-gray-700 dark:text-white">
+            {{1000 | number: '1.0-0'}} Pts
+          </div>
+        </a>
+      </li>
     }
-  </ng-container>
+  </ul>
 
-</mat-nav-list>
+</ng-container>

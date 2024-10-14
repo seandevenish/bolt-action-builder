@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, signal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { Army } from '../army.class';
-import { CommonModule, DatePipe, NgFor } from '@angular/common';
+import { CommonModule, DatePipe, DecimalPipe, NgFor } from '@angular/common';
 import { ArmyCardComponent } from '../army-card/army-card.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
@@ -18,7 +18,7 @@ import { Faction } from '../../faction';
 @Component({
   selector: 'app-armies-list',
   standalone: true,
-  imports: [CommonModule, RouterLink, MatIconModule, MatButtonModule, MatInputModule, MatProgressBarModule, MatListModule, NgFor, DatePipe, ArmyCardComponent, ReactiveFormsModule, CommonModule],
+  imports: [CommonModule, RouterLink, MatIconModule, MatButtonModule, MatInputModule, MatProgressBarModule, MatListModule, NgFor, DatePipe, ArmyCardComponent, ReactiveFormsModule, CommonModule, DecimalPipe],
   templateUrl: './armies-list.component.html',
   styleUrl: './armies-list.component.scss',
 })
