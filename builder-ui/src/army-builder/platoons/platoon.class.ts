@@ -1,4 +1,6 @@
 import { generateGuid } from "../../app/utilities/guid";
+import { UnitSelector } from "../units/unit-selector.class";
+import { Unit } from "../units/unit.class";
 import { PlatoonSelector } from "./platoon-selector.class";
 
 export class Platoon {
@@ -6,7 +8,7 @@ export class Platoon {
   selectorId: string;
   selector?: PlatoonSelector;
   platoonName?: string;
-  units: string[]; //Todo: this is a placeholder and will become more compelx in time
+  units: Unit[]; //Todo: this is a placeholder and will become more compelx in time
 
   get name() {
   return this.selector?.name;
@@ -29,15 +31,21 @@ export class Platoon {
     }
   }
 
-  assignSelector(platoonSelectors: PlatoonSelector[]): void {
+  assignSelector(platoonSelectors: PlatoonSelector[], unitSelectors: UnitSelector[]): void {
     this.selector = platoonSelectors.find(p => p.id == this.selectorId);
+    this.units.forEach(u => {
+      const selector = unitSelectors.find(s => s.id == u.selectorId);
+      if (!selector) throw Error("Unable to find selector " + u.selectorId);
+      u.init(selector);
+    });
   }
 
   toStoredObject(): Record<string, any> {
     return {
       id: this.id,
       selectorId: this.selectorId,
-      platoonName: this.platoonName ?? null
+      platoonName: this.platoonName ?? null,
+      units: this.units.map(u => u.toStoredObject())
     };
   }
 }

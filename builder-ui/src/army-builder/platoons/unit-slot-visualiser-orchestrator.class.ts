@@ -1,3 +1,4 @@
+import { UnitSelector } from "../units/unit-selector.class";
 import { UnitType, UnitSubType } from "../units/unit-type.enum";
 import { UnitRequirement } from "./unit-requirement.interface";
 import { UnitSlotVisualiser } from "./unit-slot-visualiser.class";
@@ -13,17 +14,17 @@ export class UnitSlotVisualizerOrchestrator {
   allSlots: IUnit[] = [];
   allUnfilledSlots: UnitSlotVisualiser[] = [];
 
-  constructor(requirements: UnitRequirement[]) {
-    this.initializeVisualizers(requirements);
+  constructor(requirements: UnitRequirement[], unitSelectors: UnitSelector[]) {
+    this.initializeVisualizers(requirements, unitSelectors);
   }
 
   /**
    * Initializes the visualizers for each unit requirement and prepares the orchestrator.
    * @param requirements Array of unit requirements to build the visualizers from.
    */
-  private initializeVisualizers(requirements: UnitRequirement[]): void {
+  private initializeVisualizers(requirements: UnitRequirement[], unitSelectors: UnitSelector[]): void {
     requirements.forEach((requirement) => {
-      const visualizer = new UnitSlotVisualiser(requirement);
+      const visualizer = new UnitSlotVisualiser(requirement, unitSelectors);
       this.visualizers.push(visualizer);
     });
   }

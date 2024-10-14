@@ -20,6 +20,8 @@ import { PlatoonComponent } from '../../platoons/platoon/platoon.component';
 import { Army } from '../army.class';
 import { ArmyService } from '../army.service';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { UnitSelector } from '../../units/unit-selector.class';
+import { UnitSelectorRepositoryService } from '../../units/unit-selector-repository.service';
 
 @Component({
   selector: 'app-army-root',
@@ -41,6 +43,7 @@ export class ArmyRootComponent implements OnInit, OnDestroy, AfterViewInit {
   multiExpand = signal(false);
 
   platoonSelectors: PlatoonSelector[] = [];
+  unitSelectors: UnitSelector[] = [];
 
   private readonly _unsubscribeAll$ = new Subject<void>();
 
@@ -49,6 +52,7 @@ export class ArmyRootComponent implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(private readonly _armyService: ArmyService,
     private readonly _platoonSelectorService: PlatoonSelectorRepositoryService,
+    private readonly _unitSelectorService: UnitSelectorRepositoryService,
     private readonly _route: ActivatedRoute,
     private readonly _router: Router,
     private readonly _confirmationService: ConfirmationService,
@@ -101,9 +105,13 @@ export class ArmyRootComponent implements OnInit, OnDestroy, AfterViewInit {
       ),
       switchMap(army =>
         this._platoonSelectorService.getPlatoonsForForceSelector(army.factionId).pipe(
-          tap(platoonSelectors => {
-            this.platoonSelectors = platoonSelectors;
-            this.platoons().forEach(p => p.assignSelector(platoonSelectors));
+          tap(platoonSelectors => this.platoonSelectors = platoonSelectors),
+          switchMap(() => 
+            this._unitSelectorService.getUnitsForFaction(army.factionId) // Fetch unit selectors
+          ),
+          tap(unitSelectors => {
+            this.unitSelectors = unitSelectors;  // Store unit selectors
+            this.platoons().forEach(p => p.assignSelector(this.platoonSelectors, this.unitSelectors));  // Pass both selectors
           })
         )
       )

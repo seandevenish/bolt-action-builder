@@ -1,5 +1,5 @@
 export enum UnitType {
-  Headquarters = 'Headquarters',
+  Officer = 'Officer',
   InfantrySquad = 'Infantry Squad',
   EngineerSquad = 'Engineer Squad',
   Medic = 'Medic',

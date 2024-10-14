@@ -1,0 +1,152 @@
+{
+    "units": [
+      {
+        "id": "US_REG_INF",
+        "name": "Platoon Commander (1st/2nd Lieutenant)",
+        "unitType": "Officer",
+        "subType": "PlatoonCommander",
+        "cost": {
+          "Inexperienced": 21,
+          "Regular": 30,
+          "Veteran": 39
+        },
+        "specialRuleIds": [],
+        "keyPerson": "Officer",
+        "baseWeaponId": "RIFLE",
+        "keyPersonWeaponOptions": [
+          {
+            "weaponId": "SMG",
+            "max": 1,
+            "cost": 0
+          },
+          {
+            "weaponId": "PISTOL",
+            "max": 1,
+            "cost": 0
+          }
+        ],
+        "generalWeaponOptions": [
+          {
+            "weaponId": "SMG",
+            "description": "Rifle",
+            "max": 2,
+            "cost": 0
+          },
+          {
+            "weaponId": "PISTOL",
+            "max": 2,
+            "cost": 0
+          }
+        ],
+        "costPerMan": {
+          "Inexperienced": 7,
+          "Regular": 10,
+          "Veteran": 13
+        },
+        "baseMen": 1,
+        "maxMen": 3
+      },
+      {
+        "id": "US_REG_INF",
+        "name": "Company Commander (Captain, Major)",
+        "unitType": "Officer",
+        "subType": "CompanyCommander",
+        "cost": {
+          "Inexperienced": 42,
+          "Regular": 60,
+          "Veteran": 78
+        },
+        "specialRuleIds": [],
+        "keyPerson": "Officer",
+        "baseWeaponId": "RIFLE",
+        "keyPersonWeaponOptions": [
+          {
+            "weaponId": "SMG",
+            "max": 1,
+            "cost": 0
+          },
+          {
+            "weaponId": "PISTOL",
+            "max": 1,
+            "cost": 0
+          }
+        ],
+        "generalWeaponOptions": [
+          {
+            "weaponId": "SMG",
+            "description": "Rifle",
+            "max": 2,
+            "cost": 0
+          },
+          {
+            "weaponId": "PISTOL",
+            "max": 2,
+            "cost": 0
+          }
+        ],
+        "costPerMan": {
+          "Inexperienced": 7,
+          "Regular": 10,
+          "Veteran": 13
+        },
+        "baseMen": 1,
+        "maxMen": 3
+      },
+      {
+        "id": "US_REG_INF",
+        "name": "Regular Infantry Squad",
+        "unitType": "InfantrySquad",
+        "subType": null,
+        "cost": {
+          "Inexperienced": 42,
+          "Regular": 60,
+          "Veteran": 78
+        },
+        "specialRuleIds": [],
+        "options": [
+          {
+            "id": "TANKHUNT",
+            "specialRuleId": "TANKHUNT",
+            "description": "The squad may be given anti-tank grenades for +2pts per man",
+            "costPerMan": 2
+          },
+          {
+            "id": "TOUGH",
+            "specialRuleId": "TOUGH",
+            "description": "Any Veteran infantry squad may be Tough Fighters for +1 pt per man",
+            "costPerMan": 1,
+            "availableExperienceLevels": ["Veteran"]
+          }
+        ],
+        "keyPerson": "NCO",
+        "baseWeaponId": "RIFLE",
+        "keyPersonWeaponOptions": [
+          {
+            "weaponId": "SMG",
+            "max": 1,
+            "cost": 4
+          }
+        ],
+        "generalWeaponOptions": [
+          {
+            "weaponId": "SMG",
+            "max": 3,
+            "cost": 15
+          },
+          {
+            "weaponId": "BAR",
+            "max": 2,
+            "cost": 6
+          }
+        ],
+        "costPerMan": {
+          "Inexperienced": 7,
+          "Regular": 10,
+          "Veteran": 13
+        },
+        "baseMen": 6,
+        "maxMen": 12
+      }
+    ]
+  }
+  

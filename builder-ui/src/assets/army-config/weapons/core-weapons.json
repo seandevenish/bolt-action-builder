@@ -40,7 +40,7 @@
       "heDiameter": 0
     },
     {
-      "id": "AR",
+      "id": "BAR",
       "name": "Automatic Rifle",
       "type": "Small Arms",
       "penetrationValue": 0,
@@ -69,6 +69,7 @@
       "id": "LMG",
       "name": "Light Machine Gun (LMG)",
       "type": "Small Arms",
+      "crew": 2,
       "penetrationValue": 0,
       "hits": 1,
       "range": 36,
@@ -251,6 +252,7 @@
         "id": "FLAMETHROWER_INF",
         "name": "Flamethrower (Infantry)",
         "type": "Heavy Weapons",
+        "crew": 2,
         "penetrationValue": 2,
         "hits": 1,
         "range": 6,

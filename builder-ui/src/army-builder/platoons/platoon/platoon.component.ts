@@ -4,17 +4,22 @@ import { UnitSlotVisualizerOrchestrator } from '../unit-slot-visualiser-orchestr
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { UnitSelector } from '../../units/unit-selector.class';
+import { MatMenuModule } from '@angular/material/menu';
+import { UnitSlot } from '../unit-slot.interface';
+import { UnitSlotVisualiser } from '../unit-slot-visualiser.class';
 
 @Component({
   selector: 'app-platoon',
   standalone: true,
-  imports: [CommonModule, MatButtonModule, MatCardModule],
+  imports: [CommonModule, MatButtonModule, MatCardModule, MatMenuModule],
   templateUrl: './platoon.component.html',
   styleUrl: './platoon.component.scss'
 })
 export class PlatoonComponent implements OnInit {
 
   @Input() platoon!: Platoon;
+  @Input() unitSelectors!: UnitSelector[];
 
   visualiser!: UnitSlotVisualizerOrchestrator;
 
@@ -23,8 +28,11 @@ export class PlatoonComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.visualiser = new UnitSlotVisualizerOrchestrator(this.platoon.selector?.unitRequirements ?? []);
+    this.visualiser = new UnitSlotVisualizerOrchestrator(this.platoon.selector?.unitRequirements ?? [], this.unitSelectors);
   }
 
+  addUnit(visualiser: UnitSlotVisualiser, selector: UnitSelector) {
+    visualiser.slots.push();
+  }
 
 }

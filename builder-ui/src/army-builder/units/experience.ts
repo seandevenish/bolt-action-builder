@@ -1,5 +1,5 @@
 
-export enum VeterancyLevel {
+export enum Experience {
   Inexperienced = 'Inexperienced',
   Regular = 'Regular',
   Veteran = 'Veteran'

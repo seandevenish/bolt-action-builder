@@ -68,7 +68,7 @@
       </mat-expansion-panel-header>
 
       <!-- Load the PlatoonComponent for each platoon -->
-      <app-platoon [platoon]="platoon"></app-platoon>
+      <app-platoon [platoon]="platoon" [unitSelectors]="unitSelectors"></app-platoon>
 
       <mat-action-row>
         <button mat-button (click)="deletePlatoon(i)">

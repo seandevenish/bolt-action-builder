@@ -35,11 +35,12 @@
               mat-flat-button
               color="primary"
               class="w-full mandatory"
+              [matMenuTriggerFor]="unitMenu" 
             >
               Add Unit
             </button>
             <ng-template #raisedButton>
-              <button mat-raised-button color="primary" class="w-full">
+              <button mat-raised-button color="primary" class="w-full" [matMenuTriggerFor]="unitMenu" >
                 Add Unit
               </button>
             </ng-template>
@@ -49,3 +50,13 @@
     </div>
   </div>
 </div>
+
+<mat-menu #unitMenu="matMenu">
+  <button
+    mat-menu-item
+    *ngFor="let selector of availableUnitSelectors"
+    (click)="addUnit(selector)"
+  >
+    {{ selector.name }} <!-- Assuming each selector has a 'name' property -->
+  </button>
+</mat-menu>

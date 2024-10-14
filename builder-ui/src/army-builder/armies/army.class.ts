@@ -10,7 +10,7 @@ export class Army implements IFirestoreStorable {
   faction?: Faction;
   createdDate?: Date;
   modifiedDate?: Date;
-  points: number = 0;
+  points: number = 1000;
 
   constructor(data: { name: string; factionId: string } & Partial<Army>, factionLibrary?: Faction[]) {
     const newId = !data.id;
