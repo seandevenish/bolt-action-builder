@@ -24,7 +24,7 @@
 
   <div mat-dialog-actions>
     <button mat-flat-button type="submit" color="danger">
-      Yes{{danger ? ', I understand the consequences' : ''}}
+      {{actionText ?? 'Yes' + (danger ? ', I understand the consequences' : '')}}
     </button>
     <button mat-stroked-button type="button" (click)="cancel()">Cancel</button>
   </div>

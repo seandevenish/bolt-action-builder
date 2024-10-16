@@ -110,7 +110,7 @@ export class ArmyRootComponent implements OnInit, OnDestroy, AfterViewInit {
   delete() {
     const id = this.army()?.id;
     if (!id ) return;
-    this._confirmationService.confirm('Are you sure you want to delete this army?', () => {
+    this._confirmationService.confirm('Are you sure you want to delete this army?', 'Delete Army', () => {
       this.loading.set(true);
       this._armyService.delete(id)
       .then(() => this._router.navigate(['../'], { relativeTo: this._route }))
@@ -135,8 +135,18 @@ export class ArmyRootComponent implements OnInit, OnDestroy, AfterViewInit {
     this.pendingAdd = true;
   }
 
+  copyPlatoon(index: number) {
+    const existingPlatoon = this.platoons()[index];
+    const newPlatoon = new Platoon(existingPlatoon, existingPlatoon.selector);
+
+    const updatedPlatoons = [...this.platoons()];
+    updatedPlatoons.splice(index + 1, 0, newPlatoon);
+
+    this.platoons.set(updatedPlatoons);
+  }
+
   deletePlatoon(index: number): void {
-    this._confirmationService.confirm('Are you sure you want to delete this platoon?', () => {
+    this._confirmationService.confirm('Are you sure you want to delete this platoon?', 'Delete', () => {
       this.platoons.update((platoons) => platoons.filter((_, i) => i !== index));
     }, true);
   }

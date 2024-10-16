@@ -15,22 +15,23 @@ export class UnitSlotVisualiser {
   constructor(requirement: UnitRequirement, unitSelectors: UnitSelector[]) {
     this.currentRequirement = requirement;
     const { types, subTypes, excludeSubTypes } = this.currentRequirement;
+    console.log('Unit selectors', unitSelectors);
     this.availableUnitSelectors = unitSelectors.filter(s => {
       // Check if the unitType is allowed
       if (!types.includes(s.unitType)) {
         return false;
       }
-    
+
       // Check if subTypes match, if subTypes are defined
       if (subTypes && s.subType && !subTypes.includes(s.subType)) {
         return false;
       }
-    
+
       // Check if subTypes are excluded, if excludeSubTypes are defined
       if (excludeSubTypes && s.subType && excludeSubTypes.includes(s.subType)) {
         return false;
       }
-    
+
       return true;
     })
     this.updateFilledSlots(0);

@@ -123,6 +123,7 @@ export class ArmiesListComponent implements OnInit, OnDestroy {
   private groupArmiesByFaction(armies: Army[]): void {
     const armyMap = new Map<string, { faction: Faction; armies: Army[] }>();
 
+    // Group armies by faction
     armies.forEach((army) => {
       if (army.faction) {
         const factionId = army.faction.id;
@@ -133,7 +134,35 @@ export class ArmiesListComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.groupedArmies = Array.from(armyMap.values());
+    // Convert the map to an array, sort factions by name
+    this.groupedArmies = Array.from(armyMap.values()).sort((a, b) =>
+      a.faction.name.localeCompare(b.faction.name)
+    );
+
+    // Sort armies within each faction by name, and then by modified date if names are equal
+    this.groupedArmies.forEach(group => {
+      group.armies.sort((a, b) => {
+        // First, sort by name
+        const nameComparison = a.name.localeCompare(b.name);
+        if (nameComparison !== 0) {
+          return nameComparison; // If names are different, use name comparison
+        }
+
+        // Then, sort by modifiedDate (nulls go to the bottom)
+        if (a.modifiedDate === null && b.modifiedDate === null) {
+          return 0; // Both null, consider them equal
+        }
+        if (a.modifiedDate === null) {
+          return 1; // a is null, so it should come after b
+        }
+        if (b.modifiedDate === null) {
+          return -1; // b is null, so a should come before b
+        }
+
+        // Both have non-null dates, compare by descending order of modifiedDate
+        return new Date(b.modifiedDate!).getTime() - new Date(a.modifiedDate!).getTime();
+      });
+    });
   }
 
 }

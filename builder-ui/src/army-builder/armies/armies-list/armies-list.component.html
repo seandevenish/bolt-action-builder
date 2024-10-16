@@ -1,40 +1,56 @@
-<div class="d-flex align-items-center w-100 mb-4">
-  <button mat-flat-button (click)="newArmy()" class="mr-2 text-nowrap">New Army</button>
-  <mat-form-field class="flex-grow-1 mb-0" appearance="outline">
-    <mat-icon matPrefix>search</mat-icon>
-    <input class="flex-grow-1" matInput type="search" placeholder="Search..." [formControl]="search" aria-label="Search">
-  </mat-form-field>
+<div class="max-w-3xl p-2 sm:p-3 md:p-4 shadow-lg mx-auto bg-white rounded-xl">
+
+  <div class="flex items-center w-full mb-4">
+    <button type="button" (click)="newArmy()" class="mr-2 px-5 py-2 bg-primary-500 hover:bg-primary-600 focus-within:bg-primary-700 text-white rounded-lg text-nowrap">
+      New Army
+    </button>
+
+    <div class="flex items-center flex-grow border border-gray-300 rounded-lg bg-white overflow-hidden focus-within:ring-2 focus-within:ring-gray-100 focus-within:border-primary-100">
+      <mat-icon class="ml-2 text-gray-300">search</mat-icon>
+      <input
+        type="search"
+        placeholder="Search..."
+        [formControl]="search"
+        aria-label="Search"
+        class="flex-grow px-2 py-2 outline-none">
+    </div>
+  </div>
+
+  <mat-progress-bar mode="indeterminate" *ngIf="loading()"></mat-progress-bar>
+
+  <div class="">
+
+    <ng-container *ngFor="let group of filteredGroupedArmies; let i = index">
+
+      <h2 class="!text-lg text-gray-500 !font-semibold !mb-" matSubheader>{{group.faction.name}}</h2>
+
+      <ul class="divide-gray-200 mb-6">
+        @for (army of group.armies; track army) {
+          <li class="hover:bg-gray-200 rounded-xl">
+            <a class="block w-full flex items-center space-x-4 rtl:space-x-reverse p-2 px-1 sm:p-3 md:px-4" [routerLink]="[army.id]">
+              <div class="flex-shrink-0">
+                <div class="w-6 h-6 rounded-full bg-gray-100 text-gray-300 flex items-center justify-center">
+                  <mat-icon matListItemIcon>folder</mat-icon>
+                </div>
+              </div>
+              <div class="flex-1 min-w-0">
+                <h3 class="text-base font-semibold text-gray-900 truncate dark:text-white !mb-0" [title]="army.name">
+                  {{army.name}}
+                </h3>
+                <p class="text-xs text-gray-500 truncate dark:text-gray-400 !mb-0">
+                  {{army.modifiedDate | date}}
+                </p>
+              </div>
+              <div class="text-sm inline-flex items-center text-base font-normal text-gray-700 dark:text-white">
+                {{1000 | number: '1.0-0'}} Pts
+              </div>
+            </a>
+          </li>
+        }
+      </ul>
+
+    </ng-container>
+
+  </div>
+
 </div>
-
-<mat-progress-bar mode="indeterminate" *ngIf="loading()"></mat-progress-bar>
-
-<ng-container *ngFor="let group of filteredGroupedArmies; let i = index">
-
-  <p class="text-md text-slate-900 font-semibold !mb-0" [class.!mt-4]="i > 0" matSubheader>{{group.faction.name}}</p>
-
-  <ul class="max-w-4xl divide-y divide-gray-200 dark:divide-gray-700">
-    @for (army of group.armies; track army) {
-      <li class="p-2 px-1 sm:p-3 md:px-4 hover:bg-gray-100 dark:hover:bg-gray-700">
-        <a class="block w-full flex items-center space-x-4 rtl:space-x-reverse" [routerLink]="[army.id]">
-          <div class="flex-shrink-0">
-            <div class="w-9 h-9 rounded-full bg-gray-200 text-gray-500 flex items-center justify-center">
-              <mat-icon matListItemIcon>folder</mat-icon>
-            </div>
-          </div>
-          <div class="flex-1 min-w-0">
-            <p class="text-md font-semibold text-gray-900 truncate dark:text-white !mb-0">
-              {{army.name}}
-            </p>
-            <p class="text-sm text-gray-500 truncate dark:text-gray-400 !mb-0">
-              {{army.modifiedDate | date}}
-            </p>
-          </div>
-          <div class="inline-flex items-center text-base font-normal text-gray-700 dark:text-white">
-            {{1000 | number: '1.0-0'}} Pts
-          </div>
-        </a>
-      </li>
-    }
-  </ul>
-
-</ng-container>

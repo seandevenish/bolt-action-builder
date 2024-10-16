@@ -15,6 +15,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 export class ConfirmationModalComponent {
 
   @Input() text?: string;
+  @Input() actionText?: string;
   @Input() passPhrase?: string;
   @Input() danger = false;
 
@@ -26,6 +27,7 @@ export class ConfirmationModalComponent {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private readonly _formBuilder: FormBuilder) {
       this.text = data.text;
+      this.actionText = data.actionText;
       this.passPhrase = data.passPhrase;
       this.danger = data.danger;
       this.form = this._formBuilder.group({

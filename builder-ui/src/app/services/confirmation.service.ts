@@ -9,12 +9,13 @@ export class ConfirmationService {
 
   constructor(private dialog: MatDialog) { }
 
-  confirm(message?: string, action?: () => void, danger: boolean = false, passPhrase?: string): void {
+  confirm(message?: string, actionText?: string, action?: () => void, danger: boolean = false, passPhrase?: string): void {
     const dialogRef = this.dialog.open(ConfirmationModalComponent, {
       width: '50%',
       panelClass: 'app-dialog-container',
       data: {
         text: message ?? 'Are you sure you want to do this action?',
+        actionText: actionText,
         passPhrase: passPhrase,
         danger: danger
       }

@@ -5,7 +5,7 @@
       "name": "Rifle Platoon",
       "category": "Infantry",
       "unitRequirements": [
-        { "types": ["Headquarters"], "subTypes": ["PlatoonCommander"], "min": 1, "max": 1, "requirementName": "Platoon Commander" },
+        { "types": ["Officer"], "subTypes": ["PlatoonCommander"], "min": 1, "max": 1, "requirementName": "Platoon Commander" },
         { "types": ["InfantrySquad"], "min": 2, "max": 4 },
         { "types": ["Medic"], "min": 0, "max": 1 },
         { "types": ["ForwardObserver"], "min": 0, "max": 1 },
@@ -20,7 +20,7 @@
       "name": "Heavy Weapons Platoon",
       "category": "Support",
       "unitRequirements": [
-        { "types": ["Headquarters"], "subTypes": ["PlatoonCommander"], "min": 1, "max": 1 },
+        { "types": ["Officer"], "subTypes": ["PlatoonCommander"], "min": 1, "max": 1 },
         { "types": ["MachineGunTeam", "MortarTeam"], "min": 2, "max": 2 },
         { "types": ["MortarTeam"], "min": 0, "max": 3 },
         { "types": ["MachineGunTeam"], "min": 0, "max": 3 },
@@ -33,7 +33,7 @@
       "name": "Engineer Platoon",
       "category": "Support",
       "unitRequirements": [
-        { "types": ["Headquarters"], "subTypes": ["PlatoonCommander"], "min": 1, "max": 1 },
+        { "types": ["Officer"], "subTypes": ["PlatoonCommander"], "min": 1, "max": 1 },
         { "types": ["EngineerSquad"], "min": 2, "max": 4 },
         { "types": ["FlamethrowerTeam"], "min": 0, "max": 3 },
         { "types": ["TransportVehicle"], "min": 0, "maxPerUnit": 1 }
@@ -53,7 +53,7 @@
       "name": "Artillery Platoon",
       "category": "Support",
       "unitRequirements": [
-        { "types": ["Headquarters"], "subTypes": ["PlatoonCommander"], "min": 1, "max": 1 },
+        { "types": ["Officer"], "subTypes": ["PlatoonCommander"], "min": 1, "max": 1 },
         { "types": ["FieldArtillery"], "min": 1, "max": 4 },
         { "types": ["TransportVehicle"], "min": 0, "maxPerUnit": 1 }
       ]
@@ -63,7 +63,7 @@
       "name": "Recce Infantry Platoon",
       "category": "Support",
       "unitRequirements": [
-        { "types": ["Headquarters"], "subTypes": ["PlatoonCommander"], "min": 1, "max": 1 },
+        { "types": ["Officer"], "subTypes": ["PlatoonCommander"], "min": 1, "max": 1 },
         { "types": ["InfantrySquad"], "min": 1, "max": 4 },
         { "types": ["ForwardObserver"], "min": 0, "max": 1 },
         { "types": ["TransportVehicle"], "min": 0, "minPerUnit": 1, "maxPerUnit": 1 }

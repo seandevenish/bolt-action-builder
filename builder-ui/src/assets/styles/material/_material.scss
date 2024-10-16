@@ -2,6 +2,10 @@
 
 @include mat.core();
 
+:root {
+  --my-app-background: white;
+}
+
 $theme: mat.define-theme((
   color: (
     theme-type: light,

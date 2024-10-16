@@ -1,12 +1,7 @@
-<div class="flex items-center" *ngIf="isLoggedIn()">
-
-  <a mat-button routerLink="armies" color="secondary" class="mr-2">
-    <mat-icon fontIcon="menu"></mat-icon>
-    Armies
-  </a>
+<ng-container *ngIf="isLoggedIn()">
 
   <!-- Small Screen -->
-  <button mat-icon-button [matMenuTriggerFor]="menu1" aria-label="User Menu">
+  <button class="rounded-full bg-gray-200 hover:bg-primary-50 hover:text-primary-800 !h-6 !w-6" [matMenuTriggerFor]="menu1" aria-label="User Menu">
     <mat-icon>person</mat-icon>
   </button>
   <mat-menu #menu1="matMenu">
@@ -29,4 +24,4 @@
     </button>
   </mat-menu> -->
 
-</div>
+</ng-container>

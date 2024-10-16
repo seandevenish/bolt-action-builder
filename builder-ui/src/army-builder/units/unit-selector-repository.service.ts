@@ -9,7 +9,7 @@ import { catchError, map, Observable, of, forkJoin } from 'rxjs';
 export class UnitSelectorRepositoryService {
 
   private readonly coreConfigUrl = 'assets/army-config/units/core/core-units.json';
-  private readonly factionConfigUrlTemplate = 'assets/army-config/units/factions/'; // Base path for faction-specific JSON
+  private readonly factionConfigUrlTemplate = 'assets/army-config/units'; // Base path for faction-specific JSON
 
   constructor(private readonly http: HttpClient) {}
 
@@ -20,25 +20,26 @@ export class UnitSelectorRepositoryService {
    * @returns An Observable of UnitSelector[] combining core and faction-specific unit selectors.
    */
   getUnitsForFaction(faction: string): Observable<UnitSelector[]> {
-    const infantryUrl = `${this.factionConfigUrlTemplate}${faction}-infantry.json`;
-    const vehicleUrl = `${this.factionConfigUrlTemplate}${faction}-vehicles.json`;
-    const teamUrl = `${this.factionConfigUrlTemplate}${faction}-teams.json`;
+    const factionUrl = `${this.factionConfigUrlTemplate}/${faction.toLowerCase()}`;
+    const infantryUrl = `${factionUrl}/${faction.toLowerCase()}-infantry-units.json`;
+    const vehicleUrl = `${factionUrl}/${faction.toLowerCase()}-vehicle-units.json`;
+    const teamUrl = `${factionUrl}/${faction.toLowerCase()}-team-units.json`;
 
     return forkJoin({
-      coreUnits: this.loadUnitsFromFile(this.coreConfigUrl),
-      infantryUnits: this.loadUnitsFromFile(infantryUrl).pipe(
+      coreUnits: of([]),//this.loadUnitsFromFile(this.coreConfigUrl),
+      infantryUnits: this.loadUnitsFromFile(infantryUrl, 'infantry').pipe(
         catchError(error => {
           console.error(`No infantry definition for faction '${faction}':`, error);
           return of([]); // Fallback to an empty list if infantry file is missing or fails to load
         })
       ),
-      vehicleUnits: this.loadUnitsFromFile(vehicleUrl).pipe(
+      vehicleUnits: this.loadUnitsFromFile(vehicleUrl, 'vehicle').pipe(
         catchError(error => {
           console.error(`No vehicle definition for faction '${faction}':`, error);
           return of([]); // Fallback to an empty list if vehicle file is missing or fails to load
         })
       ),
-      teamUnits: this.loadUnitsFromFile(teamUrl).pipe(
+      teamUnits: this.loadUnitsFromFile(teamUrl, 'team').pipe(
         catchError(error => {
           console.error(`No team definition for faction '${faction}':`, error);
           return of([]); // Fallback to an empty list if team file is missing or fails to load
@@ -59,9 +60,9 @@ export class UnitSelectorRepositoryService {
    * @param url The URL of the JSON file to load.
    * @returns An Observable of UnitSelector[].
    */
-  private loadUnitsFromFile(url: string): Observable<UnitSelector[]> {
+  private loadUnitsFromFile(url: string, selectorType: 'infantry' | 'vehicle' | 'team'): Observable<UnitSelector[]> {
     return this.http.get<{ units: any[] }>(url).pipe(
-      map(data => data.units.map(unit => this.createUnitSelector(unit)))
+      map(data => data.units.map(unit => this.createUnitSelector(unit, selectorType)))
     );
   }
 
@@ -70,13 +71,13 @@ export class UnitSelectorRepositoryService {
    * @param unit The raw unit data from the JSON file.
    * @returns A UnitSelector instance (e.g., InfantryUnitSelector, VehicleSelector).
    */
-  private createUnitSelector(unit: any): UnitSelector {
-    switch (unit.unitType) {
-      case 'Infantry':
+  private createUnitSelector(unit: any, selectorType: 'infantry' | 'vehicle' | 'team'): UnitSelector {
+    switch (selectorType) {
+      case 'infantry':
         return new InfantryUnitSelector(unit);
-      case 'Vehicle':
+      case 'vehicle':
         return new VehicleSelector(unit);
-      case 'WeaponTeam':
+      case 'team':
         return new WeaponTeamSelector(unit);
       default:
         return new UnitSelector(unit);
