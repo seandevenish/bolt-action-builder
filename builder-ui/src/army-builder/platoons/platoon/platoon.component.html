@@ -3,8 +3,8 @@
     <div
       *ngFor="let visualiser of visualiser.visualizers"
       [ngClass]="{
-        '': visualiser.groupable(),
-        'col-span-full': !visualiser.groupable()
+        '': visualiser.groupable,
+        'col-span-full': !visualiser.groupable
       }"
     >
       <!-- Display the header for the requirement -->
@@ -13,8 +13,8 @@
       </div>
 
       <div [ngClass]="{
-        '': visualiser.groupable(),
-        'grid grid-cols-4 gap-4': !visualiser.groupable()
+        '': visualiser.groupable,
+        'grid grid-cols-4 gap-4': !visualiser.groupable
       }">
 
         <!-- Render filled units as cards -->

@@ -20,8 +20,8 @@
       "name": "Heavy Weapons Platoon",
       "category": "Support",
       "unitRequirements": [
-        { "types": ["Officer"], "subTypes": ["PlatoonCommander"], "min": 1, "max": 1 },
-        { "types": ["MachineGunTeam", "MortarTeam"], "min": 2, "max": 2 },
+        { "types": ["Officer"], "subTypes": ["PlatoonCommander"], "min": 1, "max": 1, "requirementName": "Platoon Commander" },
+        { "types": ["MachineGunTeam", "MortarTeam"], "min": 2, "max": 2, "requirementName": "Machine Gun or Mortar Teams" },
         { "types": ["MortarTeam"], "min": 0, "max": 3 },
         { "types": ["MachineGunTeam"], "min": 0, "max": 3 },
         { "types": ["AntiTankTeam"], "min": 0, "max": 3 },
@@ -33,7 +33,7 @@
       "name": "Engineer Platoon",
       "category": "Support",
       "unitRequirements": [
-        { "types": ["Officer"], "subTypes": ["PlatoonCommander"], "min": 1, "max": 1 },
+        { "types": ["Officer"], "subTypes": ["PlatoonCommander"], "min": 1, "max": 1, "requirementName": "Platoon Commander" },
         { "types": ["EngineerSquad"], "min": 2, "max": 4 },
         { "types": ["FlamethrowerTeam"], "min": 0, "max": 3 },
         { "types": ["TransportVehicle"], "min": 0, "maxPerUnit": 1 }
@@ -44,7 +44,7 @@
       "name": "Armoured Platoon",
       "category": "Support",
       "unitRequirements": [
-        { "types": ["Vehicle"], "min": 1, "max": 1 },
+        { "types": ["Vehicle"], "min": 1, "max": 1, "requirementName": "Platoon Commander" },
         { "types": ["Vehicle"], "min": 1, "max": 4 }
       ]
     },
@@ -53,7 +53,7 @@
       "name": "Artillery Platoon",
       "category": "Support",
       "unitRequirements": [
-        { "types": ["Officer"], "subTypes": ["PlatoonCommander"], "min": 1, "max": 1 },
+        { "types": ["Officer"], "subTypes": ["PlatoonCommander"], "min": 1, "max": 1, "requirementName": "Platoon Commander" },
         { "types": ["FieldArtillery"], "min": 1, "max": 4 },
         { "types": ["TransportVehicle"], "min": 0, "maxPerUnit": 1 }
       ]
@@ -63,7 +63,7 @@
       "name": "Recce Infantry Platoon",
       "category": "Support",
       "unitRequirements": [
-        { "types": ["Officer"], "subTypes": ["PlatoonCommander"], "min": 1, "max": 1 },
+        { "types": ["Officer"], "subTypes": ["PlatoonCommander"], "min": 1, "max": 1, "requirementName": "Platoon Commander" },
         { "types": ["InfantrySquad"], "min": 1, "max": 4 },
         { "types": ["ForwardObserver"], "min": 0, "max": 1 },
         { "types": ["TransportVehicle"], "min": 0, "minPerUnit": 1, "maxPerUnit": 1 }

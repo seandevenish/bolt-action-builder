@@ -1,3 +1,4 @@
+import { combineLatest, flatMap, map, merge, switchMap } from "rxjs";
 import { UnitSelector } from "../units/unit-selector.class";
 import { UnitType, UnitSubType } from "../units/unit-type.enum";
 import { UnitRequirement } from "./unit-requirement.interface";
@@ -11,7 +12,9 @@ interface IUnit {
 
 export class UnitSlotVisualizerOrchestrator {
   visualizers: UnitSlotVisualiser[] = [];
-  allUnits: IUnit[] = [];
+  allUnits$ = combineLatest(this.visualizers.map(v => v.selectedUnits$)).pipe(
+    map((unitArrays) => unitArrays.flatMap(u => u))
+  );
 
   constructor(requirements: UnitRequirement[], unitSelectors: UnitSelector[]) {
     this.initializeVisualizers(requirements, unitSelectors);
