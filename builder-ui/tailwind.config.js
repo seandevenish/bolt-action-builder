@@ -37,6 +37,14 @@ module.exports = {
       blue: colors.blue,
       red: colors.red
     },
+    borderRadius: {
+      'none': '0',
+      'sm': '0.125rem',
+      'DEFAULT': '0.65rem',
+      'lg': '0.75rem',
+      'xl': '0.85rem',
+      'full': '100%'
+    },
     spacing: {
       px: '1px',
       0: '0',

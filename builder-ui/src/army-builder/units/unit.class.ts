@@ -6,11 +6,18 @@ import { InfantryUnitSelector, UnitSelector } from "./unit-selector.class";
 
 export interface IUnit {
   selector?: UnitSelector;
+  cost: number;
 }
 
 export class UnitFactory {
 
-  static generateNewUnit(selector: UnitSelector) {
+  static generateNewUnit(selector: UnitSelector): Unit {
+    var unit = this.getUnit(selector);
+    unit.init(selector);
+    return unit;
+  }
+
+  private static getUnit(selector: UnitSelector): Unit {
     const base = {
       selectorId: selector.id,
       experience: selector.availableExperienceLevels.includes(Experience.Regular) ?
@@ -35,6 +42,10 @@ export abstract class Unit<TSelector extends UnitSelector = UnitSelector> implem
   experience: Experience;
   options: string[];
   selector?: TSelector;
+
+  get title() {
+    return this.selector
+  }
 
   get availableExperienceLevels(): Experience[] {
     return this.selector?.availableExperienceLevels ?? [];

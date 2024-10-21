@@ -1,0 +1,18 @@
+.btn {
+  @apply rounded text-nowrap px-4 py-2;
+}
+
+.btn-primary {
+  @extend .btn;
+  @apply bg-primary-500 hover:bg-primary-600 focus-within:bg-primary-700 text-white;
+}
+
+.btn-secondary {
+  @extend .btn;
+  @apply bg-gray-100 text-primary-700 hover:text-primary-900 hover:bg-primary-50 focus:outline-none focus:ring-2 focus:ring-primary-400;
+}
+
+.btn-tertiary {
+  @extend .btn;
+  @apply text-primary-700 hover:text-primary-900 hover:bg-gray-100  focus:outline-none focus:ring-2 focus:ring-primary-400;
+}

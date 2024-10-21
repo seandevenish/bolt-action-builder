@@ -20,34 +20,31 @@
         <!-- Render filled units as cards -->
         <ng-container *ngFor="let unit of visualiser.units()">
           <div>
-            <mat-card class="filled-unit-card w-full">
-              <mat-card-content>
-                This is an added unit!
-                <!-- {{ unit.type }} {{ unit.subType || '' }} -->
-              </mat-card-content>
-            </mat-card>
+            <div class="w-full h-8 rounded border border-gray-300 p-3 shadow">
+              <div class="text-sm font-semibold text-gray-800 truncate">{{unit.selector!.name}}</div>
+              <div class="text-xs text-gray-600">{{unit.cost | number}} Pts</div>
+            </div>
           </div>
         </ng-container>
 
         <!-- Render mandatory slots as buttons -->
         <ng-container *ngFor="let slot of visualiser.slots()">
           <div>
-            <button
-              *ngIf="slot.isMandatory; else raisedButton"
-              mat-flat-button
+            <button #mandatoryButton
+              *ngIf="slot.isMandatory; else optionalButton"
               color="primary"
-              class="w-full mandatory"
+              class="w-full btn-primary h-8 text-sm shadow"
               [matMenuTriggerFor]="unitMenu"
             >
               Add Unit
             </button>
-            <ng-template #raisedButton>
-              <button mat-raised-button color="primary" class="w-full" [matMenuTriggerFor]="unitMenu" >
+            <ng-template #optionalButton>
+              <button color="primary" class="w-full h-8 text-sm btn bg-gray-100 hover:bg-gray-50 hover:text-primary-800 shadow" [matMenuTriggerFor]="unitMenu" >
                 Add Unit <span *ngIf="slot.upToQty > 1">(+{{slot.upToQty}})</span>
               </button>
             </ng-template>
           </div>
-          <mat-menu #unitMenu="matMenu">
+          <mat-menu #unitMenu="matMenu" class="!bg-gray-50">
             <button
               mat-menu-item
               *ngFor="let selector of visualiser.availableUnitSelectors"

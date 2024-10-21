@@ -1,19 +1,18 @@
 import { Component, EnvironmentInjector, inject, Input, OnInit, runInInjectionContext } from '@angular/core';
 import { Platoon } from '../platoon.class';
 import { UnitSlotVisualizerOrchestrator } from '../unit-slot-visualiser-orchestrator.class';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DecimalPipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { UnitSelector } from '../../units/unit-selector.class';
 import { MatMenuModule } from '@angular/material/menu';
-import { UnitSlot } from '../unit-slot.interface';
 import { UnitSlotVisualiser } from '../unit-slot-visualiser.class';
-import { Unit, UnitFactory } from '../../units/unit.class';
+import { UnitFactory } from '../../units/unit.class';
 
 @Component({
   selector: 'app-platoon',
   standalone: true,
-  imports: [CommonModule, MatButtonModule, MatCardModule, MatMenuModule],
+  imports: [CommonModule, MatButtonModule, MatCardModule, MatMenuModule, DecimalPipe],
   templateUrl: './platoon.component.html',
   styleUrl: './platoon.component.scss'
 })
