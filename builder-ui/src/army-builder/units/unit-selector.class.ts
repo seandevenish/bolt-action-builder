@@ -1,5 +1,6 @@
 import { UnitType, UnitSubType } from './unit-type.enum';
 import { Experience } from "./experience";
+import { InfantryUnit } from './unit.class';
 
 export interface IGeneralOptionSelector {
   id: string;
@@ -91,7 +92,6 @@ export class InfantryUnitSelector extends UnitSelector {
     this.baseMen = data.baseMen;
     this.maxMen = data.maxMen;
   }
-
 
 }
 

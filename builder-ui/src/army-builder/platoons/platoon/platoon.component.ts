@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EnvironmentInjector, inject, Input, OnInit, runInInjectionContext } from '@angular/core';
 import { Platoon } from '../platoon.class';
 import { UnitSlotVisualizerOrchestrator } from '../unit-slot-visualiser-orchestrator.class';
 import { CommonModule } from '@angular/common';
@@ -8,6 +8,7 @@ import { UnitSelector } from '../../units/unit-selector.class';
 import { MatMenuModule } from '@angular/material/menu';
 import { UnitSlot } from '../unit-slot.interface';
 import { UnitSlotVisualiser } from '../unit-slot-visualiser.class';
+import { Unit, UnitFactory } from '../../units/unit.class';
 
 @Component({
   selector: 'app-platoon',
@@ -23,16 +24,22 @@ export class PlatoonComponent implements OnInit {
 
   visualiser!: UnitSlotVisualizerOrchestrator;
 
-  constructor() {
+  constructor(private injector: EnvironmentInjector) {
 
   }
 
   ngOnInit(): void {
-    this.visualiser = new UnitSlotVisualizerOrchestrator(this.platoon.selector?.unitRequirements ?? [], this.unitSelectors);
+    runInInjectionContext(this.injector, () => {
+      this.visualiser = new UnitSlotVisualizerOrchestrator(
+        this.platoon.selector?.unitRequirements ?? [],
+        this.unitSelectors
+      );
+    });
   }
 
   addUnit(visualiser: UnitSlotVisualiser, selector: UnitSelector) {
-    visualiser.slots.push();
+    const unit = UnitFactory.generateNewUnit(selector);
+    visualiser.addUnit(unit);
   }
 
 }

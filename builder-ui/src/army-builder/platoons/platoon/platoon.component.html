@@ -3,32 +3,34 @@
     <div
       *ngFor="let visualiser of visualiser.visualizers"
       [ngClass]="{
-        '': visualiser.groupable,
-        'col-span-full': !visualiser.groupable
+        '': visualiser.groupable(),
+        'col-span-full': !visualiser.groupable()
       }"
     >
       <!-- Display the header for the requirement -->
       <div class="text-sm font-semibold !text-slate-600 mb-2">
-        {{ visualiser['currentRequirement'].requirementName || visualiser['currentRequirement'].types[0] }}
+        {{ visualiser.title }}
       </div>
 
       <div [ngClass]="{
-        '': visualiser.groupable,
-        'grid grid-cols-4 gap-4': !visualiser.groupable
+        '': visualiser.groupable(),
+        'grid grid-cols-4 gap-4': !visualiser.groupable()
       }">
+
         <!-- Render filled units as cards -->
-        <ng-container *ngFor="let unit of platoon.units">
+        <ng-container *ngFor="let unit of visualiser.units()">
           <div>
             <mat-card class="filled-unit-card w-full">
               <mat-card-content>
+                This is an added unit!
                 <!-- {{ unit.type }} {{ unit.subType || '' }} -->
               </mat-card-content>
             </mat-card>
           </div>
         </ng-container>
 
-        <!-- Render unfilled slots as buttons -->
-        <ng-container *ngFor="let slot of visualiser.slots">
+        <!-- Render mandatory slots as buttons -->
+        <ng-container *ngFor="let slot of visualiser.slots()">
           <div>
             <button
               *ngIf="slot.isMandatory; else raisedButton"
@@ -41,7 +43,7 @@
             </button>
             <ng-template #raisedButton>
               <button mat-raised-button color="primary" class="w-full" [matMenuTriggerFor]="unitMenu" >
-                Add Unit
+                Add Unit <span *ngIf="slot.upToQty > 1">(+{{slot.upToQty}})</span>
               </button>
             </ng-template>
           </div>

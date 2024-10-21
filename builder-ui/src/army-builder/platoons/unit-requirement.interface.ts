@@ -48,4 +48,6 @@ export interface UnitRequirement {
    * The maximum number of units allowed for this requirement as a multiple per units not subject to this limit
    */
   maxPerUnit?: number | null;
+
+  minCarryAll?: boolean;
 }
