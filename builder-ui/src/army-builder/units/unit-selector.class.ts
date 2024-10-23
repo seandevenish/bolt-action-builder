@@ -1,5 +1,5 @@
 import { UnitType, UnitSubType } from './unit-type.enum';
-import { Experience } from "./experience";
+import { Experience } from "./experience.enum";
 import { InfantryUnit } from './unit.class';
 
 export interface IGeneralOptionSelector {

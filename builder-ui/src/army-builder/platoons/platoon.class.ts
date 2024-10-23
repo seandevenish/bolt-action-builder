@@ -1,3 +1,4 @@
+import { UnitLibrary } from './../units/unit.class';
 import { generateGuid } from "../../app/utilities/guid";
 import { UnitSelector } from "../units/unit-selector.class";
 import { Unit } from "../units/unit.class";
@@ -31,12 +32,12 @@ export class Platoon {
     }
   }
 
-  assignSelector(platoonSelectors: PlatoonSelector[], unitSelectors: UnitSelector[]): void {
+  assignSelector(platoonSelectors: PlatoonSelector[], unitSelectors: UnitSelector[], library: UnitLibrary): void {
     this.selector = platoonSelectors.find(p => p.id == this.selectorId);
     this.units.forEach(u => {
       const selector = unitSelectors.find(s => s.id == u.selectorId);
       if (!selector) throw Error("Unable to find selector " + u.selectorId);
-      u.init(selector);
+      u.init(selector, library);
     });
   }
 

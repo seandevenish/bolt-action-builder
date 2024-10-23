@@ -35,7 +35,10 @@ export class ArmyService extends FirestoreBaseService<Army> {
     const unitSelectors = await firstValueFrom(this._unitSelectorService.getUnitsForFaction(army.factionId));
 
     // Assign the selectors to platoons
-    platoons.forEach(platoon => platoon.assignSelector(platoonSelectors, unitSelectors));
+    platoons.forEach(platoon => platoon.assignSelector(platoonSelectors, unitSelectors, {
+      specialRules: [],
+      weapons: []
+    }));
 
     return {
       army,

@@ -7,7 +7,9 @@ import { MatCardModule } from '@angular/material/card';
 import { UnitSelector } from '../../units/unit-selector.class';
 import { MatMenuModule } from '@angular/material/menu';
 import { UnitSlotVisualiser } from '../unit-slot-visualiser.class';
-import { UnitFactory } from '../../units/unit.class';
+import { IUnit, UnitFactory } from '../../units/unit.class';
+import { MatDialog } from '@angular/material/dialog';
+import { UnitDetailModalComponent } from '../../units/unit-detail-modal/unit-detail-modal.component';
 
 @Component({
   selector: 'app-platoon',
@@ -23,7 +25,9 @@ export class PlatoonComponent implements OnInit {
 
   visualiser!: UnitSlotVisualizerOrchestrator;
 
-  constructor(private injector: EnvironmentInjector) {
+  constructor(private injector: EnvironmentInjector,
+    private dialog: MatDialog
+  ) {
 
   }
 
@@ -37,8 +41,28 @@ export class PlatoonComponent implements OnInit {
   }
 
   addUnit(visualiser: UnitSlotVisualiser, selector: UnitSelector) {
-    const unit = UnitFactory.generateNewUnit(selector);
+    const unit = UnitFactory.generateNewUnit(selector, {
+      specialRules: [],
+      weapons: []
+    });
     visualiser.addUnit(unit);
+  }
+
+  editUnit(unit: IUnit): void {
+    const dialogRef = this.dialog.open(UnitDetailModalComponent, {
+      panelClass: 'app-dialog-container',
+      data: {
+        unit: unit
+      },
+    });
+    dialogRef
+      .afterClosed()
+      .subscribe((result: any|undefined) => {
+        if (!result) {
+          return;
+        }
+        //this.armies.push(result.army);
+      });
   }
 
 }

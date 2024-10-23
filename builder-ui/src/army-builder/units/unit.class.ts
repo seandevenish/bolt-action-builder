@@ -1,19 +1,26 @@
 import { IFirestoreStorable } from "../../app/services/firestore-base-service.service";
 import { SpecialRule } from "../special-rules/special-rule.interface";
 import { Weapon } from "../weapons/weapon.interface";
-import { Experience } from "./experience";
+import { Experience } from "./experience.enum";
 import { InfantryUnitSelector, UnitSelector } from "./unit-selector.class";
 
 export interface IUnit {
   selector?: UnitSelector;
   cost: number;
+  experience: Experience;
+  men?: number;
+}
+
+export interface UnitLibrary {
+  weapons: Weapon[];
+  specialRules: SpecialRule[]
 }
 
 export class UnitFactory {
 
-  static generateNewUnit(selector: UnitSelector): Unit {
+  static generateNewUnit(selector: UnitSelector, library: UnitLibrary): Unit {
     var unit = this.getUnit(selector);
-    unit.init(selector);
+    unit.init(selector, library);
     return unit;
   }
 
@@ -58,7 +65,7 @@ export abstract class Unit<TSelector extends UnitSelector = UnitSelector> implem
   get cost() { return this._cost;}
 
   protected _specialRules: SpecialRule[] = [];
-  get specialRules() { return this._specialRules;}
+  get specialRules() { return this._specialRules; }
 
 
   constructor(data: {
@@ -71,11 +78,11 @@ export abstract class Unit<TSelector extends UnitSelector = UnitSelector> implem
     this.options = data.options ?? [];
   }
 
-  abstract init(selector: TSelector): void;
+  abstract init(selector: TSelector, library: UnitLibrary): void;
 
-  protected abstract validate(weapons: Weapon[]): string[] | null;
-  protected abstract calculateCost(): void;
-  protected calculateSpecialRules(specialRules: SpecialRule[]) {
+  protected abstract validate(library: UnitLibrary): string[] | null;
+  protected abstract calculateCost(): number;
+  protected calculateSpecialRules(library: UnitLibrary): SpecialRule[] {
     const ids = this.selector?.specialRuleIds ?? [];
     const optionIds = this.selector?.options
       .filter(so => this.options.some(o => o == so.id))
@@ -83,10 +90,10 @@ export abstract class Unit<TSelector extends UnitSelector = UnitSelector> implem
       .filter(s => !!s)
       .map(s => s as string) ?? [];
 
-    this._specialRules = ids.concat(optionIds)
-      .map(i => specialRules.find(r => r.id == i))
+    return ids.concat(optionIds)
+      .map(i => library.specialRules.find(r => r.id == i))
       .filter(r => !!r)
-      .map(r => r as SpecialRule);
+      .map(r => r);
   }
 
   public toStoredObject(): Record<string, any> {
@@ -99,10 +106,10 @@ export abstract class Unit<TSelector extends UnitSelector = UnitSelector> implem
   }
 
 
-  public update(weapons: Weapon[], specialRules: SpecialRule[]) {
-    this._errors = this.validate(weapons);
-    this.calculateCost();
-    this.calculateSpecialRules(specialRules);
+  public update(library: UnitLibrary) {
+    this._errors = this.validate(library);
+    this._cost = this.calculateCost();
+    this._specialRules = this.calculateSpecialRules(library);
   }
 }
 
@@ -125,12 +132,13 @@ export class InfantryUnit extends Unit<InfantryUnitSelector> {
     this.generalWeaponIds = data.generalWeaponIds;
   }
 
-  override init(selector: InfantryUnitSelector) {
+  override init(selector: InfantryUnitSelector, library: UnitLibrary) {
     if (this.selectorId != selector.id) throw Error('Invalid selector!');
     this.selector = selector;
+    this.update(library);
   }
 
-  protected override validate(weapons: Weapon[]): string[] | null {
+  protected override validate(library: UnitLibrary): string[] | null {
     const errors: string[] = [];
     if (this.selector == null) throw Error('Selector missing, unable to validate.');
     // Validate Experience
@@ -149,7 +157,7 @@ export class InfantryUnit extends Unit<InfantryUnitSelector> {
     Object.keys(this.generalWeaponIds).forEach(k => {
         const qty = this.generalWeaponIds![k];
         const selector = this.selector?.generalWeaponOptions.find(o => o.weaponId);
-        const weapon = weapons.find(w => w.id == k);
+        const weapon = library.weapons.find(w => w.id == k);
         if (!selector || !weapon) {
           errors.push(`Invalid weapons present`);
           return;
@@ -185,7 +193,7 @@ export class InfantryUnit extends Unit<InfantryUnitSelector> {
       const qty = this.generalWeaponIds?.[o.weaponId] ?? 0;
       return v + (qty * o.cost);
     }, 0);
-    this._cost = base + perMan + options + weaponOptions;
+    return base + perMan + options + weaponOptions;
   }
 
   public override toStoredObject(): Record<string, any> {
