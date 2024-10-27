@@ -4,17 +4,17 @@
 
   <div class="flex items-center ml-auto gap-2">
 
-    <button type="button" class="btn-tertiary flex align-middle" matTooltip="Expand All" aria-label="Expand All" (click)="expandAll()">
+    <button type="button" class="btn-tertiary !px-1" matTooltip="Expand All" aria-label="Expand All" (click)="expandAll()">
       <mat-icon fontIcon="add_circle"></mat-icon>
     </button>
 
-    <button type="button" mat-icon-button matTooltip="Collapse All" aria-label="Collapse All" (click)="collapseAll()">
+    <button type="button" class="btn-tertiary !px-1" matTooltip="Collapse All" aria-label="Collapse All" (click)="collapseAll()">
       <mat-icon fontIcon="remove_circle"></mat-icon>
     </button>
 
-    <button mat-button [matMenuTriggerFor]="menu">
+    <button class="btn-secondary" [matMenuTriggerFor]="menu" aria-label="Settings">
       <mat-icon fontIcon="settings"></mat-icon>
-      Settings
+      <span class="hidden md:visible">Settings</span>
     </button>
     <mat-menu #menu="matMenu">
       <button type="button" mat-menu-item (click)="delete()">
@@ -23,12 +23,12 @@
       </button>
     </mat-menu>
 
-    <button type="button" mat-icon-button aria-label="Save Only" matTooltip="Save" class="mr-2" (click)="save(false)">
+    <button type="button" class="btn-tertiary !px-1" aria-label="Save Only" matTooltip="Save" (click)="save(false)">
       <mat-icon *ngIf="saving() != 'saveOnly'" fontIcon="save"></mat-icon>
       <mat-spinner *ngIf="saving() == 'saveOnly'" diameter="20"></mat-spinner>
     </button>
 
-    <button type="button" mat-flat-button (click)="save(true)">
+    <button type="button" class="btn-primary text-truncate" (click)="save(true)">
       <mat-spinner *ngIf="saving() == 'saveAndClose'" diameter="20"></mat-spinner>
       <mat-icon fontIcon="save"></mat-icon>
       Save and Close
@@ -52,15 +52,17 @@
   <mat-accordion cdkDropList [cdkDropListData]="platoons()" (cdkDropListDropped)="drop($event)" [multi]="multiExpand()" #platoonAccordion>
     <mat-expansion-panel *ngFor="let platoon of platoons(); let i = index" cdkDrag #platoonPanel class="!bg-white">
       <mat-expansion-panel-header class="ps-2">
-        <mat-panel-title>
+        <div class="flex w-full items-center mr-3">
           <div class="drag-handle" cdkDragHandle>
             <mat-icon>drag_indicator</mat-icon>
           </div>
-          {{ platoon.name }}
-        </mat-panel-title>
-        <mat-panel-description>
-          {{ platoon.platoonName }}
-        </mat-panel-description>
+          <div class="truncate">
+            {{ platoon.name }}
+          </div>        
+          <div class="ml-auto text-gray-700 text-sm">
+            {{1000 | number}} Pts
+          </div>
+        </div>
       </mat-expansion-panel-header>
 
       <!-- Load the PlatoonComponent for each platoon -->

@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, NgZone, OnDestroy, OnInit, QueryList, signal, ViewChildren } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, EMPTY, finalize, from, map, Subject, switchMap, takeUntil, tap } from 'rxjs';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DecimalPipe } from '@angular/common';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatButtonModule } from '@angular/material/button';
@@ -27,7 +27,7 @@ import { FirestoreError } from 'firebase/firestore';
 @Component({
   selector: 'app-army-root',
   standalone: true,
-  imports: [CommonModule, MatProgressBarModule, MatButtonModule, MatProgressSpinnerModule, MatIconModule, MatMenuModule, MatToolbarModule, MatTooltipModule, MatExpansionModule, PlatoonComponent, DragDropModule],
+  imports: [CommonModule, MatProgressBarModule, MatButtonModule, MatProgressSpinnerModule, MatIconModule, MatMenuModule, MatToolbarModule, MatTooltipModule, MatExpansionModule, PlatoonComponent, DragDropModule, DecimalPipe],
   templateUrl: './army-root.component.html',
   styleUrl: './army-root.component.scss'
 })

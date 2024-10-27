@@ -9,11 +9,14 @@ import { factionLibrary } from '../faction';
 import { IArmyInfo } from './army-info.interface';
 import { PlatoonSelectorRepositoryService } from '../platoons/platoon-selector-repository.service';
 import { UnitSelectorRepositoryService } from '../units/unit-selector-repository.service';
+import { generateGuid } from '../../app/utilities/guid';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ArmyService extends FirestoreBaseService<Army> {
+
+  private readonly debug = true;
 
   constructor(
     private readonly _authService: AuthService,
@@ -49,16 +52,39 @@ export class ArmyService extends FirestoreBaseService<Army> {
   }
 
   override async get(id: string): Promise<Army> {
+    if (this.debug) {
+      return new Army({
+        id: generateGuid(),
+        name: 'Test Army',
+        createdDate: new Date(),
+        modifiedDate: new Date(),
+        factionId: 'US'
+      }, factionLibrary);
+    }
+
     const army = await super.get(id);
     return new Army(army, factionLibrary);
   }
 
   override async getAll(): Promise<Army[]> {
+    if (this.debug) {
+      return [
+        await this.get('')
+      ];
+    }
+
     const armies = await super.getAll();
     return armies.map(a => new Army(a, factionLibrary));
   }
 
   async getPlatoonsForArmy(armyId: string): Promise<Platoon[]> {
+
+    if (this.debug) {
+      return [
+          new Platoon({id: generateGuid(), selectorId: 'RIFL' })
+        ] as Platoon[];
+    }
+
     try {
       const user = await firstValueFrom(this._authService.state$);
       if (!user) {

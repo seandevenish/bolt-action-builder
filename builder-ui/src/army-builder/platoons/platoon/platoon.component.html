@@ -1,5 +1,5 @@
 <div class="max-w-screen-lg mx-auto px-4">
-  <div class="grid grid-cols-4 gap-4">
+  <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 md:gap-4 lg:grid-cols-4">
     <div
       *ngFor="let visualiser of visualiser.visualizers"
       [ngClass]="{
@@ -14,7 +14,7 @@
 
       <div [ngClass]="{
         '': visualiser.groupable,
-        'grid grid-cols-4 gap-4': !visualiser.groupable
+        'grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 md:gap-4 lg:grid-cols-4': !visualiser.groupable
       }">
 
         <!-- Render filled units as cards -->
@@ -35,7 +35,7 @@
 
         <!-- Render mandatory slots as buttons -->
         <ng-container *ngFor="let slot of visualiser.slots()">
-          <div>
+          <div class="text-sm">
             <button #mandatoryButton
               *ngIf="slot.isMandatory; else optionalButton"
               color="primary"
