@@ -4,8 +4,6 @@ import { firstValueFrom } from 'rxjs';
 import { inject } from '@angular/core';
 
 export interface IFirestoreStorable {
-  id: string;
-  toStoredObject(): Record<string, any>;
 }
 
 export interface IFirestoreError {
@@ -52,7 +50,7 @@ export abstract class FirestoreBaseService<T extends IFirestoreStorable> {
     };
   }
 
-  async getAll(): Promise<T[]> {
+  async getAllModels(): Promise<T[]> {
     try {
       const userCollection = await this.getUserCollection();
       const snapshot = await getDocs(userCollection);
@@ -65,7 +63,7 @@ export abstract class FirestoreBaseService<T extends IFirestoreStorable> {
     }
   }
 
-  async get(id: string): Promise<T> {
+  async getModel(id: string): Promise<T> {
     try {
       const path = await this.getPath(id);
       const documentRef = doc(this.firestore, path);
@@ -86,7 +84,7 @@ export abstract class FirestoreBaseService<T extends IFirestoreStorable> {
   async add(data: T): Promise<void> {
     try {
       const userCollection = await this.getUserCollection();
-      await addDoc(userCollection, data.toStoredObject());
+      await addDoc(userCollection, data);
     } catch (error) {
       throw this.getFirestoreError(error);
     }
@@ -99,7 +97,7 @@ export abstract class FirestoreBaseService<T extends IFirestoreStorable> {
         throw new Error('User is not authenticated');
       }
       const documentRef = doc(this.firestore, `users/${user.uid}/${this.collectionPath}/${documentId}`);
-      await updateDoc(documentRef, data.toStoredObject());
+      await updateDoc(documentRef, data);
     } catch (error) {
       throw this.getFirestoreError(error);
     }

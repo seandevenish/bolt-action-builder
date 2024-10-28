@@ -8,8 +8,9 @@ import { catchError, forkJoin, map, Observable, of } from 'rxjs';
 })
 export class PlatoonSelectorRepositoryService {
 
-  private readonly coreConfigUrl = 'assets/army-config/platoons/core/core-platoons.json';
-  private readonly factionConfigUrlTemplate = `${this.coreConfigUrl}/factions/`; // Base path for faction-specific JSON
+  private readonly baseUrl = 'assets/army-config/platoons';
+  private readonly coreConfigUrl = `${this.baseUrl}/core/core-platoons.json`;
+  private readonly factionConfigUrlTemplate = `${this.baseUrl}/factions`; // Base path for faction-specific JSON
 
   constructor(private readonly http: HttpClient) {}
 
@@ -19,7 +20,7 @@ export class PlatoonSelectorRepositoryService {
    * @returns An Observable of PlatoonSelector[] combining core and faction-specific platoons.
    */
   getPlatoonsForForceSelector(faction: string): Observable<PlatoonSelector[]> {
-    const factionConfigUrl = `${this.factionConfigUrlTemplate}${faction}-platoons.json`;
+    const factionConfigUrl = `${this.factionConfigUrlTemplate}/${faction.toLowerCase()}-platoons.json`;
 
     return forkJoin({
       corePlatoons: this.loadPlatoonsFromFile(this.coreConfigUrl),

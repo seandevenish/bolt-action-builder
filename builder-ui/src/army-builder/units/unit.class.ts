@@ -1,54 +1,33 @@
 import { IFirestoreStorable } from "../../app/services/firestore-base-service.service";
 import { SpecialRule } from "../special-rules/special-rule.interface";
-import { Weapon } from "../weapons/weapon.interface";
 import { Experience } from "./experience.enum";
+import { Library } from "./library.interface";
 import { InfantryUnitSelector, UnitSelector } from "./unit-selector.class";
 
-export interface IUnit {
-  selector?: UnitSelector;
+export interface IUnitModel extends IFirestoreStorable {
+  selectorId: string;
+  slotId: string;
   cost: number;
   experience: Experience;
-  men?: number;
+  options: string[];
 }
 
-export interface UnitLibrary {
-  weapons: Weapon[];
-  specialRules: SpecialRule[]
+export interface IInfantryUnitModel extends IUnitModel {
+  men: number,
+  keyPersonWeaponId: string | null,
+  generalWeaponIds: Record<string, number>;
 }
 
-export class UnitFactory {
-
-  static generateNewUnit(selector: UnitSelector, library: UnitLibrary): Unit {
-    var unit = this.getUnit(selector);
-    unit.init(selector, library);
-    return unit;
-  }
-
-  private static getUnit(selector: UnitSelector): Unit {
-    const base = {
-      selectorId: selector.id,
-      experience: selector.availableExperienceLevels.includes(Experience.Regular) ?
-        Experience.Regular :
-        selector.availableExperienceLevels[selector.availableExperienceLevels.length - 1],
-    }
-
-    if (selector instanceof InfantryUnitSelector) {
-      return new InfantryUnit({
-        ...base,
-        men: selector.baseMen
-      });
-    }
-
-    throw Error('Unknown selector type')
-  }
-}
-
-export abstract class Unit<TSelector extends UnitSelector = UnitSelector> implements IUnit, IFirestoreStorable {
+export abstract class Unit<TSelector extends UnitSelector = UnitSelector> {
   id: string = '';
-  selectorId: string;
+  readonly selectorId: string;
+  slotId: string;
   experience: Experience;
   options: string[];
-  selector?: TSelector;
+  men?: number;
+
+  selector: TSelector;
+  library: Library;
 
   get title() {
     return this.selector
@@ -68,21 +47,20 @@ export abstract class Unit<TSelector extends UnitSelector = UnitSelector> implem
   get specialRules() { return this._specialRules; }
 
 
-  constructor(data: {
-    selectorId: string,
-    experience: Experience,
-    options?: string[]
-  }) {
+  constructor(data: IUnitModel, library: Library) {
     this.selectorId = data.selectorId;
+    this.slotId = data.slotId;
     this.experience = data.experience;
     this.options = data.options ?? [];
+    const selector = library.unitSelectors.find(p => p.id === data.selectorId);
+    if (!selector) throw new Error("Unable to find selector");
+    this.selector = selector as TSelector;
+    this.library = library;
   }
 
-  abstract init(selector: TSelector, library: UnitLibrary): void;
-
-  protected abstract validate(library: UnitLibrary): string[] | null;
+  protected abstract validate(): string[] | null;
   protected abstract calculateCost(): number;
-  protected calculateSpecialRules(library: UnitLibrary): SpecialRule[] {
+  protected calculateSpecialRules(): SpecialRule[] {
     const ids = this.selector?.specialRuleIds ?? [];
     const optionIds = this.selector?.options
       .filter(so => this.options.some(o => o == so.id))
@@ -91,54 +69,44 @@ export abstract class Unit<TSelector extends UnitSelector = UnitSelector> implem
       .map(s => s as string) ?? [];
 
     return ids.concat(optionIds)
-      .map(i => library.specialRules.find(r => r.id == i))
+      .map(i => this.library.specialRules.find(r => r.id == i))
       .filter(r => !!r)
       .map(r => r);
   }
 
-  public toStoredObject(): Record<string, any> {
+  public toStoredObject(): IUnitModel {
+    this.refresh();
     return {
-      id: this.id,
       selectorId: this.selectorId,
+      slotId: this.slotId,
       experience: this.experience,
-      options: this.options
+      options: this.options,
+      cost: this.cost
     };
   }
 
-
-  public update(library: UnitLibrary) {
-    this._errors = this.validate(library);
+  public refresh() {
+    this._errors = this.validate();
     this._cost = this.calculateCost();
-    this._specialRules = this.calculateSpecialRules(library);
+    this._specialRules = this.calculateSpecialRules();
   }
 }
 
 export class InfantryUnit extends Unit<InfantryUnitSelector> {
-  men: number;
-  keyPersonWeaponId?: string
-  generalWeaponIds?: Record<string, number>;
+  override men: number;
+  keyPersonWeaponId: string | null = null;
+  generalWeaponIds: Record<string, number> = {};
 
-  constructor(data: {
-    selectorId: string,
-    experience: Experience,
-    options?: string[],
-    men: number,
-    keyPersonWeaponId?: string,
-    generalWeaponIds?: Record<string, number>
-  }) {
-    super(data);
+  constructor(data: IInfantryUnitModel, library: Library) {
+    super(data, library);
     this.men = data.men;
-    this.keyPersonWeaponId = data.keyPersonWeaponId;
-    this.generalWeaponIds = data.generalWeaponIds;
+    if (data.keyPersonWeaponId) this.keyPersonWeaponId = data.keyPersonWeaponId;
+    if (data.generalWeaponIds) this.generalWeaponIds = data.generalWeaponIds;
+    this.refresh();
   }
 
-  override init(selector: InfantryUnitSelector, library: UnitLibrary) {
-    if (this.selectorId != selector.id) throw Error('Invalid selector!');
-    this.selector = selector;
-    this.update(library);
-  }
-
-  protected override validate(library: UnitLibrary): string[] | null {
+  protected override validate(): string[] | null {
+    const library = this.library;
     const errors: string[] = [];
     if (this.selector == null) throw Error('Selector missing, unable to validate.');
     // Validate Experience
@@ -196,13 +164,12 @@ export class InfantryUnit extends Unit<InfantryUnitSelector> {
     return base + perMan + options + weaponOptions;
   }
 
-  public override toStoredObject(): Record<string, any> {
+  public override toStoredObject(): IInfantryUnitModel {
     return {
       ...super.toStoredObject(),
       men: this.men,
       keyPersonWeaponId: this.keyPersonWeaponId,
-      generalWeaponIds: this.generalWeaponIds,
-      selectorId: this.selectorId
+      generalWeaponIds: this.generalWeaponIds
     };
   }
 

@@ -3,6 +3,8 @@ import { UnitType, UnitSubType } from "../units/unit-type.enum";
 
 export interface UnitRequirement {
 
+  id: string;
+
     /**
    * Enables the requirement slots to have a sub-header with a customised name rather than just a list of the available unit types
    * E.g. 'Platoon Commander'

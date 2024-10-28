@@ -1,7 +1,7 @@
-import { AfterViewInit, Component, NgZone, OnDestroy, OnInit, QueryList, signal, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, NgZone, OnDestroy, OnInit, QueryList, Signal, signal, ViewChildren } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { catchError, EMPTY, finalize, from, map, Subject, switchMap, takeUntil, tap } from 'rxjs';
-import { CommonModule, DecimalPipe } from '@angular/common';
+import { catchError, combineLatest, EMPTY, finalize, from, map, of, Subject, switchMap, takeUntil, tap } from 'rxjs';
+import { CommonModule } from '@angular/common';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatButtonModule } from '@angular/material/button';
@@ -12,22 +12,22 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { ConfirmationService } from '../../../app/services/confirmation.service';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { PlatoonSelectorRepositoryService } from '../../platoons/platoon-selector-repository.service';
 import { PlatoonSelector } from '../../platoons/platoon-selector.class';
 import { Platoon } from '../../platoons/platoon.class';
 import { PlatoonComponent } from '../../platoons/platoon/platoon.component';
 import { Army } from '../army.class';
 import { ArmyService } from '../army.service';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { UnitSelector } from '../../units/unit-selector.class';
-import { UnitSelectorRepositoryService } from '../../units/unit-selector-repository.service';
 import { IArmyInfo } from '../army-info.interface';
 import { FirestoreError } from 'firebase/firestore';
+import { Library } from '../../units/library.interface';
+import { generateGuid } from '../../../app/utilities/guid';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-army-root',
   standalone: true,
-  imports: [CommonModule, MatProgressBarModule, MatButtonModule, MatProgressSpinnerModule, MatIconModule, MatMenuModule, MatToolbarModule, MatTooltipModule, MatExpansionModule, PlatoonComponent, DragDropModule, DecimalPipe],
+  imports: [CommonModule, MatProgressBarModule, MatButtonModule, MatProgressSpinnerModule, MatIconModule, MatMenuModule, MatToolbarModule, MatTooltipModule, MatExpansionModule, PlatoonComponent, DragDropModule],
   templateUrl: './army-root.component.html',
   styleUrl: './army-root.component.scss'
 })
@@ -42,9 +42,27 @@ export class ArmyRootComponent implements OnInit, OnDestroy, AfterViewInit {
   pendingAdd = false;
 
   multiExpand = signal(false);
+  totalCost = toSignal(
+    // Convert platoons signal to an observable
+    toObservable(this.platoons).pipe(
+      // Switch to a new observable whenever platoons change
+      switchMap(platoons => {
+        if (platoons.length === 0) {
+          return of(0); // If no platoons, total cost is 0
+        }
+        // Map each platoon's cost$ observable
+        const costObservables = platoons.map(platoon => platoon.cost$);
+        // Combine the cost$ observables
+        return combineLatest(costObservables).pipe(
+          // Sum up the costs
+          map(costs => costs.reduce((sum, cost) => sum + cost, 0))
+        );
+      })
+    ),
+    { initialValue: 0 } // Provide an initial value
+  );
 
-  platoonSelectors: PlatoonSelector[] = [];
-  unitSelectors: UnitSelector[] = [];
+  library!: Library;
 
   private readonly _unsubscribeAll$ = new Subject<void>();
 
@@ -52,8 +70,6 @@ export class ArmyRootComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChildren('platoonPanel') expansionPanels!: QueryList<MatExpansionPanel>;
 
   constructor(private readonly _armyService: ArmyService,
-    private readonly _platoonSelectorService: PlatoonSelectorRepositoryService,
-    private readonly _unitSelectorService: UnitSelectorRepositoryService,
     private readonly _route: ActivatedRoute,
     private readonly _router: Router,
     private readonly _confirmationService: ConfirmationService,
@@ -78,8 +94,7 @@ export class ArmyRootComponent implements OnInit, OnDestroy, AfterViewInit {
       tap((armyInfo: IArmyInfo) => {
         this.army.set(armyInfo.army);
         this.platoons.set(armyInfo.platoons);
-        this.platoonSelectors = armyInfo.platoonSelectors;
-        this.unitSelectors = armyInfo.unitSelectors;
+        this.library = armyInfo.library;
       }),
       tap(r => this.loading.set(false)),
       takeUntil(this._unsubscribeAll$)
@@ -130,14 +145,18 @@ export class ArmyRootComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   addPlatoon(selector: PlatoonSelector) {
-    const newPlatoon = new Platoon({}, selector);
+    const newPlatoon = new Platoon({
+      selectorId: selector.id
+    }, this.library);
     this.platoons.update((platoons) => [...platoons, newPlatoon]);
     this.pendingAdd = true;
   }
 
   copyPlatoon(index: number) {
     const existingPlatoon = this.platoons()[index];
-    const newPlatoon = new Platoon(existingPlatoon, existingPlatoon.selector);
+    const model = existingPlatoon.toStoredObject();
+    model.id = generateGuid();
+    const newPlatoon = new Platoon(model, this.library);
 
     const updatedPlatoons = [...this.platoons()];
     updatedPlatoons.splice(index + 1, 0, newPlatoon);

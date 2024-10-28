@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { collection, doc, getDocs, writeBatch } from 'firebase/firestore';
-import { Army } from './army.class';
+import { Army, IArmyModel } from './army.class';
 import { firstValueFrom } from 'rxjs';
-import { Platoon } from '../platoons/platoon.class';
+import { IPlatoonModel, Platoon } from '../platoons/platoon.class';
 import { FirestoreBaseService } from '../../app/services/firestore-base-service.service';
 import { AuthService } from '../../user/auth.service';
 import { factionLibrary } from '../faction';
@@ -10,13 +10,14 @@ import { IArmyInfo } from './army-info.interface';
 import { PlatoonSelectorRepositoryService } from '../platoons/platoon-selector-repository.service';
 import { UnitSelectorRepositoryService } from '../units/unit-selector-repository.service';
 import { generateGuid } from '../../app/utilities/guid';
+import { Library } from '../units/library.interface';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ArmyService extends FirestoreBaseService<Army> {
+export class ArmyService extends FirestoreBaseService<IArmyModel> {
 
-  private readonly debug = true;
+  private readonly debug = false;
 
   constructor(
     private readonly _authService: AuthService,
@@ -33,25 +34,24 @@ export class ArmyService extends FirestoreBaseService<Army> {
     }
 
     const army = await this.get(armyId);
-    const platoons = await this.getPlatoonsForArmy(armyId);
-    const platoonSelectors = await firstValueFrom(this._platoonSelectorService.getPlatoonsForForceSelector(army.factionId));
-    const unitSelectors = await firstValueFrom(this._unitSelectorService.getUnitsForFaction(army.factionId));
+    const library = {
+      platoonSelectors: await firstValueFrom(this._platoonSelectorService.getPlatoonsForForceSelector(army.factionId)),
+      unitSelectors: await firstValueFrom(this._unitSelectorService.getUnitsForFaction(army.factionId)),
+      weapons: [],
+      specialRules: []
+    } as Library;
 
-    // Assign the selectors to platoons
-    platoons.forEach(platoon => platoon.assignSelector(platoonSelectors, unitSelectors, {
-      specialRules: [],
-      weapons: []
-    }));
+    const platoonModels = await this.getPlatoonsForArmy(armyId);
+    const platoons = platoonModels.map(p => new Platoon(p, library));
 
     return {
       army,
       platoons,
-      platoonSelectors,
-      unitSelectors
+      library
     };
   }
 
-  override async get(id: string): Promise<Army> {
+  async get(id: string): Promise<Army> {
     if (this.debug) {
       return new Army({
         id: generateGuid(),
@@ -62,27 +62,27 @@ export class ArmyService extends FirestoreBaseService<Army> {
       }, factionLibrary);
     }
 
-    const army = await super.get(id);
+    const army = await super.getModel(id);
     return new Army(army, factionLibrary);
   }
 
-  override async getAll(): Promise<Army[]> {
+  async getAll(): Promise<Army[]> {
     if (this.debug) {
       return [
-        await this.get('')
+        await this.get('test-id')
       ];
     }
 
-    const armies = await super.getAll();
+    const armies = await super.getAllModels();
     return armies.map(a => new Army(a, factionLibrary));
   }
 
-  async getPlatoonsForArmy(armyId: string): Promise<Platoon[]> {
+  private async getPlatoonsForArmy(armyId: string): Promise<IPlatoonModel[]> {
 
     if (this.debug) {
       return [
-          new Platoon({id: generateGuid(), selectorId: 'RIFL' })
-        ] as Platoon[];
+          {id: generateGuid(), selectorId: 'RIFL' }
+        ] as IPlatoonModel[];
     }
 
     try {
@@ -97,8 +97,8 @@ export class ArmyService extends FirestoreBaseService<Army> {
 
       // Map the Firestore documents to Platoon instances
       return snapshot.docs.map((doc) => {
-        const platoonData = doc.data();
-        return new Platoon({ ...platoonData, id: doc.id });
+        const platoonData = doc.data() as IPlatoonModel;
+        return { ...platoonData, id: doc.id };
       });
     } catch (error) {
       throw this.getFirestoreError(error);
@@ -135,6 +135,7 @@ export class ArmyService extends FirestoreBaseService<Army> {
       // Commit the batch operation to Firestore
       await batch.commit();
     } catch (error) {
+      console.error('Error saving platoons', platoons.map(p => p.toStoredObject()));
       throw this.getFirestoreError(error);
     }
   }

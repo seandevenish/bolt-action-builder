@@ -1,21 +1,26 @@
-<div class="p-4 w-full">
+<div class="p-5 w-full">
 
-<h2>{{unit.selector?.name}}</h2>
+<h2 class="font-semibold text-gray-800">{{unit.selector?.name}}</h2>
 
+<p class="text-sm text-gray-700">{{cost() | number}} Pts</p>
 
+<form [formGroup]="form" class="mt-5" (submit)="submit()">
 
-<form [formGroup]="form">
+  <div>
 
-  <ul class="grid w-full md:grid-cols-2 rounded">
-    <li *ngFor="let exp of unit.selector?.availableExperienceLevels">
-      <input type="radio" id="hosting-small" name="hosting" value="hosting-small" class="hidden peer" required formControlName="experience" />
-      <label for="hosting-small" class="inline-flex text-gray-500 bg-white border border-gray-200 cursor-pointer 
+  </div>
+
+  <div class="flex w-full border-gray-200 text-sm">
+    <div *ngFor="let exp of unit.selector?.availableExperienceLevels">
+      <input type="radio" [id]="exp" [value]="exp" class="hidden peer" required formControlName="experience" />
+      <label [for]="exp" class="p-3 py-1 text-gray-500 bg-white border border-gray-200 cursor-pointer 
         peer-checked:border-blue-600 peer-checked:text-blue-600 
         hover:text-gray-600 hover:bg-gray-100">
         {{exp}}
       </label>
-    </li>
-  </ul>
+    </div>
+  </div>
+
 
 
   <!-- <div class="inline-flex rounded-md shadow-sm" role="group">
@@ -31,5 +36,19 @@
       {{exp}}
     </button>
   </div> -->
+
+  <div class="w-full flex space-x-2">
+    <button type="button" class="btn-tertiary" (click)="delete()">
+      <mat-icon>delete</mat-icon>
+      Delete
+    </button>
+    <button type="submit" class="ml-auto btn-primary">
+      Save
+    </button>
+    <button type="button" class="btn-secondary" (click)="cancel()">
+      <!-- <mat-icon class="text-gray-500 mr-1">content_copy</mat-icon> -->
+      Cancel
+    </button>
+  </div>
 
 </form>

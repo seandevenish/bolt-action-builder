@@ -1,7 +1,7 @@
 <div class="max-w-screen-lg mx-auto px-4">
   <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 md:gap-4 lg:grid-cols-4">
     <div
-      *ngFor="let visualiser of visualiser.visualizers"
+      *ngFor="let visualiser of orchestrator.visualizers"
       [ngClass]="{
         '': visualiser.groupable,
         'col-span-full': !visualiser.groupable
@@ -19,13 +19,17 @@
 
         <!-- Render filled units as cards -->
         <ng-container *ngFor="let unit of visualiser.units()">
-          <button type="button" class="flex items-center w-full h-16 rounded bg-gray-800 border border-gray-600 px-3 shadow cursor-pointer" (click)="editUnit(unit)">
+          <button type="button" class="flex items-center w-full h-16 rounded bg-gray-800 border border-gray-600 px-3 shadow cursor-pointer" (click)="editUnit(visualiser, unit)">
             <div class="flex-1 overflow-hidden">
                 <div class="text-sm font-semibold text-gray-300 truncate w-full text-left mb-1">{{unit.selector!.name}}</div>
                 <div class="flex justify-between items-center">
                   <div>
-                    <span class="text-xs text-gray-300 mr-2">{{unit.men != null ? unit.men + ' ' + (unit.men == 1 ? 'man' : 'men' ) : 'Model'}}</span>
-                    <span class="text-xs text-gray-300 bg-gray-600 rounded-sm px-2 py-0.5">{{unit.experience}}</span>
+                    <span class="text-xs text-gray-300 mr-2">
+                      {{unit.men != null ? unit.men + ' ' + (unit.men == 1 ? 'man' : 'men') : 'Model'}}
+                    </span>
+                    <span class="text-xs text-gray-300 bg-gray-600 rounded-sm px-2 py-0.5">
+                      {{unit.experience}}
+                    </span>
                   </div>
                   <span class="text-sm text-gray-200">{{unit.cost | number}} Pts</span>
                 </div>
@@ -39,13 +43,13 @@
             <button #mandatoryButton
               *ngIf="slot.isMandatory; else optionalButton"
               color="primary"
-              class="w-full btn-primary h-16 shadow"
+              class="w-full h-16 btn bg-primary-50 text-primary-900 hover:bg-primary-100 hover:text-primary-800 shadow-lg"
               [matMenuTriggerFor]="unitMenu"
             >
-              Add Unit
+              <span>Add Unit</span><span class="text-red-500">*</span>
             </button>
             <ng-template #optionalButton>
-              <button color="primary" class="w-full h-16 btn bg-gray-100 hover:bg-gray-50 hover:text-primary-800 shadow" [matMenuTriggerFor]="unitMenu" >
+              <button color="primary" class="w-full h-16 btn bg-gray-100 hover:bg-gray-200 hover:text-primary-800 shadow-lg" [matMenuTriggerFor]="unitMenu" >
                 Add Unit <span *ngIf="slot.upToQty > 1">(+{{slot.upToQty}})</span>
               </button>
             </ng-template>
@@ -56,7 +60,7 @@
               *ngFor="let selector of visualiser.availableUnitSelectors"
               (click)="addUnit(visualiser, selector)"
             >
-              {{ selector.name }} <!-- Assuming each selector has a 'name' property -->
+              {{ selector.name }}
             </button>
           </mat-menu>
         </ng-container>

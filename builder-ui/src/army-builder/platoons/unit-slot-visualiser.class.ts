@@ -1,10 +1,11 @@
-import { BehaviorSubject, combineLatest, debounceTime, distinctUntilChanged, map, Observable, scan, share, startWith, Subject, tap } from "rxjs";
+import { BehaviorSubject, combineLatest, debounceTime, distinctUntilChanged, map, Observable, scan, share, shareReplay, startWith, Subject, tap } from "rxjs";
 import { UnitSelector } from "../units/unit-selector.class";
-import { IUnit } from "../units/unit.class";
 import { UnitRequirement } from "./unit-requirement.interface";
 import { toSignal } from '@angular/core/rxjs-interop';
 import { UnitType } from "../units/unit-type.enum";
 import { Signal } from "@angular/core";
+import { Library } from "../units/library.interface";
+import { Unit } from "../units/unit.class";
 
 export interface ISlot {
   isMandatory: boolean;
@@ -21,45 +22,52 @@ export class UnitSlotVisualiser {
   private readonly min: number | null;
   private readonly max: number | null | 'indeterminate';
 
-  private readonly unitActions$ = new Subject<{ action: 'add' | 'remove' | 'removeAll', units?: IUnit[] }>();
+  private readonly unitActions$ = new Subject<{ action: 'add' | 'remove' | 'removeAll', units?: Unit[] }>();
 
-  public readonly selectedUnits$ = this.unitActions$.pipe(
-    scan((currentUnits, { action, units }) => {
-      switch (action) {
-        case 'add':
-          return [...currentUnits, ...units!];
-        case 'remove':
-          return currentUnits.filter(u => !units!.some(removeUnit => removeUnit === u));
-        case 'removeAll':
-          return [];
-        default:
-          return currentUnits;
-      }
-    }, [] as IUnit[]),
-    startWith([] as IUnit[])
-  );
+  public readonly selectedUnits$: Observable<Unit[]>;
 
   private readonly remainingMandatorySlots$: Observable<number>;
   private readonly remainingOptionalSlots$: Observable<number>;
 
-  public readonly units: Signal<IUnit[] | undefined>;
+  public readonly units: Signal<Unit[] | undefined>;
   public readonly slots: Signal<any[] | undefined>;
 
   public updated$ = new Subject<UnitSlotVisualiser>();
 
-  constructor(requirement: UnitRequirement, unitSelectors: UnitSelector[]) {
+  constructor(requirement: UnitRequirement, units: Unit[], library: Library) {
     this.requirement = requirement;
     this.title = this.calculateTitle(requirement);
     this.min = this.calculateMin(requirement);
     this.max = this.calculateMax(requirement);
     this.groupable = this.max == 1;
     const { types, subTypes, excludeSubTypes } = this.requirement;
-    this.availableUnitSelectors = unitSelectors.filter(s => {
+    this.availableUnitSelectors = library.unitSelectors.filter(s => {
       if (!types.includes(s.unitType)) return false;
       if (subTypes && s.subType && !subTypes.includes(s.subType)) return false;
       if (excludeSubTypes && s.subType && excludeSubTypes.includes(s.subType)) return false;
       return true;
     });
+
+    // Seed the scan operator with initial units
+    this.selectedUnits$ = this.unitActions$.pipe(
+      startWith({ action: 'init', units }),
+      scan((currentUnits, { action, units: actionUnits }) => {
+        switch (action) {
+          case 'init':
+            return actionUnits || [];
+          case 'add':
+            return [...currentUnits, ...(actionUnits || [])];
+          case 'remove':
+            return currentUnits.filter(u => !(actionUnits || []).includes(u));
+          case 'removeAll':
+            return [];
+          default:
+            return currentUnits;
+        }
+      }, units),
+      shareReplay(1)
+    );
+    
     this.remainingMandatorySlots$ = this.selectedUnits$.pipe(
       map(m => Math.max((this.min ?? 0) - m.length, 0)),
       distinctUntilChanged(),
@@ -95,7 +103,7 @@ export class UnitSlotVisualiser {
    * Adds a selected unit to the visualizer.
    * @param unit The unit to add.
    */
-  addUnit(unit: IUnit): void {
+  addUnit(unit: Unit): void {
     this.addUnits([unit]);
   }
 
@@ -103,7 +111,8 @@ export class UnitSlotVisualiser {
    * Adds multiple units to the visualizer in a single update.
    * @param units The array of units to add.
    */
-  addUnits(units: IUnit[]): void {
+  addUnits(units: Unit[]): void {
+    units.forEach(u => u.slotId = this.requirement.id);
     this.unitActions$.next({ action: 'add', units });
     this.updated$.next(this);
   }
@@ -112,7 +121,7 @@ export class UnitSlotVisualiser {
    * Removes a selected unit from the visualizer.
    * @param unit The unit to remove.
    */
-  removeUnit(unit: IUnit): void {
+  removeUnit(unit: Unit): void {
     this.unitActions$.next({ action: 'remove', units: [unit] });
     this.updated$.next(this);
   }
@@ -152,16 +161,6 @@ export class UnitSlotVisualiser {
   private calculateMin(requirement: UnitRequirement) : number | null {
     if (requirement.min != null) return requirement.min;
     return null;
-  }
-
-  private initializeSlotCalculations(): void {
-    // Initialize remaining slots
-
-  }
-
-  private initializeSignals(): void {
-    // Initialize units and slots signals after remaining slots are set
-
   }
 
 }

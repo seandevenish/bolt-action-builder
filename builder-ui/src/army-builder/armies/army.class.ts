@@ -2,7 +2,17 @@ import { IFirestoreStorable } from "../../app/services/firestore-base-service.se
 import { generateGuid } from "../../app/utilities/guid";
 import { Faction } from "../faction";
 
-export class Army implements IFirestoreStorable {
+export interface IArmyModel extends IFirestoreStorable {
+  id: string;
+  name: string;
+  description?: string;
+  factionId: string;
+  createdDate?: Date;
+  modifiedDate?: Date;
+  points: number;
+}
+
+export class Army {
   id: string;
   name: string;
   description?: string;
@@ -10,9 +20,9 @@ export class Army implements IFirestoreStorable {
   faction?: Faction;
   createdDate?: Date;
   modifiedDate?: Date;
-  points: number = 1000;
+  points: number = 0;
 
-  constructor(data: { name: string; factionId: string } & Partial<Army>, factionLibrary?: Faction[]) {
+  constructor(data: { name: string; factionId: string } & Partial<IArmyModel>, factionLibrary?: Faction[]) {
     const newId = !data.id;
     this.id = data.id ? data.id : generateGuid();
     this.name = data.name;
@@ -34,7 +44,7 @@ export class Army implements IFirestoreStorable {
     this.faction = factionLibrary.find((f) => f.id === this.factionId);
   }
 
-  toStoredObject(): Record<string, any> {
+  toStoredObject(): IArmyModel {
     return {
       id: this.id,
       name: this.name,
