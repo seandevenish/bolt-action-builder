@@ -76,7 +76,7 @@ export class PlatoonComponent implements OnInit, OnDestroy {
     dialogRef
       .afterClosed()
       .subscribe((result: any|undefined) => {
-        if (result.action === 'Delete') {
+        if (result?.action === 'Delete') {
           visualiser.removeUnit(unit);
           return;
         }

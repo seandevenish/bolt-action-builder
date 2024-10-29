@@ -9,22 +9,16 @@
   <div class="inline-flex shadow rounded text-sm">
     <div class="inline-block" *ngFor="let exp of unit.selector?.availableExperienceLevels; let i = index">
       <input type="radio" [id]="exp" [value]="exp" class="hidden peer" required formControlName="experience" />
-      <label [for]="exp" class="inline-block p-2.5 text-gray-500 bg-white border border-gray-200 cursor-pointer 
-        peer-checked:border-blue-600 peer-checked:text-blue-600 
-        hover:text-gray-600 hover:bg-gray-100"
+      <label [for]="exp" class="text-xs inline-block py-1 px-2.5 text-gray-500 bg-white border border-gray-200 cursor-pointer 
+        peer-checked:bg-gray-600 peer-checked:text-gray-300 
+        hover:text-gray-700 hover:bg-gray-100"
         [ngClass]="{
-          'rounded-l': i === 0,
-          'rounded-r': i === (unit.selector.availableExperienceLevels.length - 1)
+          'rounded-l-sm': i === 0,
+          'rounded-r-sm': i === (unit.selector.availableExperienceLevels.length - 1)
         }">
         {{exp}}
       </label>
     </div>
-  </div>
-
-  <div>
-    <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Friendly Name</label>
-    <input type="text" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" 
-      placeholder="Enter custom name..." required />
   </div>
 
   <!-- Infantry-specific controls -->

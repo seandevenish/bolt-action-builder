@@ -144,12 +144,14 @@ export class UnitSlotVisualiser {
       return requirement.requirementName;
     }
 
+    const plural = requirement.max == null || requirement.max > 1;
+
     if (firstType && UnitType.hasOwnProperty(firstType)) {
-      return UnitType[firstType as keyof typeof UnitType]; // Return the value associated with the key
+      return UnitType[firstType as keyof typeof UnitType] + (plural ? 's' : ''); // Return the value associated with the key
     }
 
     if (firstType && Object.values(UnitType).includes(firstType)) {
-      return firstType;
+      return firstType + (plural ? 's' : '');
     }
 
     return 'Unknown Type';

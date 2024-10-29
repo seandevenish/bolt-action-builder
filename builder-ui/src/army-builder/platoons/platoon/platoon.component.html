@@ -1,4 +1,4 @@
-<div class="max-w-screen-lg mx-auto px-4">
+<div class="max-w-screen-lg min-w-md mx-auto px-4">
   <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 md:gap-4 lg:grid-cols-4">
     <div
       *ngFor="let visualiser of orchestrator.visualizers"
@@ -8,7 +8,7 @@
       }"
     >
       <!-- Display the header for the requirement -->
-      <div class="text-sm font-semibold !text-gray-600 mb-2">
+      <div class="text-sm font-semibold !text-gray-600 mb-2 mt-4">
         {{ visualiser.title }}
       </div>
 
@@ -19,7 +19,8 @@
 
         <!-- Render filled units as cards -->
         <ng-container *ngFor="let unit of visualiser.units()">
-          <button type="button" class="flex items-center w-full h-16 rounded bg-gray-800 border border-gray-600 px-3 shadow-lg cursor-pointer" (click)="editUnit(visualiser, unit)">
+          <button type="button" class="flex items-center w-full h-16 rounded bg-gray-800 border border-gray-600 px-3 shadow-lg cursor-pointer hover:bg-gray-900" 
+            (click)="editUnit(visualiser, unit)">
             <div class="flex-1 overflow-hidden">
                 <div class="text-sm font-semibold text-gray-300 truncate w-full text-left mb-1">{{unit.selector!.name}}</div>
                 <div class="flex justify-between items-center">
