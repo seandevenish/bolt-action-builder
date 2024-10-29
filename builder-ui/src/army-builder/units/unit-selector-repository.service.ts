@@ -19,7 +19,7 @@ export class UnitSelectorRepositoryService {
    * @param faction The faction name to load specific unit selectors for.
    * @returns An Observable of UnitSelector[] combining core and faction-specific unit selectors.
    */
-  getUnitsForFaction(faction: string): Observable<UnitSelector[]> {
+  getUnitsForFaction(faction: string, forceSelectorId: string): Observable<UnitSelector[]> {
     const factionUrl = `${this.factionConfigUrlTemplate}/${faction.toLowerCase()}`;
     const infantryUrl = `${factionUrl}/${faction.toLowerCase()}-infantry-units.json`;
     const vehicleUrl = `${factionUrl}/${faction.toLowerCase()}-vehicle-units.json`;

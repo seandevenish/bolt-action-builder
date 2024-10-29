@@ -1,4 +1,4 @@
-<div class="flex items-center" *ngIf="army() != null && !loading()">
+<div class="flex items-center" *ngIf="army() && !loading()">
 
   <div class="flex items-center ml-auto gap-2">
 
@@ -42,7 +42,7 @@
 </div>
 
 <div class="flex items-center mt-4">
-  <h1 class="mb-0 text-md font-semibold text-truncate">{{army()!.name}}</h1>
+  <h1 class="mb-0 text-md font-semibold text-truncate">{{army()?.name}}</h1>
   <p class="ml-auto text-gray-700 font-semibold text-sm">{{ totalCost() | number}} Pts</p>
 </div>
 

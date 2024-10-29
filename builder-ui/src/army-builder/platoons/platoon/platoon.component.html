@@ -19,7 +19,7 @@
 
         <!-- Render filled units as cards -->
         <ng-container *ngFor="let unit of visualiser.units()">
-          <button type="button" class="flex items-center w-full h-16 rounded bg-gray-800 border border-gray-600 px-3 shadow cursor-pointer" (click)="editUnit(visualiser, unit)">
+          <button type="button" class="flex items-center w-full h-16 rounded bg-gray-800 border border-gray-600 px-3 shadow-lg cursor-pointer" (click)="editUnit(visualiser, unit)">
             <div class="flex-1 overflow-hidden">
                 <div class="text-sm font-semibold text-gray-300 truncate w-full text-left mb-1">{{unit.selector!.name}}</div>
                 <div class="flex justify-between items-center">

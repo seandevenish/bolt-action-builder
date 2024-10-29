@@ -11,18 +11,22 @@ import { PlatoonSelectorRepositoryService } from '../platoons/platoon-selector-r
 import { UnitSelectorRepositoryService } from '../units/unit-selector-repository.service';
 import { generateGuid } from '../../app/utilities/guid';
 import { Library } from '../units/library.interface';
+import { Experience } from '../units/experience.enum';
+import { IUnitModel } from '../units/unit.class';
+import { WeaponRepositoryService } from '../weapons/weapon-repository.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ArmyService extends FirestoreBaseService<IArmyModel> {
 
-  private readonly debug = false;
+  private readonly debug = true;
 
   constructor(
     private readonly _authService: AuthService,
     private readonly _platoonSelectorService: PlatoonSelectorRepositoryService,
-    private readonly _unitSelectorService: UnitSelectorRepositoryService
+    private readonly _unitSelectorService: UnitSelectorRepositoryService,
+    private readonly _weaponService: WeaponRepositoryService
   ) {
     super('armies');
   }
@@ -35,9 +39,9 @@ export class ArmyService extends FirestoreBaseService<IArmyModel> {
 
     const army = await this.get(armyId);
     const library = {
-      platoonSelectors: await firstValueFrom(this._platoonSelectorService.getPlatoonsForForceSelector(army.factionId)),
-      unitSelectors: await firstValueFrom(this._unitSelectorService.getUnitsForFaction(army.factionId)),
-      weapons: [],
+      platoonSelectors: await firstValueFrom(this._platoonSelectorService.getPlatoonsForForceSelector(army.factionId, army.forceSelectorId)),
+      unitSelectors: await firstValueFrom(this._unitSelectorService.getUnitsForFaction(army.factionId, army.forceSelectorId)),
+      weapons: await firstValueFrom(this._weaponService.getWeapons()),
       specialRules: []
     } as Library;
 
@@ -81,7 +85,20 @@ export class ArmyService extends FirestoreBaseService<IArmyModel> {
 
     if (this.debug) {
       return [
-          {id: generateGuid(), selectorId: 'RIFL' }
+          {
+            id: generateGuid(), 
+            selectorId: 'RIFL', 
+            units: [
+              {
+                selectorId: 'US_PLT_COM',
+                slotId: 'Officer',
+                men: 1,
+                cost: 30,
+                experience: Experience.Regular,
+                options: []
+              }
+            ] as any as IUnitModel[]
+          }
         ] as IPlatoonModel[];
     }
 

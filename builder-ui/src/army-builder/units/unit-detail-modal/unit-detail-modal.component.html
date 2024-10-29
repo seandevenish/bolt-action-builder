@@ -4,51 +4,79 @@
 
 <p class="text-sm text-gray-700">{{cost() | number}} Pts</p>
 
-<form [formGroup]="form" class="mt-5" (submit)="submit()">
+<form [formGroup]="form" class="mt-3 max-w-md space-y-3" (submit)="submit()">
 
-  <div>
-
-  </div>
-
-  <div class="flex w-full border-gray-200 text-sm">
-    <div *ngFor="let exp of unit.selector?.availableExperienceLevels">
+  <div class="inline-flex shadow rounded text-sm">
+    <div class="inline-block" *ngFor="let exp of unit.selector?.availableExperienceLevels; let i = index">
       <input type="radio" [id]="exp" [value]="exp" class="hidden peer" required formControlName="experience" />
-      <label [for]="exp" class="p-3 py-1 text-gray-500 bg-white border border-gray-200 cursor-pointer 
+      <label [for]="exp" class="inline-block p-2.5 text-gray-500 bg-white border border-gray-200 cursor-pointer 
         peer-checked:border-blue-600 peer-checked:text-blue-600 
-        hover:text-gray-600 hover:bg-gray-100">
+        hover:text-gray-600 hover:bg-gray-100"
+        [ngClass]="{
+          'rounded-l': i === 0,
+          'rounded-r': i === (unit.selector.availableExperienceLevels.length - 1)
+        }">
         {{exp}}
       </label>
     </div>
   </div>
 
+  <div>
+    <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Friendly Name</label>
+    <input type="text" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" 
+      placeholder="Enter custom name..." required />
+  </div>
 
+  <!-- Infantry-specific controls -->
+  <ng-container *ngIf="infantryUnitSelector && infantryUnit">
+    <!-- Number of Men Selection -->
+    <div class="mx-w-xs">
+      <label for="men" class="block mb-2 text-sm font-medium text-gray-900">Number of Men</label>
+      <select id="men" formControlName="men" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+        <option *ngFor="let men of [].constructor(infantryUnitSelector.maxMen - infantryUnitSelector.baseMen + 1); let i = index" 
+          [value]="infantryUnitSelector.baseMen + i">
+          {{ infantryUnitSelector.baseMen + i }}
+        </option>
+      </select>
+      <p id="helper-text-explanation" class="mt-1 text-sm text-gray-500">{{ infantryUnitSelector.costPerMan[experience] | number }} pts per man</p> 
+    </div>
 
-  <!-- <div class="inline-flex rounded-md shadow-sm" role="group">
-    <button *ngFor="let exp of unit.selector?.availableExperienceLevels"
-      type="button"
-      class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-s-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-white"
-      [ngClass]="{
-        'bg-primary-500 text-white border-primary-500': form.get('experience')?.value === exp,
-        'bg-white text-gray-800 border-gray-300': form.get('experience')?.value !== exp
-      }"
-      (click)="form.get('experience')?.setValue(exp)"
-    >
-      {{exp}}
-    </button>
-  </div> -->
+    <!-- Key Person Weapon Option -->
+    <h3 class="font-semibold text-gray-800 mt-5">Weapons</h3>
 
-  <div class="w-full flex space-x-2">
+    <div *ngIf="infantryUnit.keyPersonWeaponOptions">
+
+      <div>
+        <label for="men" class="block mb-2 text-sm font-medium text-gray-900">{{infantryUnitSelector.keyPerson}} Weapon</label>
+        <select id="men" formControlName="keyPersonWeaponId"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+          <option [value]="null">Default</option>
+          <option *ngFor="let option of infantryUnit.keyPersonWeaponOptions" 
+            [value]="option.weaponId">
+            {{ option.description ?? option.weapon.name }} ({{option.cost}} Pts)
+          </option>
+        </select>
+      </div>
+    </div>
+    
+  </ng-container>
+ 
+  <div class="w-full flex justify-between items-center mt-10">
+    <!-- Left-aligned Delete button -->
     <button type="button" class="btn-tertiary" (click)="delete()">
       <mat-icon>delete</mat-icon>
       Delete
     </button>
-    <button type="submit" class="ml-auto btn-primary">
-      Save
-    </button>
-    <button type="button" class="btn-secondary" (click)="cancel()">
-      <!-- <mat-icon class="text-gray-500 mr-1">content_copy</mat-icon> -->
-      Cancel
-    </button>
-  </div>
+  
+    <!-- Right-aligned Save and Cancel buttons -->
+    <div class="flex space-x-2">
+      <button type="submit" class="btn-primary">
+        Save
+      </button>
+      <button type="button" class="btn-secondary" (click)="cancel()">
+        Cancel
+      </button>
+    </div>
+  </div>  
 
 </form>

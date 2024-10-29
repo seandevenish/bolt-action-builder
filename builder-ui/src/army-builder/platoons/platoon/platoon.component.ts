@@ -11,7 +11,7 @@ import { Unit } from '../../units/unit.class';
 import { UnitFactory } from "../../units/unit-factory";
 import { MatDialog } from '@angular/material/dialog';
 import { UnitDetailModalComponent } from '../../units/unit-detail-modal/unit-detail-modal.component';
-import { Subject, takeUntil, tap } from 'rxjs';
+import { combineLatest, concat, merge, Subject, takeUntil, tap } from 'rxjs';
 import { Library } from '../../units/library.interface';
 
 @Component({
@@ -44,8 +44,12 @@ export class PlatoonComponent implements OnInit, OnDestroy {
         this.library
       );
 
-      this.orchestrator.allUnits$.pipe(
-        tap(u => this.platoon.updateUnits(u as Unit[])),
+      combineLatest({
+        all: this.orchestrator.allUnits$,
+        updated: merge(this.orchestrator.visualizers.map(v => v.updated$))
+      })
+      .pipe(
+        tap(u => this.platoon.updateUnits(u.all as Unit[])),
         takeUntil(this._unsubscribeAll$)
       ).subscribe();
     });

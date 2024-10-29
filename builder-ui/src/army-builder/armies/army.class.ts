@@ -7,6 +7,7 @@ export interface IArmyModel extends IFirestoreStorable {
   name: string;
   description?: string;
   factionId: string;
+  forceSelectorId: string;
   createdDate?: Date;
   modifiedDate?: Date;
   points: number;
@@ -18,6 +19,7 @@ export class Army {
   description?: string;
   factionId: string;
   faction?: Faction;
+  forceSelectorId: string;
   createdDate?: Date;
   modifiedDate?: Date;
   points: number = 0;
@@ -27,6 +29,7 @@ export class Army {
     this.id = data.id ? data.id : generateGuid();
     this.name = data.name;
     this.factionId = data.factionId;
+    this.forceSelectorId = data.forceSelectorId ?? 'Generic';
     this.createdDate = data.createdDate;
     this.modifiedDate = data.modifiedDate;
     this.update(data);
@@ -50,6 +53,7 @@ export class Army {
       name: this.name,
       description: this.description,
       factionId: this.factionId,
+      forceSelectorId: this.forceSelectorId,
       createdDate: this.createdDate ?? new Date(),
       modifiedDate: new Date(),
       points: this.points

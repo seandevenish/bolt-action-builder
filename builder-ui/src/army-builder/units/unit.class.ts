@@ -1,8 +1,10 @@
+import { Subject } from "rxjs";
 import { IFirestoreStorable } from "../../app/services/firestore-base-service.service";
 import { SpecialRule } from "../special-rules/special-rule.interface";
 import { Experience } from "./experience.enum";
 import { Library } from "./library.interface";
-import { InfantryUnitSelector, UnitSelector } from "./unit-selector.class";
+import { IInfantryWeaponOption, InfantryUnitSelector, UnitSelector } from "./unit-selector.class";
+import { Weapon } from "../weapons/weapon.interface";
 
 export interface IUnitModel extends IFirestoreStorable {
   selectorId: string;
@@ -28,6 +30,8 @@ export abstract class Unit<TSelector extends UnitSelector = UnitSelector> {
 
   selector: TSelector;
   library: Library;
+
+  updated$ = new Subject<void>();
 
   get title() {
     return this.selector
@@ -89,19 +93,29 @@ export abstract class Unit<TSelector extends UnitSelector = UnitSelector> {
     this._errors = this.validate();
     this._cost = this.calculateCost();
     this._specialRules = this.calculateSpecialRules();
+    this.updated$.next();
   }
 }
 
 export class InfantryUnit extends Unit<InfantryUnitSelector> {
   override men: number;
   keyPersonWeaponId: string | null = null;
+  get keyPersonWeapon() {
+    return this.library.weapons.find(w => w.id == this.keyPersonWeaponId) ?? null;
+  }
   generalWeaponIds: Record<string, number> = {};
+
+  keyPersonWeaponOptions: (IInfantryWeaponOption|any)[];
 
   constructor(data: IInfantryUnitModel, library: Library) {
     super(data, library);
     this.men = data.men;
     if (data.keyPersonWeaponId) this.keyPersonWeaponId = data.keyPersonWeaponId;
     if (data.generalWeaponIds) this.generalWeaponIds = data.generalWeaponIds;
+    this.keyPersonWeaponOptions = this.selector.keyPersonWeaponOptions.map(o => ({
+      ...o,
+      weapon: library.weapons.find(w => w.id ==  o.weaponId)
+    }));
     this.refresh();
   }
 
@@ -116,7 +130,7 @@ export class InfantryUnit extends Unit<InfantryUnitSelector> {
     if (this.men > this.selector.maxMen) errors.push(`You cannot have more than ${this.selector.maxMen} men in this unit.`)
     if (this.men < this.selector.baseMen) errors.push(`You cannot have less than ${this.selector.baseMen} men in this unit.`)
     // Validate Key Person Weapon Options
-    if (!!this.keyPersonWeaponId && !this.selector.keyPersonWeaponOptions.map(o => o.weaponId).some(i => i == this.keyPersonWeaponId))
+    if (!!this.keyPersonWeapon && !this.selector.keyPersonWeaponOptions.map(o => o.weaponId).some(i => i == this.keyPersonWeapon!.id))
       errors.push(`Invalid weapon choice for ${this.selector.keyPerson}`);
     // Validate Weapon Options
     const nonKeyPersonMen = this.men - 1;
@@ -157,18 +171,19 @@ export class InfantryUnit extends Unit<InfantryUnitSelector> {
       if (!selected) return v;
       return v + (o.costPerMan ?? 0) * this.men + (o.cost ?? 0);
     }, 0);
+    const keyPersonWeapon = this.selector.keyPersonWeaponOptions.find(o => o.weaponId == this.keyPersonWeapon?.id)?.cost ?? 0;
     const weaponOptions = this.selector.generalWeaponOptions.reduce((v, o) => {
       const qty = this.generalWeaponIds?.[o.weaponId] ?? 0;
       return v + (qty * o.cost);
     }, 0);
-    return base + perMan + options + weaponOptions;
+    return base + perMan + options + keyPersonWeapon + weaponOptions;
   }
 
   public override toStoredObject(): IInfantryUnitModel {
     return {
       ...super.toStoredObject(),
       men: this.men,
-      keyPersonWeaponId: this.keyPersonWeaponId,
+      keyPersonWeaponId: this.keyPersonWeaponId ?? null,
       generalWeaponIds: this.generalWeaponIds
     };
   }

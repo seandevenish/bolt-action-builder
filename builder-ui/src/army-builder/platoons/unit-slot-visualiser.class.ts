@@ -32,7 +32,10 @@ export class UnitSlotVisualiser {
   public readonly units: Signal<Unit[] | undefined>;
   public readonly slots: Signal<any[] | undefined>;
 
-  public updated$ = new Subject<UnitSlotVisualiser>();
+  private _updated$ = new Subject<UnitSlotVisualiser>();
+  public updated$ = this._updated$.asObservable();
+
+  //todo: subscribe to update$ on units in visualiser
 
   constructor(requirement: UnitRequirement, units: Unit[], library: Library) {
     this.requirement = requirement;
@@ -114,7 +117,7 @@ export class UnitSlotVisualiser {
   addUnits(units: Unit[]): void {
     units.forEach(u => u.slotId = this.requirement.id);
     this.unitActions$.next({ action: 'add', units });
-    this.updated$.next(this);
+    this._updated$.next(this);
   }
 
   /**
@@ -123,7 +126,7 @@ export class UnitSlotVisualiser {
    */
   removeUnit(unit: Unit): void {
     this.unitActions$.next({ action: 'remove', units: [unit] });
-    this.updated$.next(this);
+    this._updated$.next(this);
   }
 
   /**
@@ -131,7 +134,7 @@ export class UnitSlotVisualiser {
    */
   removeAllUnits(): void {
     this.unitActions$.next({ action: 'removeAll' });
-    this.updated$.next(this);
+    this._updated$.next(this);
   }
 
   private calculateTitle(requirement: UnitRequirement) {
