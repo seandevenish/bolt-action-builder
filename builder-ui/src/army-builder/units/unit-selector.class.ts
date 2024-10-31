@@ -1,11 +1,14 @@
 import { UnitType, UnitSubType } from './unit-type.enum';
 import { Experience } from "./experience.enum";
-import { InfantryUnit } from './unit.class';
+import { SpecialRule } from '../special-rules/special-rule.interface';
+import { Library } from './library.interface';
+import { Weapon } from '../weapons/weapon.interface';
 
 export interface IGeneralOptionSelector {
   id: string;
   description: string;
   specialRuleId?: string; // This option adds a rule
+  specialRule?: SpecialRule;
   adjustMen?: number; // This option increases or decreases (negative) the number of men in the unit
   cost?: number; // This option has a specific cost
   costPerMan?: number;
@@ -14,7 +17,8 @@ export interface IGeneralOptionSelector {
 
 export interface IInfantryWeaponOption {
   weaponId: string;
-  description: string;
+  weapon?: Weapon;
+  description: string | null;
   max: number;
   cost: number;
 }
@@ -55,6 +59,10 @@ export class UnitSelector {
     this.specialRuleIds = data.specialRuleIds ?? [];
     this.options = data.options || [];
   }
+
+  public enrich(library: Library): void {
+    this.options.forEach(o => o.specialRule = library.specialRules.find(r => r.id == o.specialRuleId));
+  }
 }
 
 export class InfantryUnitSelector extends UnitSelector {
@@ -91,6 +99,15 @@ export class InfantryUnitSelector extends UnitSelector {
     this.costPerMan = data.costPerMan;
     this.baseMen = data.baseMen;
     this.maxMen = data.maxMen;
+  }
+
+  public override enrich(library: Library): void {
+    super.enrich(library);
+    const options = [
+      ...this.keyPersonWeaponOptions,
+      ...this.generalWeaponOptions
+    ];
+    options.forEach(o => o.weapon = library.weapons.find(w => w.id == o.weaponId));
   }
 
 }

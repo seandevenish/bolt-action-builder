@@ -1,7 +1,8 @@
+import { IInfantryWeaponOption } from './../unit-selector.class';
 import { Component, Inject, signal, WritableSignal, Signal, computed } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Subject, takeUntil, tap } from 'rxjs';
+import { max, Subject, takeUntil, tap } from 'rxjs';
 import { ArmyFormComponent } from '../../armies/army-form/army-form.component';
 import { InfantryUnit, Unit } from '../unit.class';
 import { UnitFactory } from "../unit-factory";

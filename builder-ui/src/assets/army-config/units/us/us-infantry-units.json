@@ -28,7 +28,6 @@
         "generalWeaponOptions": [
           {
             "weaponId": "SMG",
-            "description": "Rifle",
             "max": 2,
             "cost": 0
           },
@@ -74,7 +73,6 @@
         "generalWeaponOptions": [
           {
             "weaponId": "SMG",
-            "description": "Rifle",
             "max": 2,
             "cost": 0
           },
@@ -265,4 +263,3 @@
       }
     ]
   }
-  

@@ -20,7 +20,7 @@ import { WeaponRepositoryService } from '../weapons/weapon-repository.service';
 })
 export class ArmyService extends FirestoreBaseService<IArmyModel> {
 
-  private readonly debug = true;
+  private readonly debug = false;
 
   constructor(
     private readonly _authService: AuthService,
@@ -44,6 +44,7 @@ export class ArmyService extends FirestoreBaseService<IArmyModel> {
       weapons: await firstValueFrom(this._weaponService.getWeapons()),
       specialRules: []
     } as Library;
+    library.unitSelectors.forEach(u => u.enrich(library));
 
     const platoonModels = await this.getPlatoonsForArmy(armyId);
     const platoons = platoonModels.map(p => new Platoon(p, library));
@@ -86,8 +87,8 @@ export class ArmyService extends FirestoreBaseService<IArmyModel> {
     if (this.debug) {
       return [
           {
-            id: generateGuid(), 
-            selectorId: 'RIFL', 
+            id: generateGuid(),
+            selectorId: 'RIFL',
             units: [
               {
                 selectorId: 'US_PLT_COM',

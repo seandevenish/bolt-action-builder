@@ -5,7 +5,7 @@ import { generateGuid } from "../../app/utilities/guid";
 import { UnitSelector } from "../units/unit-selector.class";
 import { IUnitModel } from "../units/unit.class";
 import { PlatoonSelector } from "./platoon-selector.class";
-import { BehaviorSubject, map, Observable } from 'rxjs';
+import { BehaviorSubject, map, merge, Observable, switchMap } from 'rxjs';
 import { IFirestoreStorable } from '../../app/services/firestore-base-service.service';
 
 export interface IPlatoonModel extends IFirestoreStorable {
@@ -37,7 +37,14 @@ export class Platoon {
     const units = this.buildUnits(data.units ?? [], library);
     this.units$ = new BehaviorSubject(units);
     this.cost$ = this.units$.pipe(
-      map(unitsArray => unitsArray.reduce((total, unit) => total + unit.cost, 0))
+      switchMap(unitsArray =>
+        merge(
+          ...unitsArray.map(unit => unit.updated$), // Observes each unit's updated$
+          this.units$ // Observes changes to the units array
+        ).pipe(
+          map(() => unitsArray.reduce((total, unit) => total + unit.cost, 0))
+        )
+      )
     );
   }
 
@@ -58,7 +65,7 @@ export class Platoon {
       id: this.id,
       selectorId: this.selector.id,
       platoonName: this.platoonName ?? null,
-      units: this.units$.getValue().map(u => u.toStoredObject()) as IUnitModel[] // todo: 'UnitModel'
+      units: this.units$.getValue().map(u => u.toStoredObject())
     };
   }
 }
