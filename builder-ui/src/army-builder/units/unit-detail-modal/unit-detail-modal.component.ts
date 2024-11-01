@@ -1,4 +1,4 @@
-import { IInfantryWeaponOption } from './../unit-selector.class';
+import { IGeneralOptionSelector, IInfantryWeaponOption } from './../unit-selector.class';
 import { Component, Inject, signal, WritableSignal, Signal, computed } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -58,16 +58,20 @@ export class UnitDetailModalComponent {
       description: [null, [Validators.maxLength(1024)]]
     })
 
+    if (this.selector.options?.length) {
+      this.initialiseGeneralOptionControls(this.selector.options);
+    }
+
     if (this.isInfantry) {
       this.initializeInfantryUnitFormControls();
     }
-    this.form.patchValue(data.unit);
+    this.form.patchValue(this.toForm(data.unit));
   }
 
   ngOnInit(): void {
     this.form.valueChanges.pipe(
       tap(v => {
-        Object.assign(this._unsavedUnit, v);
+        this.assignFormToUnit(v, this._unsavedUnit)
         this._unsavedUnit.refresh();
         this.cost.set(this._unsavedUnit.cost);
       }),
@@ -82,7 +86,7 @@ export class UnitDetailModalComponent {
 
   submit() {
     if (this.form.invalid) return;
-    Object.assign(this.unit, this.form.value);
+    this.assignFormToUnit(this.form.value, this.unit);
     this.unit.refresh();
     this.dialogRef.close({
       action: 'Saved',
@@ -98,6 +102,40 @@ export class UnitDetailModalComponent {
 
   cancel(): void {
     this.dialogRef.close(null);
+  }
+
+  private initialiseGeneralOptionControls(options: IGeneralOptionSelector[]) {
+    // Create form group for general options
+    const optionsGroup = this._formBuilder.group({});
+
+    // Add control for each option
+    options.forEach(option => {
+      optionsGroup.addControl(option.id, this._formBuilder.control(
+        this.unit.optionIds.includes(option.id)
+      ));
+    });
+
+    // Add options form group to main form
+    this.form.addControl('optionIds', optionsGroup);
+  }
+
+  private toForm(unit: Unit): any {
+    const unitForm = {...unit} as any;
+    unitForm.optionIds = {};
+    unit.optionIds?.forEach(i => {
+      unitForm.optionIds[i] = true;
+    })
+    return unitForm;
+  }
+
+  private assignFormToUnit(formValue: any, unit: Unit) {
+    const newValue = {
+      ...formValue,
+      optionIds: Object.entries(formValue.optionIds)
+      .filter(([_, value]) => value === true)
+      .map(([key]) => key)
+    }
+    Object.assign(unit, newValue);
   }
 
   /** Private method to initialize infantry-specific form controls */

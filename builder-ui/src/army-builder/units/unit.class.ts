@@ -4,14 +4,13 @@ import { SpecialRule } from "../special-rules/special-rule.interface";
 import { Experience } from "./experience.enum";
 import { Library } from "./library.interface";
 import { IInfantryWeaponOption, InfantryUnitSelector, UnitSelector } from "./unit-selector.class";
-import { Weapon } from "../weapons/weapon.interface";
 
 export interface IUnitModel extends IFirestoreStorable {
   selectorId: string;
   slotId: string;
   cost: number;
   experience: Experience;
-  options: string[];
+  optionIds: string[];
 }
 
 export interface IInfantryUnitModel extends IUnitModel {
@@ -25,7 +24,7 @@ export abstract class Unit<TSelector extends UnitSelector = UnitSelector> {
   readonly selectorId: string;
   slotId: string;
   experience: Experience;
-  options: string[];
+  optionIds: string[];
   men?: number;
 
   selector: TSelector;
@@ -50,12 +49,11 @@ export abstract class Unit<TSelector extends UnitSelector = UnitSelector> {
   protected _specialRules: SpecialRule[] = [];
   get specialRules() { return this._specialRules; }
 
-
   constructor(data: IUnitModel, library: Library) {
     this.selectorId = data.selectorId;
     this.slotId = data.slotId;
     this.experience = data.experience;
-    this.options = data.options ?? [];
+    this.optionIds = data.optionIds ?? [];
     const selector = library.unitSelectors.find(p => p.id === data.selectorId);
     if (!selector) throw new Error("Unable to find selector");
     this.selector = selector as TSelector;
@@ -67,7 +65,7 @@ export abstract class Unit<TSelector extends UnitSelector = UnitSelector> {
   protected calculateSpecialRules(): SpecialRule[] {
     const ids = this.selector?.specialRuleIds ?? [];
     const optionIds = this.selector?.options
-      .filter(so => this.options.some(o => o == so.id))
+      .filter(so => this.optionIds.some(o => o == so.id))
       .map(o => o.specialRuleId)
       .filter(s => !!s)
       .map(s => s as string) ?? [];
@@ -84,7 +82,7 @@ export abstract class Unit<TSelector extends UnitSelector = UnitSelector> {
       selectorId: this.selectorId,
       slotId: this.slotId,
       experience: this.experience,
-      options: this.options,
+      optionIds: this.optionIds,
       cost: this.cost
     };
   }
@@ -151,7 +149,7 @@ export class InfantryUnit extends Unit<InfantryUnitSelector> {
         errors.push(`Weapon addons required ${menForWeaponAddons} men but you only have ${nonKeyPersonMen} men available.`)
     }
     //Validate General Options
-    this.options.forEach(o => {
+    this.optionIds?.forEach(o => {
       const selectorOption = this.selector?.options.find(s => s.id == o);
       if (!selectorOption) return;
       if (this.availableExperienceLevels.some(e => e == this.experience))
@@ -167,7 +165,7 @@ export class InfantryUnit extends Unit<InfantryUnitSelector> {
     const base = this.selector.cost[this.experience];
     const perMan = (this.men - this.selector.baseMen) * this.selector.costPerMan[this.experience];
     const options = this.selector.options.reduce((v, o) => {
-      const selected = this.options.some(s => s == o.id);
+      const selected = this.optionIds.some(s => s == o.id);
       if (!selected) return v;
       return v + (o.costPerMan ?? 0) * this.men + (o.cost ?? 0);
     }, 0);
