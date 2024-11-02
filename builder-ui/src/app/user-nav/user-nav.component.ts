@@ -4,7 +4,7 @@ import { NgIf } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-user-nav',
@@ -19,7 +19,9 @@ export class UserNavComponent {
   username = signal<string | null>(null); // Signal for the user's name
   avatarUrl = signal<string | null>(null); // Signal for the user's avatar URL
 
-  constructor(private _authService: AuthService) {
+  constructor(private _authService: AuthService,
+    private readonly _router: Router
+  ) {
     this._authService.state$.subscribe(user => {
       this.isLoggedIn.set(!!user); // Set to true if a user object exists, false otherwise
       this.username.set(user ? user.displayName ?? user.email : null); // Set the username or null if not logged in
@@ -28,7 +30,9 @@ export class UserNavComponent {
   }
 
   signout() {
-    this._authService.signout();
+    this._authService.signout().then(() => {
+      this._router.navigate(['login']);
+    });
   }
 
 }

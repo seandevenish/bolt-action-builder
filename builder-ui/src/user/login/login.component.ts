@@ -1,14 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import { CommonModule } from '@angular/common';
 import { FirebaseError } from 'firebase/app';
 import { Router } from '@angular/router';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { filter, take } from 'rxjs';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, MatProgressSpinnerModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
@@ -17,7 +19,7 @@ export class LoginComponent implements OnInit {
   error?: string;
   loginForm: FormGroup;
   busy = {
-    submit: false
+    submit: signal(false)
   };
 
   state$: any;
@@ -56,17 +58,22 @@ export class LoginComponent implements OnInit {
 
   public loginWithEmail() {
     if (this.loginForm.valid) {
-      this.busy.submit = true;
+      this.busy.submit.set(true);
       const { email, password } = this.loginForm.value;
       this._authService.loginWithEmail(email, password)
         .then((result) => {
           console.log('Registration successful', result);
-          this.busy.submit = false;
-          this._router.navigate(['armies']);
+          this.busy.submit.set(false);
+          this._authService.state$.pipe(
+            filter(authState => authState !== null),
+            take(1) // Complete after getting the first non-null value
+          ).subscribe(() => {
+            this._router.navigate(['armies']);
+          });
         })
         .catch((error) => {
           this.handleError(error);
-          this.busy.submit = false;
+          this.busy.submit.set(false);
         });
     }
   }
