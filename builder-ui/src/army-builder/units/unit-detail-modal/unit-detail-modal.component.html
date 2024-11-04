@@ -54,11 +54,19 @@
           </div>
         </div>
 
-        <h3 class="font-semibold text-gray-800 pt-5">Weapons</h3>
+        <h3 class="font-semibold text-gray-800 pt-5" *ngIf="hasWeapons">Weapons</h3>
 
-        <!-- Key Person Weapon Option -->
-        <div class="grid grid-cols-6 gap-x-6 gap-y-8" *ngIf="infantryUnit.keyPersonWeaponOptions">
+        <div class="grid grid-cols-6 gap-x-6 gap-y-8">
+
+          <!-- Default Weapon -->
           <div class="col-span-4 md:col-span-3">
+            <label for="men" class="block mb-2 text-sm font-medium text-gray-900">Default Weapon</label>
+            <p class="bg-gray-200 border border-gray-300 text-gray-900 text-sm rounded block w-full p-2.5">{{infantryUnitSelector.baseWeapon?.name}}</p>
+          </div>
+
+
+          <!-- Key Person Weapon Option -->
+          <div class="col-span-4 md:col-span-3" *ngIf="infantryUnit.keyPersonWeaponOptions?.length">
             <label for="men" class="block mb-2 text-sm font-medium text-gray-900">{{infantryUnitSelector.keyPerson}} Weapon</label>
             <select id="men" formControlName="keyPersonWeaponId"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
@@ -90,7 +98,7 @@
       </ng-container>
 
       <!-- General Options -->
-      <ng-container>
+      <ng-container *ngIf="selector.options?.length">
         <h3 class="font-semibold text-gray-800 pt-5">Options</h3>
         <div class="space-y-4" formGroupName="optionIds">
           <div class="flex items-center" *ngFor="let option of selector.options">
@@ -116,7 +124,7 @@
   <div class="w-full flex justify-between items-center bg-gray-50 border-t border-gray-200 px-5 py-3">
     <!-- Left-aligned Delete button -->
     <button type="button" class="btn-tertiary" (click)="delete()">
-      <!-- <mat-icon>delete</mat-icon> -->
+     <app-icon pack="shared" icon="trash" size="sm" class="mr-1"></app-icon>
       Delete
     </button>
 

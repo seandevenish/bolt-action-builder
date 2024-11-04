@@ -72,11 +72,11 @@
 
       <mat-action-row class="!border-t-2 !border-gray-100 space-x-2">
         <button class="btn-tertiary text-sm flex items-center px-4 py-2" (click)="deletePlatoon(i)">
-          <!-- <mat-icon class="text-gray-500 mr-1">delete</mat-icon> -->
+          <app-icon pack="shared" icon="trash" size="sm" class="mr-1"></app-icon>
           Delete Platoon
         </button>
         <button class="btn-secondary text-sm flex items-center px-4 py-2" (click)="copyPlatoon(i)">
-          <!-- <mat-icon class="text-gray-500 mr-1">content_copy</mat-icon> -->
+          <app-icon pack="shared" icon="copy" size="sm" class="mr-1"></app-icon>
           Duplicate
         </button>
       </mat-action-row>

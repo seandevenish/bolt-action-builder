@@ -68,6 +68,7 @@ export class UnitSelector {
 export class InfantryUnitSelector extends UnitSelector {
   keyPerson: string;
   baseWeaponId: string;
+  baseWeapon?: Weapon;
   keyPersonWeaponOptions: IInfantryWeaponOption[] = [];
   generalWeaponOptions: IInfantryWeaponOption[] = [];
   costPerMan: Record<Experience, number>;
@@ -103,6 +104,7 @@ export class InfantryUnitSelector extends UnitSelector {
 
   public override enrich(library: Library): void {
     super.enrich(library);
+    this.baseWeapon = library.weapons.find(w => w.id == this.baseWeaponId);
     const options = [
       ...this.keyPersonWeaponOptions,
       ...this.generalWeaponOptions

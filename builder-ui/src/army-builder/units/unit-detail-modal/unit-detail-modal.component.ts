@@ -8,13 +8,13 @@ import { InfantryUnit, Unit } from '../unit.class';
 import { UnitFactory } from "../unit-factory";
 import { CommonModule } from '@angular/common';
 import { Experience } from '../experience.enum';
-import { MatIconModule } from '@angular/material/icon';
 import { InfantryUnitSelector, UnitSelector } from '../unit-selector.class';
+import { IconComponent } from '../../../app/components/icon';
 
 @Component({
   selector: 'app-unit-detail-modal',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatIconModule],
+  imports: [CommonModule, ReactiveFormsModule, IconComponent],
   templateUrl: './unit-detail-modal.component.html',
   styleUrl: './unit-detail-modal.component.scss'
 })
@@ -31,6 +31,10 @@ export class UnitDetailModalComponent {
 
   get experience() {
     return this.form.get('experience')!.value as Experience;
+  }
+
+  get hasWeapons() {
+    return this.form.contains('keyPersonWeaponId') || this.form.contains('generalWeaponIds');
   }
 
   get infantryUnitSelector(): InfantryUnitSelector | null {
@@ -134,7 +138,7 @@ export class UnitDetailModalComponent {
   private assignFormToUnit(formValue: any, unit: Unit) {
     const newValue = {
       ...formValue,
-      optionIds: Object.entries(formValue.optionIds)
+      optionIds: formValue.optionIds == null ? null : Object.entries(formValue.optionIds)
       .filter(([_, value]) => value === true)
       .map(([key]) => key)
     }
@@ -159,14 +163,17 @@ export class UnitDetailModalComponent {
     }
 
     // Initialize 'generalWeaponIds' FormGroup
-    const generalWeaponIdsGroup = this._formBuilder.group({});
-    this.infantryUnitSelector!.generalWeaponOptions.forEach(option => {
-      const quantity = infantryUnit.generalWeaponIds?.[option.weaponId] || 0;
-      generalWeaponIdsGroup.addControl(option.weaponId, this._formBuilder.control(
-        quantity, [Validators.min(0), Validators.max(option.max)]
-      ));
-    });
-    this.form.addControl('generalWeaponIds', generalWeaponIdsGroup);
+    if (this.infantryUnitSelector!.generalWeaponOptions.length) {
+      const generalWeaponIdsGroup = this._formBuilder.group({});
+      this.infantryUnitSelector!.generalWeaponOptions.forEach(option => {
+        const quantity = infantryUnit.generalWeaponIds?.[option.weaponId] || 0;
+        generalWeaponIdsGroup.addControl(option.weaponId, this._formBuilder.control(
+          quantity, [Validators.min(0), Validators.max(option.max)]
+        ));
+      });
+      this.form.addControl('generalWeaponIds', generalWeaponIdsGroup);
+    }
+
   }
 
 }

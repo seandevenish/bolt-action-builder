@@ -155,10 +155,10 @@ export class InfantryUnit extends Unit<InfantryUnitSelector> {
           return;
         }
         if (qty > selector.max) errors.push(`You have ${qty - selector.max} more ${weapon.name}s than this unit allows.`)
-          menForWeaponAddons += weapon.crew ?? 1;
+          menForWeaponAddons += (weapon.crew ?? 1) * qty;
       })
       if (menForWeaponAddons > nonKeyPersonMen)
-        errors.push(`Weapon addons required ${menForWeaponAddons} men but you only have ${nonKeyPersonMen} men available.`)
+        errors.push(`You have weapon selections that require ${menForWeaponAddons} men but you only have ${nonKeyPersonMen} men available to use them.`)
     }
     return errors.length ? errors : null;
   }
