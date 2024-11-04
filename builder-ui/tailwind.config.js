@@ -10,22 +10,12 @@ module.exports = {
   ],
   theme: {
     fontFamily: {
-      sans: ['Poppins', 'sans-serif'],
+      sans: ['Montserrat', 'sans-serif'],
       serif: ['Merriweather', 'serif'],
     },
     colors: {
-      primary: {
-        900: '#690100',
-        800: '#7e0100',
-        700: '#930100',
-        600: '#a90100',
-        500: '#c00100',
-        400: '#ef0000',
-        300: '#ff5540',
-        200: '#ff8a78',
-        100: '#ffb4a8',
-        50: '#ffdad4',
-      },
+      primary: colors.stone,
+      neutral: colors.neutral,
       transparent: 'transparent',
       current: 'currentColor',
       black: colors.black,

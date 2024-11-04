@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Auth, authState, GoogleAuthProvider  } from '@angular/fire/auth';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+import { createUserWithEmailAndPassword, FacebookAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { Observable } from 'rxjs';
 
 
@@ -27,6 +27,11 @@ export class AuthService {
 
   loginWithGoogle() {
     const provider = new GoogleAuthProvider();
+    return signInWithPopup(this.auth, provider);
+  }
+
+  loginWithFacebook() {
+    const provider = new FacebookAuthProvider();
     return signInWithPopup(this.auth, provider);
   }
 

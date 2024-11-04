@@ -56,6 +56,10 @@ export class LoginComponent implements OnInit {
     this._authService.loginWithGoogle();
   }
 
+  public loginWithFacebook() {
+    this._authService.loginWithFacebook();
+  }
+
   public loginWithEmail() {
     if (this.loginForm.valid) {
       this.busy.submit.set(true);
