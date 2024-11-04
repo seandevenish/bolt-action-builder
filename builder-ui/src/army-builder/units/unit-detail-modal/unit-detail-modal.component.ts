@@ -1,6 +1,6 @@
 import { IGeneralOptionSelector, IInfantryWeaponOption } from './../unit-selector.class';
 import { Component, Inject, signal, WritableSignal, Signal, computed } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, ReactiveFormsModule, ValidatorFn } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { max, Subject, takeUntil, tap } from 'rxjs';
 import { ArmyFormComponent } from '../../armies/army-form/army-form.component';
@@ -25,6 +25,7 @@ export class UnitDetailModalComponent {
   readonly _unsavedUnit: Unit;
   readonly selector: UnitSelector;
   readonly cost: WritableSignal<number>;
+  readonly validationErrors: WritableSignal<string[] | null>;
 
   readonly isInfantry: boolean = false;
 
@@ -50,6 +51,7 @@ export class UnitDetailModalComponent {
     this.unit = data.unit as Unit;
     this._unsavedUnit = UnitFactory.loadUnit(data.unit, data.unit.selector, data.library);
     this.cost = signal(this.unit.cost);
+    this.validationErrors = signal(null);
     this.selector = data.unit.selector;
     this.isInfantry = this.selector instanceof InfantryUnitSelector;
     this.form = this._formBuilder.group({
@@ -74,6 +76,7 @@ export class UnitDetailModalComponent {
         this.assignFormToUnit(v, this._unsavedUnit)
         this._unsavedUnit.refresh();
         this.cost.set(this._unsavedUnit.cost);
+        this.validationErrors.set(this._unsavedUnit.errors)
       }),
       takeUntil(this._unsubscribeAll$)
     ).subscribe();

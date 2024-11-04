@@ -41,7 +41,7 @@ export abstract class Unit<TSelector extends UnitSelector = UnitSelector> {
   }
 
   private _errors: string[] | null = null;
-  get errors() { return this._errors; }
+  get errors() { return this._errors != null && this._errors.length > 0 ? this._errors : null; }
 
   protected _cost: number = 0;
   get cost() { return this._cost;}
@@ -60,8 +60,20 @@ export abstract class Unit<TSelector extends UnitSelector = UnitSelector> {
     this.library = library;
   }
 
-  protected abstract validate(): string[] | null;
   protected abstract calculateCost(): number;
+
+  protected validate(): string[] | null {
+    const errors: string[] = [];
+    //Validate General Options
+    this.optionIds?.forEach(o => {
+      const selectorOption = this.selector?.options.find(s => s.id == o);
+      if (!selectorOption) return;
+      if (selectorOption.availableExperienceLevels && !selectorOption.availableExperienceLevels.includes(this.experience))
+        errors.push(`A <strong>${this.experience}</strong> unit is not allowed "${selectorOption.description}".`)
+    })
+    return errors.length ? errors : null;
+  }
+
   protected calculateSpecialRules(): SpecialRule[] {
     const ids = this.selector?.specialRuleIds ?? [];
     const optionIds = this.selector?.options
@@ -119,7 +131,7 @@ export class InfantryUnit extends Unit<InfantryUnitSelector> {
 
   protected override validate(): string[] | null {
     const library = this.library;
-    const errors: string[] = [];
+    const errors = super.validate() ?? [];
     if (this.selector == null) throw Error('Selector missing, unable to validate.');
     // Validate Experience
     if (this.selector.cost != null && !this.availableExperienceLevels.some(a => a == this.experience))
@@ -148,15 +160,6 @@ export class InfantryUnit extends Unit<InfantryUnitSelector> {
       if (menForWeaponAddons > nonKeyPersonMen)
         errors.push(`Weapon addons required ${menForWeaponAddons} men but you only have ${nonKeyPersonMen} men available.`)
     }
-    //Validate General Options
-    this.optionIds?.forEach(o => {
-      const selectorOption = this.selector?.options.find(s => s.id == o);
-      if (!selectorOption) return;
-      if (this.availableExperienceLevels.some(e => e == this.experience))
-        errors.push(`${selectorOption.description} is not a valid option for a ${this.experience} unit.`);
-      if (selectorOption.availableExperienceLevels && !selectorOption.availableExperienceLevels.includes(this.experience))
-        errors.push(`${selectorOption.description} is not allowed to be taken for a ${this.experience} unit.`)
-    })
     return errors.length ? errors : null;
   }
 

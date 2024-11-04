@@ -166,13 +166,13 @@
           {
             "id": "TANKHUNT",
             "specialRuleId": "TANKHUNT",
-            "description": "The squad may be given anti-tank grenades for +2pts per man",
+            "description": "The squad may be given <em>anti-tank grenades</em> for +2pts per man",
             "costPerMan": 2
           },
           {
             "id": "TOUGH",
             "specialRuleId": "TOUGH",
-            "description": "Any Veteran infantry squad may be Tough Fighters for +1 pt per man",
+            "description": "Any Veteran infantry squad may be <em>Tough Fighters</em> for +1 pt per man",
             "costPerMan": 1,
             "availableExperienceLevels": ["Veteran"]
           }
