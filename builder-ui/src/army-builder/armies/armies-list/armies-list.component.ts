@@ -84,7 +84,6 @@ export class ArmiesListComponent implements OnInit, OnDestroy {
 
   newArmy(): void {
     const dialogRef = this.dialog.open(ArmyFormComponent, {
-      width: '75%',
       panelClass: 'app-dialog-container',
       data: {
         id: 'add',

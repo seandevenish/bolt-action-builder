@@ -1,43 +1,75 @@
-<h3 mat-dialog-title>{{ isAdd ? 'New Army' : 'Edit Army' }}</h3>
+<!-- Header -->
+<div class="bg-gray-100 px-5 py-3 flex items-center justify-between border-b dark:border-gray-600">
+
+  <div>
+    <h2 class="font-semibold text-gray-800 text-lg truncate mt-1">{{ isAdd ? 'New Army' : 'Edit Army' }}</h2>
+  </div>
+
+  <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" (click)="cancel()">
+    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+    </svg>
+    <span class="sr-only">Close modal</span>
+  </button>
+</div>
+
 
 <form [formGroup]="form" (submit)="submit()">
 
-  <mat-dialog-content class="form-container">
-    <mat-form-field>
-      <mat-label>Faction</mat-label>
-      <mat-select formControlName="faction" cdkFocusInitial>
-        @for (faction of factions; track faction) {
-          <mat-option [value]="faction">{{faction.name}}</mat-option>
-        }
-      </mat-select>
-      @if (form.get('faction')!.hasError('required')) {
-        <mat-error>Please choose a faction</mat-error>
-      }
-      <!-- <mat-hint>{{form.get('faction')!.value?.sound}}</mat-hint> -->
-    </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>Name</mat-label>
-      <input matInput formControlName="name" required />
-      @if (form.get('faction')!.hasError('required')) {
-        <mat-error>Please enter a name</mat-error>
-      }
-    </mat-form-field>
+  <!-- Body -->
+  <div class="p-5 w-full bg-white space-y-3">
 
-    <mat-form-field>
-      <mat-label >Description</mat-label>
-      <textarea rows="3" matInput formControlName="description"></textarea>
-    </mat-form-field>
+    <div class="grid grid-cols-6 gap-x-6 gap-y-8">
 
-    <div class="alert alert-danger" *ngIf="error">{{error}}</div>
-  </mat-dialog-content>
+      <div class="col-span-full">
+        <label for="faction" class="block mb-2 text-sm font-medium text-gray-900">Faction</label>
+        <select formControlName="faction" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" cdkFocusInitial>
+          <option *ngFor="let faction of factions" [ngValue]="faction">
+            {{ faction.name }}
+          </option>
+        </select>
+        <div class="mt-1 text-sm text-red-600" *ngIf="faction.invalid && (faction.dirty || faction.touched)">
+          <div *ngIf="faction.hasError('required')">Please choose a faction</div>
+        </div>
+      </div>
 
-  <div mat-dialog-actions>
-    <button mat-flat-button type="submit" [disabled]="saving()">
-      <mat-spinner *ngIf="saving()" diameter="20" color="accent"></mat-spinner>
-      <span *ngIf="!saving()">{{isAdd ? 'Add Army' : 'Save'}}</span>
-    </button>
-    <button mat-stroked-button type="button" (click)="cancel()">Cancel</button>
+      <div class="col-span-full">
+        <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Name</label>
+        <input type="text" formControlName="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+        <div class="mt-1 text-sm text-red-600" *ngIf="name.invalid && (name.dirty || name.touched)">
+          <div *ngIf="name.hasError('required')">Please enter a name</div>
+        </div>
+      </div>
+
+      <div class="col-span-full">
+        <label for="description" class="block mb-2 text-sm font-medium text-gray-900">Description</label>
+        <textarea rows="3" formControlName="description" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"></textarea>
+      </div>
+
+    </div>
+
+    <!-- Validation Errors -->
+    <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4" role="alert" *ngIf="error">
+      <p class="font-bold !mb-0">Error</p>
+      <p class="!mb-0">{{error}}</p>
+    </div>
+
+
+  </div>
+
+  <!-- Footer -->
+  <div class="w-full flex justify-between items-center bg-gray-50 border-t border-gray-200 px-5 py-3">
+
+    <!-- Right-aligned Save and Cancel buttons -->
+    <div class="ml-auto flex space-x-2">
+      <button type="submit" class="btn-primary">
+        {{isAdd ? 'Add Army' : 'Save'}}
+      </button>
+      <button type="button" class="btn-secondary" (click)="cancel()">
+        Cancel
+      </button>
+    </div>
   </div>
 
 </form>

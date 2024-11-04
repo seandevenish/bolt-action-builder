@@ -1,14 +1,7 @@
 import { Component, Inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Army } from '../army.class';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatSelectModule } from '@angular/material/select';
-import { MatOptionModule } from '@angular/material/core';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { distinctUntilChanged, filter, map, Subject, takeUntil, tap } from 'rxjs';
 import { ArmyService } from '../army.service';
@@ -20,14 +13,7 @@ import { Faction, factionLibrary } from '../../faction';
   selector: 'app-army-form',
   standalone: true,
   imports: [ReactiveFormsModule,
-    CommonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatDialogModule,
-    MatOptionModule,
-    MatSelectModule,
-    MatProgressSpinnerModule],
+    CommonModule],
   templateUrl: './army-form.component.html',
   styleUrls: ['./army-form.component.scss'],
 })
@@ -39,8 +25,9 @@ export class ArmyFormComponent implements OnInit, OnDestroy {
   error?: string;
 
   factions: Faction[] = factionLibrary;
-
   saving = signal(false);
+  get faction(): FormControl { return this.form.get('faction') as FormControl; }
+  get name(): FormControl { return this.form.get('name') as FormControl; }
 
   private _unsubscribeAll$ = new Subject<void>();
 

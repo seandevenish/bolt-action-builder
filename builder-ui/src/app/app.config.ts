@@ -42,7 +42,8 @@ export const appConfig: ApplicationConfig = {
       useValue: {
         width: '600px', // Minimum width for all dialogs
         maxWidth: '95vw', // Maximum width constrained to the viewport
-        maxHeight: '95vh'
+        maxHeight: '95vh',
+        disableClose: true
         // You can add other options here as well, like disableClose, autoFocus, etc.
       } as MatDialogConfig
     }
