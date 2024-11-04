@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit, signal } from '@angular/core';
+import { Component, HostListener, Inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Army } from '../army.class';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -18,6 +18,11 @@ import { Faction, factionLibrary } from '../../faction';
   styleUrls: ['./army-form.component.scss'],
 })
 export class ArmyFormComponent implements OnInit, OnDestroy {
+
+  @HostListener('document:keydown.escape', ['$event'])
+  onEscapePressed(event: KeyboardEvent) {
+    this.dialogRef.close();
+  }
 
   isAdd: boolean;
   id: string;
