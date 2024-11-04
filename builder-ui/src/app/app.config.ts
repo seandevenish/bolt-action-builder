@@ -1,4 +1,4 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { APP_INITIALIZER, ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
@@ -6,10 +6,16 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
-import { provideAuth, getAuth, connectAuthEmulator } from '@angular/fire/auth';
+import { provideAuth, getAuth } from '@angular/fire/auth';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { provideHttpClient } from '@angular/common/http';
 import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogConfig } from '@angular/material/dialog';
+import { IconRegistration, IconService  } from './components/icon';
+import { AccountIconPack, DirectionIconPack, FileIconPack, SharedIconPack } from './components/icon/icon-packs';
+
+export function initializeIcons(iconService: IconService) {
+  return () => iconService.registerIconPacks();
+}
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -46,6 +52,16 @@ export const appConfig: ApplicationConfig = {
         disableClose: true
         // You can add other options here as well, like disableClose, autoFocus, etc.
       } as MatDialogConfig
+    },
+    IconRegistration.register(SharedIconPack),
+    IconRegistration.register(DirectionIconPack),
+    IconRegistration.register(AccountIconPack),
+    IconRegistration.register(FileIconPack),
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeIcons,
+      deps: [IconService],
+      multi: true
     }
   ]
 };

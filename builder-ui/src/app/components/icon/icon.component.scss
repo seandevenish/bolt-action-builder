@@ -1,0 +1,35 @@
+@mixin cell-width($width, $minWidth: $width, $maxWidth: 100%) {
+  min-width: $minWidth;
+  max-width: $maxWidth;
+  width: $width;
+}
+
+@mixin cross-browser($style, $value) {
+  -webkit-#{$style}: #{$value};
+  -moz-#{$style}: #{$value};
+  -o-#{$style}: #{$value};
+  -ms-#{$style}: #{$value};
+  #{$style}: #{$value};
+}
+
+:host {
+    display: inline-flex;
+
+    ::ng-deep {
+        mat-icon {
+            line-height: inherit;
+            svg {
+                vertical-align: bottom;
+                pointer-events: none;
+            }
+
+            $angles: 0, 45, 90, 135, 180, 270;
+
+            @each $angle in $angles {
+                &.rotate-#{$angle} {
+                    @include cross-browser(transform, rotate(#{$angle}deg));
+                }
+            }
+        }
+    }
+}

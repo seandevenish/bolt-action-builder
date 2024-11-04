@@ -2,33 +2,32 @@
 
   <div class="flex items-center ml-auto gap-2">
 
-    <button type="button" class="btn-tertiary !px-1" matTooltip="Expand All" aria-label="Expand All" (click)="expandAll()">
-      <mat-icon fontIcon="add_circle"></mat-icon>
+    <button type="button" class="btn-tertiary !px-1 flex" matTooltip="Expand All" aria-label="Expand All" (click)="expandAll()">
+      <app-icon pack="shared" icon="add-alt" size="md" class="mr-1"></app-icon>
     </button>
 
     <button type="button" class="btn-tertiary !px-1" matTooltip="Collapse All" aria-label="Collapse All" (click)="collapseAll()">
-      <mat-icon fontIcon="remove_circle"></mat-icon>
+      <app-icon pack="shared" icon="subtract-alt" size="md" class="mr-1"></app-icon>
     </button>
 
-    <button class="btn-secondary" [matMenuTriggerFor]="menu" aria-label="Settings">
-      <mat-icon fontIcon="settings"></mat-icon>
-      <span class="hidden md:visible">Settings</span>
+    <button type="button" class="btn-tertiary !px-1" aria-label="Save Only" matTooltip="Save" (click)="save(false)">
+      <app-icon *ngIf="saving() != 'saveOnly'" pack="shared" icon="save"></app-icon>
+      <mat-spinner *ngIf="saving() == 'saveOnly'" diameter="20"></mat-spinner>
     </button>
-    <mat-menu #menu="matMenu">
-      <button type="button" mat-menu-item (click)="delete()">
-        <mat-icon fontIcon="delete"></mat-icon>
+
+    <button class="btn-tertiary !px-1 md:!px-3" [matMenuTriggerFor]="menu" aria-label="Settings">
+      <app-icon pack="shared" icon="settings" size="md" class="mr-1"></app-icon>
+      <span class="hidden md:block">Settings</span>
+    </button>
+    <mat-menu #menu="matMenu" class="!bg-white">
+      <button type="button" class="btn btn-tertiary !rounded-none" (click)="delete()">
+        <app-icon pack="shared" icon="trash" size="sm" class="mr-1"></app-icon>
         Delete Army
       </button>
     </mat-menu>
 
-    <button type="button" class="btn-tertiary !px-1" aria-label="Save Only" matTooltip="Save" (click)="save(false)">
-      <mat-icon *ngIf="saving() != 'saveOnly'" fontIcon="save"></mat-icon>
-      <mat-spinner *ngIf="saving() == 'saveOnly'" diameter="20"></mat-spinner>
-    </button>
-
     <button type="button" class="btn-primary text-truncate" (click)="save(true)">
-      <mat-spinner *ngIf="saving() == 'saveAndClose'" diameter="20"></mat-spinner>
-      <mat-icon fontIcon="save"></mat-icon>
+      <app-icon pack="shared" icon="save" class="mr-1"></app-icon>
       Save and Close
     </button>
 
@@ -42,7 +41,7 @@
 </div>
 
 <div class="flex items-center mt-4">
-  <h1 class="mb-0 text-md font-semibold text-truncate">{{army()?.name}}</h1>
+  <h1 class="mb-0 text-lg font-semibold text-truncate">{{army()?.name}}</h1>
   <p class="ml-auto text-gray-700 font-semibold text-sm">{{ totalCost() | number}} Pts</p>
 </div>
 
@@ -61,7 +60,7 @@
           </div>
           <div class="truncate">
             {{ platoon.name }}
-          </div>        
+          </div>
           <div class="ml-auto text-gray-700 text-sm">
             {{platoon.cost$ | async | number}} Pts
           </div>

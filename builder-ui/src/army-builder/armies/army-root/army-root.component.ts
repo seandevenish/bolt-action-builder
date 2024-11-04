@@ -23,11 +23,12 @@ import { FirestoreError } from 'firebase/firestore';
 import { Library } from '../../units/library.interface';
 import { generateGuid } from '../../../app/utilities/guid';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { IconComponent } from '../../../app/components/icon';
 
 @Component({
   selector: 'app-army-root',
   standalone: true,
-  imports: [CommonModule, MatProgressBarModule, MatButtonModule, MatProgressSpinnerModule, MatIconModule, MatMenuModule, MatToolbarModule, MatTooltipModule, MatExpansionModule, PlatoonComponent, DragDropModule],
+  imports: [CommonModule, MatProgressBarModule, MatButtonModule, MatProgressSpinnerModule, MatIconModule, MatMenuModule, MatToolbarModule, MatTooltipModule, MatExpansionModule, PlatoonComponent, DragDropModule, IconComponent],
   templateUrl: './army-root.component.html',
   styleUrl: './army-root.component.scss'
 })
