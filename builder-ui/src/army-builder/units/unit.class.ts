@@ -36,6 +36,8 @@ export abstract class Unit<TSelector extends UnitSelector = UnitSelector> {
     return this.selector
   }
 
+  get countString(): string { return 'Unit'; }
+
   get availableExperienceLevels(): Experience[] {
     return this.selector?.availableExperienceLevels ?? [];
   }
@@ -127,6 +129,10 @@ export class InfantryUnit extends Unit<InfantryUnitSelector> {
       weapon: library.weapons.find(w => w.id ==  o.weaponId)
     }));
     this.refresh();
+  }
+
+  public override get countString(): string {
+      return this.men + ' ' + (this.men == 1 ? 'man' : 'men');
   }
 
   protected override validate(): string[] | null {

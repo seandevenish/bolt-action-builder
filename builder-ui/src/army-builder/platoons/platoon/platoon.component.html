@@ -20,13 +20,17 @@
         <!-- Render filled units as cards -->
         <ng-container *ngFor="let unit of visualiser.units()">
           <button type="button" class="flex items-center w-full h-16 rounded bg-gray-800 border border-gray-600 px-3 shadow-lg cursor-pointer hover:bg-gray-900"
+          [class.border-red-400]="unit.errors?.length"
             (click)="editUnit(visualiser, unit)">
             <div class="flex-1 overflow-hidden">
-                <div class="text-sm font-semibold text-gray-300 truncate w-full text-left mb-1">{{unit.selector!.name}}</div>
+                <div class="text-sm font-semibold text-gray-300 truncate w-full text-left mb-1 flex align-middle">
+                  <app-icon pack="shared" icon="warning-filled" class="mr-1 text-red-400" *ngIf="unit.errors?.length"></app-icon>
+                  {{unit.selector!.name}}
+                </div>
                 <div class="flex justify-between items-center">
                   <div>
                     <span class="text-xs text-gray-300 mr-2">
-                      {{unit.men != null ? unit.men + ' ' + (unit.men == 1 ? 'man' : 'men') : 'Model'}}
+                      {{unit.countString}}
                     </span>
                     <span class="text-xs text-gray-300 bg-gray-600 rounded-sm px-2 py-0.5">
                       {{unit.experience}}

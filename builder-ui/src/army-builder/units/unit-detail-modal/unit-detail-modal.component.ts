@@ -60,7 +60,7 @@ export class UnitDetailModalComponent {
     this.unit = data.unit as Unit;
     this._unsavedUnit = UnitFactory.loadUnit(data.unit, data.unit.selector, data.library);
     this.cost = signal(this.unit.cost);
-    this.validationErrors = signal(null);
+    this.validationErrors = signal(this.unit.errors);
     this.selector = data.unit.selector;
     this.isInfantry = this.selector instanceof InfantryUnitSelector;
     this.form = this._formBuilder.group({

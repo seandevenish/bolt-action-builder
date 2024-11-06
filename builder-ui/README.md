@@ -1,3 +1,34 @@
+Todo:
+
+Infrastructure:
+* Forgotten Password
+* Registration
+* Google Auth
+* Facebook Auth
+* Deployment
+
+Factions:
+* Force Selector
+* Validation of force
+
+Platoons:
+* Show validation of platoons incl summary
+* Faction overrides
+
+Units:
+* Show validation error in summary
+* Implement Teams
+* Implement Vehicles
+
+Weapons:
+* Faction overrides
+
+Tools:
+* PDF Export
+* Scenario Editor
+
+
+
 # BuilderUi
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.6.

@@ -27,7 +27,8 @@
     </mat-menu>
 
     <button type="button" class="btn-primary text-truncate" (click)="save(true)">
-      <app-icon pack="shared" icon="save" class="mr-1"></app-icon>
+      <app-icon *ngIf="saving() != 'saveAndClose'" pack="shared" icon="save" class="mr-1"></app-icon>
+      <mat-spinner *ngIf="saving() == 'saveAndClose'" diameter="20"></mat-spinner>
       Save and Close
     </button>
 

@@ -13,11 +13,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { UnitDetailModalComponent } from '../../units/unit-detail-modal/unit-detail-modal.component';
 import { combineLatest, concat, merge, Subject, takeUntil, tap } from 'rxjs';
 import { Library } from '../../units/library.interface';
+import { IconComponent } from "../../../app/components/icon/icon.component";
 
 @Component({
   selector: 'app-platoon',
   standalone: true,
-  imports: [CommonModule, MatButtonModule, MatCardModule, MatMenuModule, DecimalPipe],
+  imports: [CommonModule, MatButtonModule, MatCardModule, MatMenuModule, DecimalPipe, IconComponent],
   templateUrl: './platoon.component.html',
   styleUrl: './platoon.component.scss'
 })
