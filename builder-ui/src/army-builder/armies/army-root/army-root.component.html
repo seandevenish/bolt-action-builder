@@ -62,6 +62,7 @@
           <div class="truncate">
             {{ platoon.name }}
           </div>
+          <app-icon pack="shared" icon="warning-filled" class="ml-1 text-red-400" *ngIf="platoon.hasErrors$ | async"></app-icon>
           <div class="ml-auto text-gray-700 text-sm">
             {{platoon.cost$ | async | number}} Pts
           </div>

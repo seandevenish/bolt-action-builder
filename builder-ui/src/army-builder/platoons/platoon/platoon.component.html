@@ -72,4 +72,10 @@
       </div>
     </div>
   </div>
+
+  <!-- Validation Errors -->
+  <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mt-5" role="alert" *ngIf="platoon.platoonHasErrors$ | async">
+    <p class="font-bold !mb-0">Invalid Unit Selection</p>
+    <p class="!mb-0" *ngFor="let error of platoon.errors$ | async" [innerHTML]="error"></p>
+  </div>
 </div>

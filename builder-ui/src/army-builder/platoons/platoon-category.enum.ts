@@ -1,5 +1,6 @@
 
 export enum PlatoonCategory {
   Infantry = 'Infantry',
-  Support = 'Support'
+  Support = 'Support',
+  Recce = 'Recce'
 }
