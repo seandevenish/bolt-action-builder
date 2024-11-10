@@ -93,15 +93,21 @@ export class Platoon {
   validate(units: Unit[]): string[] | null {
     const errors: string[] = [];
 
-    if (this.selector.platoonCategory == PlatoonCategory.Recce) {
-      const totalMen = units.reduce((total, unit) => total + (unit.men ?? 0), 0)
-      const transportCapacity = 0; //Todo: get transport capacity
-      if (totalMen > transportCapacity) errors.push(`You have ${totalMen} men but only transport capacity for ${transportCapacity} men.`);
-    }
+    this.selector.unitRequirements.forEach(r => {
+      const unitsForRequirement = units.filter(u => u.slotId == r.id);
+      if (r.maxPerUnit) {
+        const otherUnitsCount = units.length - unitsForRequirement.length;
+        const max = otherUnitsCount * r.maxPerUnit;
+        // todo: requirement/Name
+        if (unitsForRequirement.length > max) errors.push(`You have ${unitsForRequirement.length} ${r.requirementName} but this must be limited to ${max}.`);
+      }
 
-    if (this.selector.platoonCategory != PlatoonCategory.Recce) {
-      //todo: validate no of transport vehicles doesn't exceed other units
-    }
+      if (r.minCarryAll) {
+        const totalMen = units.reduce((total, unit) => total + (unit.men ?? 0), 0)
+        const transportCapacity = 0; //Todo: get transport capacity from unitsForRequirement
+        if (totalMen > transportCapacity) errors.push(`You have ${totalMen} men but only transport capacity for ${transportCapacity} men.`);
+      }
+    })
 
     return errors.length ? errors : null;
   }

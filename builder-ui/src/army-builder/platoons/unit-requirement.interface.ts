@@ -41,11 +41,6 @@ export interface UnitRequirement {
    */
   max?: number | null;
 
-    /**
-   * The minimum number of units allowed for this requirement as a multiple per units not subject to this limit
-   */
-  minPerUnit?: number | null;
-
   /**
    * The maximum number of units allowed for this requirement as a multiple per units not subject to this limit
    */
