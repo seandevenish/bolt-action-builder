@@ -21,6 +21,7 @@ export interface IInfantryWeaponOption {
   description: string | null;
   max: number;
   cost: number;
+  secondary: boolean;
 }
 
 export interface IVehicleWeaponOption {

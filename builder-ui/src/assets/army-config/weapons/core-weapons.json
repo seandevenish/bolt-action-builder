@@ -27,6 +27,19 @@
       "heDiameter": 0
     },
     {
+      "id": "SHOTGUN",
+      "name": "Shotgun",
+      "type": "Small Arms",
+      "penetrationValue": 0,
+      "hits": 1,
+      "range": 18,
+      "minIndirectRange": 0,
+      "maxIndirectRange": 0,
+      "shots": 1,
+      "specialRuleIds": ["ASSAULT"],
+      "heDiameter": 0
+    },
+    {
       "id": "SMG",
       "name": "Submachine Gun (SMG)",
       "type": "Small Arms",

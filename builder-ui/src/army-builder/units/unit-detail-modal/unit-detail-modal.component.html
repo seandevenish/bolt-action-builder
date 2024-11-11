@@ -43,7 +43,11 @@
         <!-- Number of Men Selection -->
         <div class="grid grid-cols-6 gap-x-6 gap-y-8">
           <div class="col-span-3 md:col-span-2">
-            <label for="men" class="block mb-2 text-sm font-medium text-gray-900">Number of Men</label>
+            <label for="men" class="block mb-2 text-sm font-medium text-gray-900">
+              Number of Men
+              <div class="text-xs text-gray-400">(Including {{infantryUnitSelector.keyPerson}})</div>
+            </label>
+
             <select id="men" formControlName="men" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
               <option *ngFor="let men of [].constructor(infantryUnitSelector.maxMen - infantryUnitSelector.baseMen + 1); let i = index"
                 [value]="infantryUnitSelector.baseMen + i">

@@ -260,6 +260,181 @@
         },
         "baseMen": 5,
         "maxMen": 8
+      },
+      {
+        "id": "US_AIR_INF",
+        "name": "Airborne Squad",
+        "unitType": "InfantrySquad",
+        "subType": null,
+        "cost": {
+          "Regular": 60,
+          "Veteran": 78
+        },
+        "specialRuleIds": [],
+        "options": [
+          {
+            "id": "TANKHUNT",
+            "specialRuleId": "TANKHUNT",
+            "description": "The squad may be given <em>anti-tank grenades</em> for +2pts per man",
+            "costPerMan": 2
+          },
+          {
+            "id": "STUBBORN",
+            "specialRuleId": "STUBBORN",
+            "description": "The squad may be given the <em>Stubborn</em> rule for +1 pt per man",
+            "costPerMan": 1
+          }
+        ],
+        "keyPerson": "NCO",
+        "baseWeaponId": "RIFLE",
+        "keyPersonWeaponOptions": [
+          {
+            "weaponId": "SMG",
+            "max": 1,
+            "cost": 4
+          }
+        ],
+        "generalWeaponOptions": [
+          {
+            "weaponId": "SMG",
+            "max": 2,
+            "cost": 4
+          },
+          {
+            "weaponId": "AR",
+            "description": "BAR M1918A2 Automatic Rifle (Glider)",
+            "max": 1,
+            "cost": 6
+          },
+          {
+            "weaponId": "LMG",
+            "description": "M1919A6 Light Machine Gun (Paratroopers)",
+            "max": 1,
+            "cost": 15
+          }
+        ],
+        "costPerMan": {
+          "Regular": 10,
+          "Veteran": 13
+        },
+        "baseMen": 6,
+        "maxMen": 12
+      },
+      {
+        "id": "US_RNG_INF",
+        "name": "Ranger Squad",
+        "unitType": "InfantrySquad",
+        "subType": null,
+        "cost": {
+          "Veteran": 70
+        },
+        "specialRuleIds": ["RANGERS"],
+        "options": [
+          {
+            "id": "TANKHUNT",
+            "specialRuleId": "TANKHUNT",
+            "description": "The squad may be given <em>anti-tank grenades</em> for +2pts per man",
+            "costPerMan": 2
+          }
+        ],
+        "keyPerson": "NCO",
+        "baseWeaponId": "RIFLE",
+        "keyPersonWeaponOptions": [
+          {
+            "weaponId": "SMG",
+            "max": 1,
+            "cost": 4
+          }
+        ],
+        "generalWeaponOptions": [
+          {
+            "weaponId": "SMG",
+            "max": 2,
+            "cost": 4
+          },
+          {
+            "weaponId": "AR",
+            "description": "BAR M1918A2 Automatic Rifle",
+            "max": 1,
+            "cost": 6
+          },
+          {
+            "weaponId": "LMG",
+            "description": "M1919A6 Light Machine Gun",
+            "max": 1,
+            "cost": 15
+          }
+        ],
+        "costPerMan": {
+          "Veteran": 14
+        },
+        "baseMen": 6,
+        "maxMen": 12
+      },
+      {
+        "id": "US_MAR_INF",
+        "name": "Marine Squad",
+        "unitType": "InfantrySquad",
+        "subType": null,
+        "cost": {
+          "Regular": 70,
+          "Veteran": 91
+        },
+        "specialRuleIds": [],
+        "options": [
+          {
+            "id": "TANKHUNT",
+            "specialRuleId": "TANKHUNT",
+            "description": "The squad may be given <em>anti-tank grenades</em> for +2pts per man",
+            "costPerMan": 2
+          },
+          {
+            "id": "STUBBORN",
+            "specialRuleId": "STUBBORN",
+            "description": "The squad may be given the <em>Stubborn</em> rule for +1 pt per man",
+            "costPerMan": 1
+          }
+        ],
+        "keyPerson": "NCO",
+        "baseWeaponId": "RIFLE",
+        "keyPersonWeaponOptions": [
+          {
+            "weaponId": "SMG",
+            "max": 1,
+            "cost": 4
+          }
+        ],
+        "generalWeaponOptions": [
+          {
+            "weaponId": "SMG",
+            "max": 2,
+            "cost": 4
+          },
+          {
+            "weaponId": "AR",
+            "description": "BAR M1918A2 Automatic Rifle",
+            "max": 3,
+            "cost": 6
+          },
+          {
+            "weaponId": "PISTOL",
+            "max": 3,
+            "cost": 1,
+            "secondary": true
+          },
+          {
+            "weaponId": "SHOTGUN",
+            "max": 3,
+            "cost": 3,
+            "secondary": true
+          }
+        ],
+        "costPerMan": {
+          "Regular": 10,
+          "Veteran": 13
+        },
+        "baseMen": 7,
+        "maxMen": 13
       }
     ]
   }
