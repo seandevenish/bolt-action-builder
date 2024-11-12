@@ -24,6 +24,8 @@ import { Library } from '../../units/library.interface';
 import { generateGuid } from '../../../app/utilities/guid';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { IconComponent } from '../../../app/components/icon';
+import { MatDialog } from '@angular/material/dialog';
+import { ArmyFormComponent } from '../army-form/army-form.component';
 
 @Component({
   selector: 'app-army-root',
@@ -75,7 +77,8 @@ export class ArmyRootComponent implements OnInit, OnDestroy, AfterViewInit {
     private readonly _router: Router,
     private readonly _confirmationService: ConfirmationService,
     private readonly _ngZone: NgZone,
-    private readonly _snackbar: MatSnackBar
+    private readonly _snackbar: MatSnackBar,
+    private readonly _dialog: MatDialog
   ) {
 
   }
@@ -143,6 +146,22 @@ export class ArmyRootComponent implements OnInit, OnDestroy, AfterViewInit {
       if (closeAfter) this._router.navigate(['../'], { relativeTo: this._route });
       else this._snackbar.open('Successfully Saved Army', 'Dismiss', {duration: 3000});
     }).catch(e => this.error = e).finally(() => this.saving.set(false));
+  }
+
+  editArmyDetails() {
+    const army = this.army() as Army;
+    const dialogRef = this._dialog.open(ArmyFormComponent, {
+      panelClass: 'app-dialog-container',
+      data: {
+        id: army.id,
+        army: army,
+      },
+    });
+    dialogRef
+      .afterClosed()
+      .subscribe((result: Army|null) => {
+        if (result) this.army.set(result);
+      });
   }
 
   addPlatoon(selector: PlatoonSelector) {

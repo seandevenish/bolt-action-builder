@@ -42,13 +42,17 @@ export class ArmyFormComponent implements OnInit, OnDestroy {
     private readonly _formBuilder: FormBuilder,
     private readonly _armyService: ArmyService
   ) {
+    this.isAdd = data.id === 'add';
+    this.id = this.isAdd ? generateGuid() : data.id;
+
     this.form = this._formBuilder.group({
       name: [null, [Validators.required, Validators.maxLength(128)]],
       description: [null, [Validators.maxLength(1024)]],
-      faction: [null, Validators.required]
+      faction: [
+        { value: null, disabled: !this.isAdd },
+        [Validators.required]
+      ]
     })
-    this.isAdd = data.id === 'add';
-    this.id = this.isAdd ? generateGuid() : data.id;
     this.form.patchValue(data.army);
   }
 
@@ -71,10 +75,17 @@ export class ArmyFormComponent implements OnInit, OnDestroy {
 
   submit() {
     if (this.form.invalid) return;
-    this.saving.set(true);
+
     const army = new Army({...this.data.army, ...this.form.value});
-    const obs$ = this.isAdd ? this._armyService.add(army) : this._armyService.update(this.id, army);
-    obs$.then(() =>
+    army.loadProperties(factionLibrary);
+
+    if (!this.isAdd) {
+      this.dialogRef.close(army);
+      return;
+    }
+
+    this.saving.set(true);
+    this._armyService.add(army).then(() =>
       this.dialogRef.close(army)
     ).catch((e: FirestoreError) => {
       this.error = e.message;
