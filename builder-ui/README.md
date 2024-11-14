@@ -7,16 +7,10 @@ Infrastructure:
 * Facebook Auth
 * Deployment
 
-Factions:
-* Force Selector
-* Validation of force
-
 Platoons:
-* Show validation of platoons incl summary
 * Faction overrides
 
 Units:
-* Show validation error in summary
 * Implement Teams
 * Implement Vehicles
 
