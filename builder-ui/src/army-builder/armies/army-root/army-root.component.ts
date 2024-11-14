@@ -1,6 +1,7 @@
+import { Platoon } from './../../platoons/platoon.class';
 import { AfterViewInit, Component, NgZone, OnDestroy, OnInit, QueryList, Signal, signal, ViewChildren } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { catchError, combineLatest, EMPTY, finalize, from, map, of, Subject, switchMap, takeUntil, tap } from 'rxjs';
+import { catchError, combineLatest, EMPTY, finalize, from, map, Observable, of, Subject, switchMap, takeUntil, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
@@ -13,19 +14,18 @@ import { MatMenuModule } from '@angular/material/menu';
 import { ConfirmationService } from '../../../app/services/confirmation.service';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { PlatoonSelector } from '../../platoons/platoon-selector.class';
-import { Platoon } from '../../platoons/platoon.class';
 import { PlatoonComponent } from '../../platoons/platoon/platoon.component';
 import { Army } from '../army.class';
 import { ArmyService } from '../army.service';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { IArmyInfo } from '../army-info.interface';
 import { FirestoreError } from 'firebase/firestore';
 import { Library } from '../../units/library.interface';
 import { generateGuid } from '../../../app/utilities/guid';
-import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { IconComponent } from '../../../app/components/icon';
 import { MatDialog } from '@angular/material/dialog';
 import { ArmyFormComponent } from '../army-form/army-form.component';
+import { ForceService } from '../../forces/force.service';
+import { Force } from '../../forces/force.class';
 
 @Component({
   selector: 'app-army-root',
@@ -38,32 +38,12 @@ export class ArmyRootComponent implements OnInit, OnDestroy, AfterViewInit {
 
   error: any;
 
-  army = signal<Army|null>(null);
-  platoons = signal<Platoon[]>([]);
+  force: Force | null = null;
   loading = signal(false);
   saving = signal<false|'saveOnly'|'saveAndClose'>(false);
   pendingAdd = false;
 
   multiExpand = signal(false);
-  totalCost = toSignal(
-    // Convert platoons signal to an observable
-    toObservable(this.platoons).pipe(
-      // Switch to a new observable whenever platoons change
-      switchMap(platoons => {
-        if (platoons.length === 0) {
-          return of(0); // If no platoons, total cost is 0
-        }
-        // Map each platoon's cost$ observable
-        const costObservables = platoons.map(platoon => platoon.cost$);
-        // Combine the cost$ observables
-        return combineLatest(costObservables).pipe(
-          // Sum up the costs
-          map(costs => costs.reduce((sum, cost) => sum + cost, 0))
-        );
-      })
-    ),
-    { initialValue: 0 } // Provide an initial value
-  );
 
   library!: Library;
 
@@ -73,6 +53,7 @@ export class ArmyRootComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChildren('platoonPanel') expansionPanels!: QueryList<MatExpansionPanel>;
 
   constructor(private readonly _armyService: ArmyService,
+    private readonly _forceService: ForceService,
     private readonly _route: ActivatedRoute,
     private readonly _router: Router,
     private readonly _confirmationService: ConfirmationService,
@@ -87,7 +68,8 @@ export class ArmyRootComponent implements OnInit, OnDestroy, AfterViewInit {
     this._route.paramMap.pipe(
       map(p => p.get('armyId') as string),
       tap(p => this.loading.set(true)),
-      switchMap(armyId => from(this._armyService.loadArmyInfo(armyId)).pipe(
+      switchMap(armyId => this.getArmy(armyId).pipe(
+        switchMap(r => this._forceService.getForce(r)),
         catchError(e => {
           this.showError(e);
           this.loading.set(false);
@@ -95,14 +77,17 @@ export class ArmyRootComponent implements OnInit, OnDestroy, AfterViewInit {
         }),
         finalize(() => this.loading.set(false))
       )),
-      tap((armyInfo: IArmyInfo) => {
-        this.army.set(armyInfo.army);
-        this.platoons.set(armyInfo.platoons);
-        this.library = armyInfo.library;
+      tap((force: Force) => {
+        this.force = force;
+        this.library = force.library;
       }),
       tap(r => this.loading.set(false)),
       takeUntil(this._unsubscribeAll$)
     ).subscribe();
+  }
+
+  getArmy(armyId: string): Observable<Army> {
+    return from(this._armyService.get(armyId));
   }
 
   ngOnDestroy(): void {
@@ -127,7 +112,7 @@ export class ArmyRootComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   delete() {
-    const id = this.army()?.id;
+    const id = this.force?.army.id;
     if (!id ) return;
     this._confirmationService.confirm('Are you sure you want to delete this army?', 'Delete Army', () => {
       this.loading.set(true);
@@ -139,8 +124,8 @@ export class ArmyRootComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   save(closeAfter: boolean) {
-    const army = this.army()!;
-    const platoons = this.platoons();
+    const army = this.force!.army;
+    const platoons = this.force!.platoons$.getValue();
     this.saving.set(closeAfter ? 'saveAndClose' : 'saveOnly');
     this._armyService.updateArmyAndPlatoons(army, platoons).then(() => {
       if (closeAfter) this._router.navigate(['../'], { relativeTo: this._route });
@@ -149,7 +134,7 @@ export class ArmyRootComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   editArmyDetails() {
-    const army = this.army() as Army;
+    const army = this.force?.army as Army;
     const dialogRef = this._dialog.open(ArmyFormComponent, {
       panelClass: 'app-dialog-container',
       data: {
@@ -160,7 +145,7 @@ export class ArmyRootComponent implements OnInit, OnDestroy, AfterViewInit {
     dialogRef
       .afterClosed()
       .subscribe((result: Army|null) => {
-        if (result) this.army.set(result);
+        if (result) this.force!.army = army;
       });
   }
 
@@ -168,33 +153,28 @@ export class ArmyRootComponent implements OnInit, OnDestroy, AfterViewInit {
     const newPlatoon = new Platoon({
       selectorId: selector.id
     }, this.library);
-    this.platoons.update((platoons) => [...platoons, newPlatoon]);
+    this.force!.addPlatoon(newPlatoon);
     this.pendingAdd = true;
   }
 
   copyPlatoon(index: number) {
-    const existingPlatoon = this.platoons()[index];
+    const existingPlatoon = this.force?.platoons$.getValue()[index];
+    if (!existingPlatoon) return;
     const model = existingPlatoon.toStoredObject();
     model.id = generateGuid();
     const newPlatoon = new Platoon(model, this.library);
 
-    const updatedPlatoons = [...this.platoons()];
-    updatedPlatoons.splice(index + 1, 0, newPlatoon);
-
-    this.platoons.set(updatedPlatoons);
+    this.force?.addPlatoon(newPlatoon, index + 1);
   }
 
   deletePlatoon(index: number): void {
     this._confirmationService.confirm('Are you sure you want to delete this platoon?', 'Delete', () => {
-      this.platoons.update((platoons) => platoons.filter((_, i) => i !== index));
+      this.force!.deletePlatoon(index);
     }, true);
   }
 
-  drop(event: CdkDragDrop<Platoon[]>) {
-    this.platoons.update((platoons) => {
-      moveItemInArray(platoons, event.previousIndex, event.currentIndex);
-      return platoons; // Ensure the updated array is returned for the signal to react
-    });
+  drop(event: CdkDragDrop<Platoon[] | null>) {
+    this.force?.reorderPlatoon(event.previousIndex, event.currentIndex);
   }
 
   expandAll() {

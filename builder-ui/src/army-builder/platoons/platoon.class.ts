@@ -4,9 +4,8 @@ import { Library } from "../units/library.interface";
 import { generateGuid } from "../../app/utilities/guid";
 import { IUnitModel } from "../units/unit.class";
 import { PlatoonSelector } from "./platoon-selector.class";
-import { BehaviorSubject, combineLatest, map, merge, Observable, startWith, switchMap } from 'rxjs';
+import { BehaviorSubject, combineLatest, map, mapTo, merge, Observable, startWith, switchMap } from 'rxjs';
 import { IFirestoreStorable } from '../../app/services/firestore-base-service.service';
-import { PlatoonCategory } from './platoon-category.enum';
 
 export interface IPlatoonModel extends IFirestoreStorable {
   id: string;
@@ -23,6 +22,7 @@ export class Platoon {
   readonly units$: BehaviorSubject<Unit[]>;
   readonly errors$: Observable<string[] | null>;
   readonly cost$: Observable<number>;
+  readonly updated$: Observable<void>;
 
   readonly platoonHasErrors$: Observable<boolean>;
   readonly unitsHaveErrors$: Observable<boolean>;
@@ -45,6 +45,14 @@ export class Platoon {
     this.errors$ = this.units$.pipe(
       map(u => this.validate(u))
     );
+    this.updated$ = this.units$.pipe(
+      switchMap(unitsArray =>
+        merge(
+          ...unitsArray.map(unit => unit.updated$),
+          this.units$.pipe(map(() => undefined))
+        )
+      )
+    );
     this.cost$ = this.units$.pipe(
       switchMap(unitsArray =>
         merge(
@@ -55,6 +63,7 @@ export class Platoon {
         )
       )
     );
+
     this.platoonHasErrors$ = this.errors$.pipe(
       map(errors => errors != null && errors.length > 0)
     );

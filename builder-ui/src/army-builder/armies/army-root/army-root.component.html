@@ -1,4 +1,4 @@
-<div class="flex items-center" *ngIf="army() && !loading()">
+<div class="flex items-center" *ngIf="force && !loading()">
 
   <div class="flex items-center ml-auto gap-2">
 
@@ -47,7 +47,7 @@
     (click)="editArmyDetails()"
   >
     <span class="truncate">
-      {{ army()?.name }}
+      {{ force?.army!.name }}
     </span>
     <app-icon
       pack="shared"
@@ -57,11 +57,11 @@
     ></app-icon>
   </a>
   <p class="ml-auto text-gray-700 font-semibold text-md flex-shrink-0">
-    {{ totalCost() | number }} Pts
+    {{ force?.cost$ | async | number }} Pts
   </p>
 </div>
 <p class="text-sm text-gray-500">
-  {{army()?.description}}
+  {{force?.army!.description}}
 </p>
 
 <mat-progress-bar mode="indeterminate" *ngIf="loading()"></mat-progress-bar>
@@ -70,8 +70,8 @@
 
   <!-- Unit Card - Commander -->
 
-  <mat-accordion cdkDropList [cdkDropListData]="platoons()" (cdkDropListDropped)="drop($event)" [multi]="multiExpand()" #platoonAccordion>
-    <mat-expansion-panel *ngFor="let platoon of platoons(); let i = index" cdkDrag #platoonPanel class="!bg-white">
+  <mat-accordion cdkDropList [cdkDropListData]="force!.platoons$ | async" (cdkDropListDropped)="drop($event)" [multi]="multiExpand()" #platoonAccordion>
+    <mat-expansion-panel *ngFor="let platoon of force!.platoons$ | async; let i = index" cdkDrag #platoonPanel class="!bg-white">
       <mat-expansion-panel-header>
         <div class="flex w-full items-center mr-3">
           <div class="drag-handle" cdkDragHandle>

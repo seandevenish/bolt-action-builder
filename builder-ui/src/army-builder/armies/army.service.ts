@@ -6,14 +6,9 @@ import { IPlatoonModel, Platoon } from '../platoons/platoon.class';
 import { FirestoreBaseService } from '../../app/services/firestore-base-service.service';
 import { AuthService } from '../../user/auth.service';
 import { factionLibrary } from '../faction';
-import { IArmyInfo } from './army-info.interface';
-import { PlatoonSelectorRepositoryService } from '../platoons/platoon-selector-repository.service';
-import { UnitSelectorRepositoryService } from '../units/unit-selector-repository.service';
 import { generateGuid } from '../../app/utilities/guid';
-import { Library } from '../units/library.interface';
 import { Experience } from '../units/experience.enum';
 import { IUnitModel } from '../units/unit.class';
-import { WeaponRepositoryService } from '../weapons/weapon-repository.service';
 
 @Injectable({
   providedIn: 'root'
@@ -23,37 +18,9 @@ export class ArmyService extends FirestoreBaseService<IArmyModel> {
   private readonly debug = false;
 
   constructor(
-    private readonly _authService: AuthService,
-    private readonly _platoonSelectorService: PlatoonSelectorRepositoryService,
-    private readonly _unitSelectorService: UnitSelectorRepositoryService,
-    private readonly _weaponService: WeaponRepositoryService
+    private readonly _authService: AuthService
   ) {
     super('armies');
-  }
-
-  async loadArmyInfo(armyId: string): Promise<IArmyInfo> {
-    const user = await firstValueFrom(this._authService.state$);
-    if (!user) {
-      throw new Error('User is not authenticated');
-    }
-
-    const army = await this.get(armyId);
-    const library = {
-      platoonSelectors: await firstValueFrom(this._platoonSelectorService.getPlatoonsForForceSelector(army.factionId, army.forceSelectorId)),
-      unitSelectors: await firstValueFrom(this._unitSelectorService.getUnitsForFaction(army.factionId, army.forceSelectorId)),
-      weapons: await firstValueFrom(this._weaponService.getWeapons()),
-      specialRules: []
-    } as Library;
-    library.unitSelectors.forEach(u => u.enrich(library));
-
-    const platoonModels = await this.getPlatoonsForArmy(armyId);
-    const platoons = platoonModels.map(p => new Platoon(p, library));
-
-    return {
-      army,
-      platoons,
-      library
-    };
   }
 
   async get(id: string): Promise<Army> {
@@ -65,6 +32,11 @@ export class ArmyService extends FirestoreBaseService<IArmyModel> {
         modifiedDate: new Date(),
         factionId: 'US'
       }, factionLibrary);
+    }
+
+    const user = await firstValueFrom(this._authService.state$);
+    if (!user) {
+      throw new Error('User is not authenticated');
     }
 
     const army = await super.getModel(id);
@@ -82,7 +54,7 @@ export class ArmyService extends FirestoreBaseService<IArmyModel> {
     return armies.map(a => new Army(a, factionLibrary));
   }
 
-  private async getPlatoonsForArmy(armyId: string): Promise<IPlatoonModel[]> {
+  public async getPlatoonsForArmy(armyId: string): Promise<IPlatoonModel[]> {
 
     if (this.debug) {
       return [

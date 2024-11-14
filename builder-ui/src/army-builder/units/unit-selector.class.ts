@@ -30,13 +30,13 @@ export interface IVehicleWeaponOption {
 }
 
 export class UnitSelector {
-  id: string;
-  name: string;
-  unitType: UnitType;
-  subType?: UnitSubType;
-  cost: Record<Experience, number>;
-  specialRuleIds?: string[] = [];
-  options: IGeneralOptionSelector[] = [];
+  readonly id: string;
+  readonly name: string;
+  readonly unitType: UnitType;
+  readonly subType?: UnitSubType;
+  readonly cost: Record<Experience, number>;
+  readonly specialRuleIds?: string[] = [];
+  readonly options: IGeneralOptionSelector[] = [];
 
   get availableExperienceLevels(): Experience[] {
     return Object.keys(this.cost)
@@ -67,14 +67,14 @@ export class UnitSelector {
 }
 
 export class InfantryUnitSelector extends UnitSelector {
-  keyPerson: string;
-  baseWeaponId: string;
+  readonly keyPerson: string;
+  readonly baseWeaponId: string;
   baseWeapon?: Weapon;
-  keyPersonWeaponOptions: IInfantryWeaponOption[] = [];
-  generalWeaponOptions: IInfantryWeaponOption[] = [];
-  costPerMan: Record<Experience, number>;
-  baseMen: number;
-  maxMen: number;
+  readonly keyPersonWeaponOptions: IInfantryWeaponOption[] = [];
+  readonly generalWeaponOptions: IInfantryWeaponOption[] = [];
+  readonly costPerMan: Record<Experience, number>;
+  readonly baseMen: number;
+  readonly maxMen: number;
 
   constructor(data: {
     id: string;
