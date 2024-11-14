@@ -66,9 +66,13 @@
 
 <mat-progress-bar mode="indeterminate" *ngIf="loading()"></mat-progress-bar>
 
-<div class="mt-3" *ngIf="!loading()">
+  <!-- Validation Errors -->
+  <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mt-5" role="alert" *ngIf="!!(force?.errors$| async)">
+    <p class="font-bold !mb-0">Invalid Unit Selection</p>
+    <p class="!mb-0" *ngFor="let error of force?.errors$ | async" [innerHTML]="error"></p>
+  </div>
 
-  <!-- Unit Card - Commander -->
+<div class="mt-3" *ngIf="!loading()">
 
   <mat-accordion cdkDropList [cdkDropListData]="force!.platoons$ | async" (cdkDropListDropped)="drop($event)" [multi]="multiExpand()" #platoonAccordion>
     <mat-expansion-panel *ngFor="let platoon of force!.platoons$ | async; let i = index" cdkDrag #platoonPanel class="!bg-white">
@@ -80,7 +84,7 @@
           <div class="truncate">
             {{ platoon.name }}
           </div>
-          <app-icon pack="shared" icon="warning-filled" class="ml-1 text-red-400" *ngIf="platoon.hasErrors$ | async"></app-icon>
+          <app-icon pack="shared" icon="warning-filled" class="ml-1 text-red-600" *ngIf="platoon.hasErrors$ | async"></app-icon>
           <div class="ml-auto text-gray-700 text-sm">
             {{platoon.cost$ | async | number}} Pts
           </div>

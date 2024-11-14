@@ -10,6 +10,7 @@ export class ForceSelectorRepositoryService {
   private readonly forceLibrary: ForceSelector[] = [
     new ForceSelector('Generic',
       [
+        'HQ',
         'RIFL',
         'HVWP',
         'ENGR',

@@ -70,6 +70,9 @@ export class Force {
   validate(platoons: Platoon[]): string[] | null {
     const errors: string[] = [];
 
+    const hqPlatoons = platoons.filter(p => p.selector.platoonCategory == PlatoonCategory.HQ).length;
+    if (hqPlatoons > 1) errors.push('You may only have 1 Company HQ platoon.');
+
     if (this.selector.infantryMinRequirement) {
       const infantryCount = platoons.filter(p => p.selector.platoonCategory == PlatoonCategory.Infantry).length;
       const platoonCountsBySelectorId = platoons.reduce((acc, platoon) => {

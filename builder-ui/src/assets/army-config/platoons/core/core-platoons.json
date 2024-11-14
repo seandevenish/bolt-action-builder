@@ -1,6 +1,14 @@
 {
   "platoons": [
     {
+      "id": "HQ",
+      "name": "Company HQ",
+      "category": "HQ",
+      "unitRequirements": [
+        { "id": "Officer", "types": ["Officer"], "subTypes": ["CompanyCommander"], "min": 1, "max": 1, "requirementName": "Company Commander" }
+      ]
+    },
+    {
       "id": "RIFL",
       "name": "Rifle Platoon",
       "category": "Infantry",
