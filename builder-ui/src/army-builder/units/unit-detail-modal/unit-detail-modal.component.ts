@@ -4,11 +4,13 @@ import { FormGroup, FormBuilder, Validators, ReactiveFormsModule, ValidatorFn } 
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { max, Subject, takeUntil, tap } from 'rxjs';
 import { ArmyFormComponent } from '../../armies/army-form/army-form.component';
-import { InfantryUnit, Unit } from '../unit.class';
+import { Unit } from '../unit.class';
+import { InfantryUnit } from "../infantry-unit.class";
 import { UnitFactory } from "../unit-factory";
 import { CommonModule } from '@angular/common';
 import { Experience } from '../experience.enum';
-import { InfantryUnitSelector, UnitSelector } from '../unit-selector.class';
+import { UnitSelector } from '../unit-selector.class';
+import { InfantryUnitSelector } from '../infantry-unit-selector.class';
 import { IconComponent } from '../../../app/components/icon';
 
 @Component({

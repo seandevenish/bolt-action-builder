@@ -1,7 +1,11 @@
 import { Experience } from "./experience.enum";
 import { Library } from "./library.interface";
-import { UnitSelector, InfantryUnitSelector } from "./unit-selector.class";
-import { Unit, IUnitModel, InfantryUnit, IInfantryUnitModel } from "./unit.class";
+import { UnitSelector } from "./unit-selector.class";
+import { InfantryUnitSelector } from './infantry-unit-selector.class';
+import { Unit, IUnitModel } from "./unit.class";
+import { IInfantryUnitModel, InfantryUnit } from "./infantry-unit.class";
+import { TeamUnitSelector } from "./team-unit-selector.class";
+import { ITeamUnitModel, TeamUnit } from "./team-unit.class";
 
 
 export class UnitFactory {
@@ -29,6 +33,13 @@ export class UnitFactory {
         ...base,
         ...unit as IInfantryUnitModel,
         men: (unit as IInfantryUnitModel)?.men ?? selector.baseMen
+      }, library);
+    }
+
+    if (selector instanceof TeamUnitSelector) {
+      return new TeamUnit({
+        ...base,
+        ...unit as ITeamUnitModel
       }, library);
     }
 

@@ -1,0 +1,149 @@
+{
+    "units": [
+      {
+        "id": "US_MMG",
+        "name": "Medium Machine Gun Team",
+        "unitType": "MachineGunTeam",
+        "cost": {
+          "Inexperienced": 35,
+          "Regular": 50,
+          "Veteran": 65
+        },
+        "specialRuleIds": [
+          "TEAM",
+          "FIXED",
+          "US_EXTRA_MMG"
+        ],
+        "baseWeaponId": "MMG",
+        "baseMen": 3
+      },
+      {
+        "id": "US_HMG",
+        "name": "Heavy Machine Gun Team",
+        "unitType": "MachineGunTeam",
+        "cost": {
+          "Inexperienced": 55,
+          "Regular": 70,
+          "Veteran": 85
+        },
+        "specialRuleIds": [
+          "TEAM",
+          "FIXED"
+        ],
+        "baseWeaponId": "HMG",
+        "baseMen": 4
+      },
+      {
+        "id": "US_BAZOOKA",
+        "name": "Bazooka Team",
+        "unitType": "AntiTankTeam",
+        "cost": {
+          "Inexperienced": 42,
+          "Regular": 60,
+          "Veteran": 78
+        },
+        "specialRuleIds": [
+          "TEAM",
+          "SHAPED_CHARGE"
+        ],
+        "baseWeaponId": "BAZOOKA",
+        "baseWeaponDescription": "Rocket Launcher M9A1 Bazooka",
+        "baseMen": 2
+      },
+      {
+        "id": "US_FT",
+        "name": "Flamethrower Team",
+        "unitType": "FlamethrowerTeam",
+        "cost": {
+          "Regular": 50,
+          "Veteran": 65
+        },
+        "specialRuleIds": [
+          "TEAM",
+          "FLAMETHROWER"
+        ],
+        "baseWeaponId": "FLAMETHROWER_INF",
+        "baseMen": 2
+      },
+      {
+        "id": "US_LIGHT_MORTAR",
+        "name": "Light Mortar Team",
+        "unitType": "MortarTeam",
+        "subType": "LightMortar",
+        "cost": {
+          "Inexperienced": 25,
+          "Regular": 35,
+          "Veteran": 46
+        },
+        "specialRuleIds": [
+          "TEAM"
+        ],
+        "baseWeaponId": "LIGHT_MORTAR",
+        "baseMen": 3
+      },
+      {
+        "id": "US_LIGHT_MORTAR_2",
+        "name": "Light Mortar Team (2 Crew)",
+        "unitType": "MortarTeam",
+        "subType": "LightMortar",
+        "cost": {
+          "Inexperienced": 20,
+          "Regular": 30,
+          "Veteran": 41
+        },
+        "specialRuleIds": [
+          "TEAM"
+        ],
+        "baseWeaponId": "LIGHT_MORTAR",
+        "baseMen": 2
+      },
+      {
+        "id": "US_MEDIUM_MORTAR",
+        "name": "Medium Mortar Team",
+        "unitType": "MortarTeam",
+        "subType": "MediumMortar",
+        "cost": {
+          "Inexperienced": 35,
+          "Regular": 45,
+          "Veteran": 56
+        },
+        "specialRuleIds": [
+          "TEAM",
+          "FIXED"
+        ],
+        "baseWeaponId": "MEDIUM_MORTAR",
+        "baseMen": 3,
+        "options": [
+          {
+            "id": "SPOTTER",
+            "description": "May add a spotter for +10pts",
+            "cost": 10
+          }
+        ]
+      },
+      {
+        "id": "US_HEAVY_MORTAR",
+        "name": "Heavy Mortar Team",
+        "unitType": "MortarTeam",
+        "subType": "HeavyMortar",
+        "cost": {
+          "Inexperienced": 50,
+          "Regular": 60,
+          "Veteran": 71
+        },
+        "specialRuleIds": [
+          "TEAM",
+          "FIXED"
+        ],
+        "baseWeaponId": "HEAVY_MORTAR",
+        "baseMen": 4,
+        "options": [
+          {
+            "id": "SPOTTER",
+            "description": "May add a spotter for +10pts",
+            "cost": 10
+          }
+        ]
+      }
+    ]
+  }

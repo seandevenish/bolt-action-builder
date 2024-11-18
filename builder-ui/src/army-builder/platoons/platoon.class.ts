@@ -4,7 +4,7 @@ import { Library } from "../units/library.interface";
 import { generateGuid } from "../../app/utilities/guid";
 import { IUnitModel } from "../units/unit.class";
 import { PlatoonSelector } from "./platoon-selector.class";
-import { BehaviorSubject, combineLatest, map, mapTo, merge, Observable, startWith, switchMap } from 'rxjs';
+import { BehaviorSubject, combineLatest, map, merge, Observable, startWith, switchMap } from 'rxjs';
 import { IFirestoreStorable } from '../../app/services/firestore-base-service.service';
 
 export interface IPlatoonModel extends IFirestoreStorable {
@@ -104,20 +104,28 @@ export class Platoon {
     const errors: string[] = [];
 
     this.selector.unitRequirements.forEach(r => {
-      const unitsForRequirement = units.filter(u => u.slotId == r.id);
-      if (r.maxPerUnit) {
-        const otherUnitsCount = units.length - unitsForRequirement.length;
-        const max = otherUnitsCount * r.maxPerUnit;
-        // todo: requirement/Name
-        if (unitsForRequirement.length > max) errors.push(`You have ${unitsForRequirement.length} ${r.requirementName} but this must be limited to ${max}.`);
-      }
 
-      if (r.minCarryAll) {
-        const totalMen = units.reduce((total, unit) => total + (unit.men ?? 0), 0)
-        const transportCapacity = 0; //Todo: get transport capacity from unitsForRequirement
-        if (totalMen > transportCapacity) errors.push(`You have ${totalMen} men but only transport capacity for ${transportCapacity} men.`);
+      if (r.maxPerUnit || r.minCarryAll) {
+        const unitsForRequirement = units.filter(u =>
+          r.types.includes(u.selector.unitType) &&
+         (!r.subTypes || u.selector.subType && r.subTypes.includes(u.selector.subType)) &&
+         (!r.excludeSubTypes || !u.selector.subType || !r.excludeSubTypes.includes(u.selector.subType))
+        );
+
+        if (r.maxPerUnit) {
+          const otherUnitsCount = units.length - unitsForRequirement.length;
+          const max = otherUnitsCount * r.maxPerUnit;
+          // todo: requirement/Name
+          if (unitsForRequirement.length > max) errors.push(`You have ${unitsForRequirement.length} ${r.requirementName} but this must be limited to ${max}.`);
+        }
+
+        if (r.minCarryAll) {
+          const totalMen = units.reduce((total, unit) => total + (unit.men ?? 0), 0)
+          const transportCapacity = 0; //Todo: get transport capacity from unitsForRequirement
+          if (totalMen > transportCapacity) errors.push(`You have ${totalMen} men but only transport capacity for ${transportCapacity} men.`);
+        }
       }
-    })
+    });
 
     return errors.length ? errors : null;
   }

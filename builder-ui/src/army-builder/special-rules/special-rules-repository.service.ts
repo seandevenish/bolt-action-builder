@@ -12,6 +12,7 @@ export class SpecialRulesRepositoryService {
     return [
       { id: 'TANKHUNT', name: 'Tank Hunters', shortDescription: 'No penalty on morale check and full damage', description: '' },
       { id: 'TOUGH', name: 'Tough Fighters', shortDescription: '', description: '' },
+      { id: 'EXTRASELECTION', name: 'Extrta Selection', shortDescription: 'Take 3 MMGs per selection', description: 'You may take up to 3 medium machine guns as 1 machine gun selection' },
       { id: 'STUBBORN', name: 'Stubborn', shortDescription: '', description: '' },
       { id: 'SHAPED_CHARGE', name: 'Shaped Charge', shortDescription: '', description: '' },
       { id: 'ONE_SHOT', name: 'One-Shot', shortDescription: '', description: '' },

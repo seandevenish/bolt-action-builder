@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { InfantryUnitSelector, UnitSelector, VehicleSelector, WeaponTeamSelector } from './unit-selector.class';
+import { UnitSelector, VehicleSelector } from './unit-selector.class';
+import { InfantryUnitSelector } from './infantry-unit-selector.class';
 import { catchError, map, Observable, of, forkJoin } from 'rxjs';
+import { TeamUnitSelector } from './team-unit-selector.class';
 
 @Injectable({
   providedIn: 'root'
@@ -78,7 +80,7 @@ export class UnitSelectorRepositoryService {
       case 'vehicle':
         return new VehicleSelector(unit);
       case 'team':
-        return new WeaponTeamSelector(unit);
+        return new TeamUnitSelector(unit);
       default:
         return new UnitSelector(unit);
     }

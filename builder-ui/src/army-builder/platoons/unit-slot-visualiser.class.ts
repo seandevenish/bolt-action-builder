@@ -70,16 +70,21 @@ export class UnitSlotVisualiser {
       }, units),
       shareReplay(1)
     );
-    
+
     this.remainingMandatorySlots$ = this.selectedUnits$.pipe(
       map(m => Math.max((this.min ?? 0) - m.length, 0)),
       distinctUntilChanged(),
     );
 
     this.remainingOptionalSlots$ = this.selectedUnits$.pipe(
-      map(m => this.max === 'indeterminate' ?
+      map(m => {
+        const extraUnits = m.filter(u => u.selector.specialRuleIds?.includes("US_EXTRA_MMG")).length;
+        const freeExtraUnits = extraUnits - Math.floor(extraUnits / 3);
+        return m.length - freeExtraUnits;
+      }),
+      map(used => this.max === 'indeterminate' ?
         1 :
-        (this.max ?? 0) - (this.min ?? 0) - Math.max(m.length - (this.min ?? 0), 0)),
+        (this.max ?? 0) - (this.min ?? 0) - Math.max(used - (this.min ?? 0), 0)),
       distinctUntilChanged()
     );
 
