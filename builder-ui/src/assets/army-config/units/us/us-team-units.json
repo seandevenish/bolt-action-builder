@@ -66,7 +66,7 @@
         "baseMen": 2
       },
       {
-        "id": "US_LIGHT_MORTAR",
+        "id": "US_LGT_MORTAR",
         "name": "Light Mortar Team",
         "unitType": "MortarTeam",
         "subType": "LightMortar",
@@ -82,7 +82,7 @@
         "baseMen": 3
       },
       {
-        "id": "US_LIGHT_MORTAR_2",
+        "id": "US_LGT_MORTAR_2C",
         "name": "Light Mortar Team (2 Crew)",
         "unitType": "MortarTeam",
         "subType": "LightMortar",
@@ -98,7 +98,7 @@
         "baseMen": 2
       },
       {
-        "id": "US_MEDIUM_MORTAR",
+        "id": "US_MDM_MORTAR",
         "name": "Medium Mortar Team",
         "unitType": "MortarTeam",
         "subType": "MediumMortar",
@@ -122,7 +122,7 @@
         ]
       },
       {
-        "id": "US_HEAVY_MORTAR",
+        "id": "US_HVY_MORTAR",
         "name": "Heavy Mortar Team",
         "unitType": "MortarTeam",
         "subType": "HeavyMortar",
@@ -143,6 +143,127 @@
             "description": "May add a spotter for +10pts",
             "cost": 10
           }
+        ]
+      },
+      {
+        "id": "US_LGT_HWTZ",
+        "name": "Light Howitzer",
+        "unitType": "FieldArtillery",
+        "cost": {
+          "Inexperienced": 32,
+          "Regular": 45,
+          "Veteran": 59
+        },
+        "baseWeaponId": "LIGHT_HOWITZER",
+        "baseMen": 3,
+        "options": [
+          {
+            "id": "GUN_SHIELD",
+            "specialRuleId": "GUN_SHIELD",
+            "description": "Add gun shield for +5pts",
+            "cost": 5
+          }
+        ]
+      },
+      {
+        "id": "US_MED_HWTZ",
+        "name": "Medium Howitzer",
+        "unitType": "FieldArtillery",
+        "cost": {
+          "Inexperienced": 72,
+          "Regular": 85,
+          "Veteran": 99
+        },
+        "baseWeaponId": "MEDIUM_HOWITZER",
+        "baseMen": 4,
+        "options": [
+          {
+            "id": "SPOTTER",
+            "description": "May add a spotter for +10pts",
+            "cost": 10
+          },
+          {
+            "id": "GUN_SHIELD",
+            "specialRuleId": "GUN_SHIELD",
+            "description": "Add gun shield for +5pts",
+            "cost": 5
+          }
+        ]
+      },
+      {
+        "id": "US_HVY_HWTZ",
+        "name": "Heavy Howitzer",
+        "unitType": "FieldArtillery",
+        "cost": {
+          "Inexperienced": 122,
+          "Regular": 135,
+          "Veteran": 149
+        },
+        "baseWeaponId": "HEAVY_HOWITZER",
+        "baseMen": 5,
+        "options": [
+          {
+            "id": "SPOTTER",
+            "description": "May add a spotter for +10pts",
+            "cost": 10
+          },
+          {
+            "id": "GUN_SHIELD",
+            "specialRuleId": "GUN_SHIELD",
+            "description": "Add gun shield for +5pts",
+            "cost": 5
+          }
+        ]
+      },
+      {
+        "id": "US_AA_AUTO",
+        "name": "AA Automatic Cannon",
+        "unitType": "FieldArtillery",
+        "cost": {
+          "Inexperienced": 35,
+          "Regular": 50,
+          "Veteran": 65
+        },
+        "baseWeaponId": "HAC",
+        "baseWeaponDescription": "Heavy automatic cannon on a rotating platform",
+        "baseMen": 4,
+        "specialRuleIds": [
+          "FLAK"
+        ]
+      },
+      {
+        "id": "US_DUAL_AA_AT",
+        "name": "Dual Purpose AA/AT Gun",
+        "unitType": "FieldArtillery",
+        "cost": {
+          "Inexperienced": 102,
+          "Regular": 145,
+          "Veteran": 189
+        },
+        "baseWeaponId": "SUPER_HEAVY_AT_GUN",
+        "baseWeaponDescription": "Super-heavy anti-tank gun on a rotating platform",
+        "baseMen": 5,
+        "specialRuleIds": [
+          "GUN_SHIELD",
+          "FLAK"
+        ]
+      },
+      {
+        "id": "US_M51_MULTIMMG",
+        "name": "M51 Multiple Machine Gun",
+        "unitType": "FieldArtillery",
+        "cost": {
+          "Inexperienced": 108,
+          "Regular": 135,
+          "Veteran": 162
+        },
+        "baseWeaponId": "HMG",
+        "baseWeaponQty": 4,
+        "baseWeaponDescription": "Platform-mountd HMGs",
+        "baseMen": 4,
+        "specialRuleIds": [
+          "CUMBERSOME",
+          "FLAK"
         ]
       }
     ]
