@@ -106,11 +106,7 @@ export class Platoon {
     this.selector.unitRequirements.forEach(r => {
 
       if (r.maxPerUnit || r.minCarryAll) {
-        const unitsForRequirement = units.filter(u =>
-          r.types.includes(u.selector.unitType) &&
-         (!r.subTypes || u.selector.subType && r.subTypes.includes(u.selector.subType)) &&
-         (!r.excludeSubTypes || !u.selector.subType || !r.excludeSubTypes.includes(u.selector.subType))
-        );
+        const unitsForRequirement = units.filter(u => u.slotId == r.id);
 
         if (r.maxPerUnit) {
           const otherUnitsCount = units.length - unitsForRequirement.length;
