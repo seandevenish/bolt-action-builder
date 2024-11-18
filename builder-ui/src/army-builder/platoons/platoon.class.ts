@@ -12,6 +12,7 @@ export interface IPlatoonModel extends IFirestoreStorable {
   selectorId: string;
   platoonName: string | null;
   units?: IUnitModel[];
+  order: number;
 }
 
 export class Platoon {
@@ -126,7 +127,8 @@ export class Platoon {
       id: this.id,
       selectorId: this.selector.id,
       platoonName: this.platoonName ?? null,
-      units: this.units$.getValue().map(u => u.toStoredObject())
+      units: this.units$.getValue().map(u => u.toStoredObject()),
+      order: 0
     };
   }
 }
