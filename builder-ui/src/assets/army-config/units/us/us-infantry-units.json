@@ -435,6 +435,39 @@
         },
         "baseMen": 7,
         "maxMen": 13
+      },
+      {
+        "id": "US_SNIPER",
+        "name": "Sniper Team",
+        "unitType": "SniperTeam",
+        "cost": {
+          "Regular": 52,
+          "Veteran": 67
+        },
+        "specialRuleIds": [
+          "TEAM",
+          "SNIPER",
+          "INFLITRATOR"
+        ],
+        "keyPerson": "Sniper",
+        "baseWeaponId": "RIFLE",
+        "baseWeaponDescription": "Sniper has a rifle and a pistol, spotter has a pistol",
+        "keyPersonWeaponOptions": [
+          {
+            "weaponId": "SMG",
+            "max": 1,
+            "cost": 3
+          }
+        ],
+        "generalWeaponOptions": [
+          {
+            "weaponId": "SMG",
+            "max": 2,
+            "cost": 3
+          }
+        ],
+        "baseMen": 2,
+        "maxMen": 2
       }
     ]
   }

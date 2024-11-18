@@ -16,6 +16,8 @@ export class SpecialRulesRepositoryService {
       { id: 'GUN_SHIELD', name: 'Gun Shield', shortDescription: '', description: ''},
       { id: 'FLAK', name: 'Flak', shortDescription: '', description: ''},
       { id: 'CUMBSEROME', name: 'Cumbersome', shortDescription: 'Counts as heavy for movement', description: 'Counts as a heavy gun for the purposes of movement'},
+      { id: 'SNIPER', name: 'Sniper', shortDescription: '', description: '' },
+      { id: 'INFILTRATOR', name: 'Infiltrator', shortDescription: '', description: '' },
       { id: 'STUBBORN', name: 'Stubborn', shortDescription: '', description: '' },
       { id: 'SHAPED_CHARGE', name: 'Shaped Charge', shortDescription: '', description: '' },
       { id: 'ONE_SHOT', name: 'One-Shot', shortDescription: '', description: '' },

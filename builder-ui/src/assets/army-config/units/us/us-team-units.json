@@ -265,6 +265,51 @@
           "CUMBERSOME",
           "FLAK"
         ]
+      },
+      {
+        "id": "US_LGT_AT",
+        "name": "Light Anti-Tank Gun",
+        "unitType": "FieldArtillery",
+        "cost": {
+          "Inexperienced": 35,
+          "Regular": 50,
+          "Veteran": 65
+        },
+        "baseWeaponId": "LIGHT_AT_GUN",
+        "baseMen": 3,
+        "specialRuleIds": [
+          "GUN_SHIELD"
+        ]
+      },
+      {
+        "id": "US_MDM_AT",
+        "name": "Medium Anti-Tank Gun",
+        "unitType": "FieldArtillery",
+        "cost": {
+          "Inexperienced": 55,
+          "Regular": 70,
+          "Veteran": 85
+        },
+        "baseWeaponId": "MEDIUM_AT_GUN",
+        "baseMen": 3,
+        "specialRuleIds": [
+          "GUN_SHIELD"
+        ]
+      },
+      {
+        "id": "US_HVY_AT",
+        "name": "Heavy Anti-Tank Gun",
+        "unitType": "FieldArtillery",
+        "cost": {
+          "Inexperienced": 85,
+          "Regular": 100,
+          "Veteran": 115
+        },
+        "baseWeaponId": "HEAVY_AT_GUN",
+        "baseMen": 4,
+        "specialRuleIds": [
+          "GUN_SHIELD"
+        ]
       }
     ]
   }
