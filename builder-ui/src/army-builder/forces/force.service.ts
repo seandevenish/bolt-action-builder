@@ -1,3 +1,4 @@
+import { SpecialRulesRepositoryService } from './../special-rules/special-rules-repository.service';
 import { Injectable } from '@angular/core';
 import { ArmyService } from '../armies/army.service';
 import { PlatoonSelectorRepositoryService } from '../platoons/platoon-selector-repository.service';
@@ -20,7 +21,8 @@ export class ForceService {
     private readonly _platoonSelectorService: PlatoonSelectorRepositoryService,
     private readonly _unitSelectorService: UnitSelectorRepositoryService,
     private readonly _weaponService: WeaponRepositoryService,
-    private readonly _forceSelectorService: ForceSelectorRepositoryService
+    private readonly _forceSelectorService: ForceSelectorRepositoryService,
+    private readonly _specialRuleService: SpecialRulesRepositoryService
   ) {  }
 
   async getForce(army: Army): Promise<Force> {
@@ -39,9 +41,10 @@ export class ForceService {
       platoonSelectors: await firstValueFrom(this._platoonSelectorService.getPlatoonsForForceSelector(army.factionId, army.forceSelectorId)),
       unitSelectors: await firstValueFrom(this._unitSelectorService.getUnitsForFaction(army.factionId, army.forceSelectorId)),
       weapons: await firstValueFrom(this._weaponService.getWeapons()),
-      specialRules: []
+      specialRules: this._specialRuleService.getRules()
     } as Library;
     library.unitSelectors.forEach(u => u.enrich(library));
+    library.weapons.forEach(w => w.specialRules = w.specialRuleIds.map(i => library.specialRules.find(r => r.id == i)).filter(i => i !== undefined));
     return library;
   }
 }

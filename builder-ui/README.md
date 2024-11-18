@@ -8,7 +8,7 @@ Infrastructure:
 * Deployment
 
 Platoons:
-* Faction overrides
+* Faction overrides (US add 'bonus MMG' to Heavy Weapons Platoon)
 
 Units:
 * Implement Teams

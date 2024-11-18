@@ -1,6 +1,6 @@
 import { Library } from "./library.interface";
 import { TeamUnitSelector } from "./team-unit-selector.class";
-import { Unit, IUnitModel } from "./unit.class";
+import { Unit, IUnitModel, IUnitWeaponDetail } from "./unit.class";
 
 export interface ITeamUnitModel extends IUnitModel {
 }
@@ -35,6 +35,16 @@ export class TeamUnit extends Unit<TeamUnitSelector> {
       return v + (o.cost ?? 0);
     }, 0);
     return base + options;
+  }
+
+  protected override calculateWeaponSummary(): IUnitWeaponDetail[] {
+    return [{
+      qty: this.selector.baseWeaponQty,
+      role: null,
+      description: this.selector.baseWeaponDescription ?? this.selector.baseWeapon!.name,
+      weapon: this.selector.baseWeapon!,
+      special: this.selector.baseWeapon?.specialRules?.map(r => r.name).join(", ") ?? ""
+    }];
   }
 
   public override toStoredObject(): ITeamUnitModel {

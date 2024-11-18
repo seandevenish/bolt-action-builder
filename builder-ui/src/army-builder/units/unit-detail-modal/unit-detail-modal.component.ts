@@ -2,7 +2,7 @@ import { IGeneralOptionSelector, IInfantryWeaponOption } from './../unit-selecto
 import { Component, Inject, signal, WritableSignal, Signal, computed, HostListener } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule, ValidatorFn } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { max, Subject, takeUntil, tap } from 'rxjs';
+import { Subject, takeUntil, tap } from 'rxjs';
 import { ArmyFormComponent } from '../../armies/army-form/army-form.component';
 import { Unit } from '../unit.class';
 import { InfantryUnit } from "../infantry-unit.class";
@@ -29,9 +29,9 @@ export class UnitDetailModalComponent {
 
   form: FormGroup;
   unit: Unit|InfantryUnit;
-  readonly _unsavedUnit: Unit;
   readonly selector: UnitSelector;
   readonly cost: WritableSignal<number>;
+  readonly calculatedUnit: WritableSignal<Unit>;
   readonly validationErrors: WritableSignal<string[] | null>;
 
   readonly isInfantry: boolean = false;
@@ -60,8 +60,8 @@ export class UnitDetailModalComponent {
     private readonly _formBuilder: FormBuilder
   ) {
     this.unit = data.unit as Unit;
-    this._unsavedUnit = UnitFactory.loadUnit(data.unit, data.unit.selector, data.library);
     this.cost = signal(this.unit.cost);
+    this.calculatedUnit = signal(UnitFactory.loadUnit(data.unit, data.unit.selector, data.library));
     this.validationErrors = signal(this.unit.errors);
     this.selector = data.unit.selector;
     this.isInfantry = this.selector instanceof InfantryUnitSelector;
@@ -84,10 +84,12 @@ export class UnitDetailModalComponent {
   ngOnInit(): void {
     this.form.valueChanges.pipe(
       tap(v => {
-        this.assignFormToUnit(v, this._unsavedUnit)
-        this._unsavedUnit.refresh();
-        this.cost.set(this._unsavedUnit.cost);
-        this.validationErrors.set(this._unsavedUnit.errors)
+        let unit = this.calculatedUnit();
+        this.assignFormToUnit(v, unit)
+        unit = UnitFactory.loadUnit(unit, unit.selector, unit.library);
+        this.cost.set(unit.cost);
+        this.calculatedUnit.set(unit);
+        this.validationErrors.set(this.unit.errors)
       }),
       takeUntil(this._unsubscribeAll$)
     ).subscribe();

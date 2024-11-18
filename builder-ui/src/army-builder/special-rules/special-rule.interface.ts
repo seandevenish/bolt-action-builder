@@ -4,5 +4,3 @@ export interface SpecialRule {
   shortDescription: string;
   description: string;
 }
-
-

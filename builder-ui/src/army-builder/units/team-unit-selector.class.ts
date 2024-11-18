@@ -8,7 +8,7 @@ import { UnitType, UnitSubType } from "./unit-type.enum";
 export class TeamUnitSelector extends UnitSelector {
   readonly baseWeaponQty: number = 1;
   readonly baseWeaponId: string;
-  readonly baseWeaponDescription: string;
+  readonly baseWeaponDescription: string | null;
   baseWeapon?: Weapon;
   readonly baseMen: number;
 
@@ -28,16 +28,13 @@ export class TeamUnitSelector extends UnitSelector {
     super(data);
     this.baseWeaponQty = data.baseWeaponQty ?? 1;
     this.baseWeaponId = data.baseWeaponId;
-    this.baseWeaponDescription = data.baseWeaponDescription ?? '';
+    this.baseWeaponDescription = data.baseWeaponDescription ?? null;
     this.baseMen = data.baseMen;
   }
 
   public override enrich(library: Library): void {
     super.enrich(library);
     this.baseWeapon = library.weapons.find(w => w.id == this.baseWeaponId);
-    if (this.baseWeapon) {
-      this.baseWeapon.name = this.baseWeaponDescription;
-    }
   }
 
 }

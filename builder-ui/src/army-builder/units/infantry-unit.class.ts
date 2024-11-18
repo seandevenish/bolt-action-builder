@@ -1,7 +1,7 @@
 import { Library } from "./library.interface";
 import { IInfantryWeaponOption } from "./unit-selector.class";
 import { InfantryUnitSelector } from './infantry-unit-selector.class';
-import { IUnitModel, Unit } from "./unit.class";
+import { IUnitModel, IUnitWeaponDetail, Unit } from "./unit.class";
 
 
 export interface IInfantryUnitModel extends IUnitModel {
@@ -85,6 +85,18 @@ export class InfantryUnit extends Unit<InfantryUnitSelector> {
       return v + (qty * o.cost);
     }, 0);
     return base + perMan + options + keyPersonWeapon + weaponOptions;
+  }
+
+  protected override calculateWeaponSummary(): IUnitWeaponDetail[] {
+    const ncoWeapon = this.keyPersonWeapon ?? this.selector.baseWeapon!;
+    const ncoDetail: IUnitWeaponDetail = {
+      qty: 1,
+      role: this.selector.keyPerson,
+      description: this.keyPersonWeaponOptions.find(o => o.weaponId == ncoWeapon.id)?.description ?? ncoWeapon.name,
+      weapon: this.keyPersonWeapon ?? this.selector.baseWeapon!,
+      special: ncoWeapon?.specialRules?.map(r => r.name).join(", ") ?? ""
+    };
+    return [ncoDetail];
   }
 
   public override toStoredObject(): IInfantryUnitModel {

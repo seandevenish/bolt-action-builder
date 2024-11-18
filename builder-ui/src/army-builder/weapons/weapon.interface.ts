@@ -1,3 +1,4 @@
+import { SpecialRule } from "../special-rules/special-rule.interface";
 import { WeaponType } from "./weapon-type.enum";
 
 export interface Weapon {
@@ -12,5 +13,6 @@ export interface Weapon {
   maxIndirectRange: number;
   shots: number;
   specialRuleIds: string[];
+  specialRules?: SpecialRule[];
   heDiameter: number;
 }

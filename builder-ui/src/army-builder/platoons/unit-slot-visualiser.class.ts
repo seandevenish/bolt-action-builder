@@ -77,11 +77,7 @@ export class UnitSlotVisualiser {
     );
 
     this.remainingOptionalSlots$ = this.selectedUnits$.pipe(
-      map(m => {
-        const extraUnits = m.filter(u => u.selector.specialRuleIds?.includes("US_EXTRA_MMG")).length;
-        const freeExtraUnits = extraUnits - Math.floor(extraUnits / 3);
-        return m.length - freeExtraUnits;
-      }),
+      map(m => m.length),
       map(used => this.max === 'indeterminate' ?
         1 :
         (this.max ?? 0) - (this.min ?? 0) - Math.max(used - (this.min ?? 0), 0)),

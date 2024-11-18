@@ -24,7 +24,7 @@
       <div class="inline-flex rounded !mb-4">
         <div class="inline-block" *ngFor="let exp of unit.selector?.availableExperienceLevels; let i = index">
           <input type="radio" [id]="exp" [value]="exp" class="hidden peer" required formControlName="experience" />
-          <label [for]="exp" class="text-sm inline-block p-2.5 text-gray-500 bg-gray-50 cursor-pointer border border-gray-300
+          <label [for]="exp" class="text-sm text-center inline-block p-2.5 text-gray-500 bg-gray-50 cursor-pointer border border-gray-300
             peer-checked:bg-gray-600 peer-checked:text-gray-100 peer-checked:border-gray-600
             hover:text-gray-900 hover:bg-gray-200"
             [ngClass]="{
@@ -32,7 +32,8 @@
               'rounded-r-sm': i === (unit.selector.availableExperienceLevels.length - 1),
               'border-r-0': i < (unit.selector.availableExperienceLevels.length - 1)
             }">
-            {{exp}}
+            <div>{{exp}}</div>
+            <div class="text-xs">{{(unit.selector?.cost?.[exp] ?? 0) + ((infantryUnitSelector?.costPerMan?.[exp] ?? 0) * ((calculatedUnit()?.men ?? 0) - (infantryUnitSelector?.baseMen ?? 0))) | number}} Pts</div>
           </label>
         </div>
       </div>
@@ -60,42 +61,44 @@
 
         <h3 class="font-semibold text-gray-800 pt-5" *ngIf="hasWeapons">Weapons</h3>
 
-        <div class="grid grid-cols-6 gap-x-6 gap-y-8">
+        <div class="border-l-4 border-primary-300 pl-3">
+          <div class="grid grid-cols-6 gap-x-6 gap-y-8 mb-6">
 
-          <!-- Default Weapon -->
-          <div class="col-span-4 md:col-span-3">
-            <label for="men" class="block mb-2 text-sm font-medium text-gray-900">Default Weapon</label>
-            <p class="bg-gray-200 border border-gray-300 text-gray-900 text-sm rounded block w-full p-2.5">{{infantryUnitSelector.baseWeapon?.name}}</p>
+            <!-- Default Weapon -->
+            <div class="col-span-4 md:col-span-3">
+              <label for="men" class="block mb-2 text-sm font-medium text-gray-900">Default Weapon</label>
+              <p class="bg-gray-200 border border-gray-300 text-gray-900 text-sm rounded block w-full p-2.5">{{infantryUnitSelector.baseWeapon?.name}}</p>
+            </div>
+
+
+            <!-- Key Person Weapon Option -->
+            <div class="col-span-4 md:col-span-3" *ngIf="infantryUnit.keyPersonWeaponOptions?.length">
+              <label for="men" class="block mb-2 text-sm font-medium text-gray-900">{{infantryUnitSelector.keyPerson}} Weapon</label>
+              <select id="men" formControlName="keyPersonWeaponId"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                <option [value]="null">{{infantryUnitSelector.baseWeapon?.name}}</option>
+                <option *ngFor="let option of infantryUnitSelector.keyPersonWeaponOptions"
+                  [value]="option.weaponId">
+                  {{ option.description ?? option.weapon?.name }} ({{option.cost ? option.cost + ' Pts' : 'No Cost'}})
+                </option>
+              </select>
+            </div>
           </div>
 
-
-          <!-- Key Person Weapon Option -->
-          <div class="col-span-4 md:col-span-3" *ngIf="infantryUnit.keyPersonWeaponOptions?.length">
-            <label for="men" class="block mb-2 text-sm font-medium text-gray-900">{{infantryUnitSelector.keyPerson}} Weapon</label>
-            <select id="men" formControlName="keyPersonWeaponId"
-              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-              <option [value]="null">Default</option>
-              <option *ngFor="let option of infantryUnitSelector.keyPersonWeaponOptions"
-                [value]="option.weaponId">
-                {{ option.description ?? option.weapon?.name }} ({{option.cost ? option.cost + ' Pts' : 'No Cost'}})
-              </option>
-            </select>
-          </div>
-        </div>
-
-        <!-- Weapon Options -->
-        <div class="grid grid-cols-6 gap-x-6 gap-y-8" formGroupName="generalWeaponIds">
-          <div class="col-span-3 md:col-span-2 flex flex-col justify-between" *ngFor="let wOption of infantryUnitSelector.generalWeaponOptions">
-            <label [for]="wOption.weaponId" class="block mb-2 text-sm font-medium text-gray-900 mt-auto">
-              {{ wOption.description ?? wOption.weapon?.name }}
-            </label>
-            <select [id]="wOption.weaponId" [formControlName]="wOption.weaponId"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-              <option *ngFor="let qty of [].constructor(wOption.max + 1); let i = index" [value]="i">
-                {{ i }}
-              </option>
-            </select>
-            <p class="mt-1 text-sm text-gray-500">{{ wOption.cost | number }} pts each</p>
+          <!-- Weapon Options -->
+          <div class="grid grid-cols-6 gap-x-6 gap-y-8" formGroupName="generalWeaponIds">
+            <div class="col-span-3 md:col-span-2 flex flex-col justify-between" *ngFor="let wOption of infantryUnitSelector.generalWeaponOptions">
+              <label [for]="wOption.weaponId" class="block mb-2 text-sm font-medium text-gray-900 mt-auto">
+                {{ wOption.description ?? wOption.weapon?.name }}
+              </label>
+              <select [id]="wOption.weaponId" [formControlName]="wOption.weaponId"
+                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                <option *ngFor="let qty of [].constructor(wOption.max + 1); let i = index" [value]="i">
+                  {{ i }}
+                </option>
+              </select>
+              <p class="mt-1 text-sm text-gray-500">{{ wOption.cost | number }} pts each</p>
+            </div>
           </div>
         </div>
 
@@ -104,7 +107,7 @@
       <!-- General Options -->
       <ng-container *ngIf="selector.options?.length">
         <h3 class="font-semibold text-gray-800 pt-5">Options</h3>
-        <div class="space-y-4" formGroupName="optionIds">
+        <div class="space-y-4 border-l-4 border-primary-300 pl-3" formGroupName="optionIds">
           <div class="flex items-center" *ngFor="let option of selector.options">
             <input type="checkbox" [id]="option.id" [formControlName]="option.id"
               class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
@@ -114,6 +117,38 @@
           </div>
         </div>
       </ng-container>
+
+      <!-- Weapon Summary -->
+      <h3 class="font-semibold text-gray-800 pt-5" *ngIf="hasWeapons">Summary</h3>
+
+      <p class="text-sm">{{calculatedUnit().countString}}</p>
+
+      <div class="container text-sm">
+        <div class="overflow-x-auto">
+          <table class="table-auto w-full text-center">
+            <thead class="bg-gray-100">
+              <tr class="text-gray-600 border-b border-t border-gray-200">
+                <th class="px-3 py-2 font-bold">Qty</th>
+                <th class="px-3 py-2 font-bold text-left">Weapons</th>
+                <th class="px-3 py-2 font-bold">Range</th>
+                <th class="px-3 py-2 font-bold">Shots</th>
+                <th class="px-3 py-2 font-bold">Pen</th>
+                <th class="px-3 py-2 font-bold text-left">Special</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="hover:bg-gray-50 border-b border-gray-200" *ngFor="let row of calculatedUnit().weaponSummary">
+                <td class="px-3 py-2">{{row.qty | number}}{{row.role ? ' ' + row.role : ''}}</td>
+                <td class="px-3 py-2 text-left">{{row.description}}</td>
+                <td class="px-3 py-2">{{row.weapon.range}}"</td>
+                <td class="px-3 py-2">{{row.weapon.shots}}</td>
+                <td class="px-3 py-2">{{row.weapon.penetrationValue}}</td>
+                <td class="px-3 py-2 text-left">{{row.special}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
 
       <!-- Validation Errors -->
       <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4" role="alert" *ngIf="validationErrors()">

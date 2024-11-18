@@ -4,6 +4,7 @@ import { SpecialRule } from "../special-rules/special-rule.interface";
 import { Experience } from "./experience.enum";
 import { Library } from "./library.interface";
 import { UnitSelector } from "./unit-selector.class";
+import { Weapon } from "../weapons/weapon.interface";
 
 export interface IUnitModel extends IFirestoreStorable {
   selectorId: string;
@@ -11,6 +12,14 @@ export interface IUnitModel extends IFirestoreStorable {
   cost: number;
   experience: Experience;
   optionIds: string[];
+}
+
+export interface IUnitWeaponDetail {
+  qty: number;
+  role?: string | null;
+  description: string;
+  weapon: Weapon;
+  special: string;
 }
 
 export abstract class Unit<TSelector extends UnitSelector = UnitSelector> {
@@ -45,6 +54,9 @@ export abstract class Unit<TSelector extends UnitSelector = UnitSelector> {
   protected _specialRules: SpecialRule[] = [];
   get specialRules() { return this._specialRules; }
 
+  protected _weaponSummary: IUnitWeaponDetail[] = [];
+  get weaponSummary() { return this._weaponSummary; }
+
   constructor(data: IUnitModel, library: Library) {
     this.selectorId = data.selectorId;
     this.slotId = data.slotId;
@@ -57,6 +69,7 @@ export abstract class Unit<TSelector extends UnitSelector = UnitSelector> {
   }
 
   protected abstract calculateCost(): number;
+  protected abstract calculateWeaponSummary(): IUnitWeaponDetail[];
 
   protected validate(): string[] | null {
     const errors: string[] = [];
@@ -99,6 +112,7 @@ export abstract class Unit<TSelector extends UnitSelector = UnitSelector> {
     this._errors = this.validate();
     this._cost = this.calculateCost();
     this._specialRules = this.calculateSpecialRules();
+    this._weaponSummary = this.calculateWeaponSummary();
     this.updated$.next();
   }
 }
