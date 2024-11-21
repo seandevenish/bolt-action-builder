@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { UnitSelector, VehicleSelector } from './unit-selector.class';
+import { UnitSelector } from './unit-selector.class';
 import { InfantryUnitSelector } from './infantry-unit-selector.class';
 import { catchError, map, Observable, of, forkJoin } from 'rxjs';
-import { TeamUnitSelector } from './team-unit-selector.class';
+import { TeamUnitSelector } from './team-unit-selector.class copy';
+import { VehicleUnitSelector } from './vehicle-unit-selector.class';
 
 @Injectable({
   providedIn: 'root'
@@ -71,14 +72,14 @@ export class UnitSelectorRepositoryService {
   /**
    * Creates the appropriate UnitSelector instance based on the unit type.
    * @param unit The raw unit data from the JSON file.
-   * @returns A UnitSelector instance (e.g., InfantryUnitSelector, VehicleSelector).
+   * @returns A UnitSelector instance (e.g., InfantryUnitSelector, VehicleUnitSelector).
    */
   private createUnitSelector(unit: any, selectorType: 'infantry' | 'vehicle' | 'team'): UnitSelector {
     switch (selectorType) {
       case 'infantry':
         return new InfantryUnitSelector(unit);
       case 'vehicle':
-        return new VehicleSelector(unit);
+        return new VehicleUnitSelector(unit);
       case 'team':
         return new TeamUnitSelector(unit);
       default:

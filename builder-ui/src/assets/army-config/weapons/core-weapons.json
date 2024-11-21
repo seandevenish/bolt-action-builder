@@ -119,6 +119,46 @@
       "heDiameter": 0
     },
     {
+      "id": "LMG_VEH",
+      "name": "Light Machine Gun (LMG)",
+      "type": "Small Arms",
+      "crew": 2,
+      "penetrationValue": 0,
+      "hits": 1,
+      "range": 36,
+      "minIndirectRange": 0,
+      "maxIndirectRange": 0,
+      "shots": 2,
+      "specialRuleIds": [],
+      "heDiameter": 0
+    },
+    {
+      "id": "MMG_VEH",
+      "name": "Medium Machine Gun (MMG)",
+      "type": "Small Arms",
+      "penetrationValue": 0,
+      "hits": 1,
+      "range": 36,
+      "minIndirectRange": 0,
+      "maxIndirectRange": 0,
+      "shots": 3,
+      "specialRuleIds": [],
+      "heDiameter": 0
+    },
+    {
+      "id": "HMG_VEH",
+      "name": "Heavy Machine Gun (HMG)",
+      "type": "Heavy Weapons",
+      "penetrationValue": 1,
+      "hits": 1,
+      "range": 48,
+      "minIndirectRange": 0,
+      "maxIndirectRange": 0,
+      "shots": 3,
+      "specialRuleIds": [],
+      "heDiameter": 0
+    },
+    {
       "id": "LAC",
       "name": "Light Automatic Cannon",
       "type": "Heavy Weapons",
@@ -234,6 +274,19 @@
         "shots": 1,
         "specialRuleIds": ["TEAM", "FIXED", "HE_1"],
         "heDiameter": 1
+      },
+      {
+        "id": "MEDIUM_AT_GUN_HE2",
+        "name": "Medium Anti-Tank Gun (improved HE)",
+        "type": "Heavy Weapons",
+        "penetrationValue": 5,
+        "hits": 1,
+        "range": 60,
+        "minIndirectRange": 0,
+        "maxIndirectRange": 0,
+        "shots": 1,
+        "specialRuleIds": ["TEAM", "FIXED", "HE_2"],
+        "heDiameter": 2
       },
       {
         "id": "HEAVY_AT_GUN",

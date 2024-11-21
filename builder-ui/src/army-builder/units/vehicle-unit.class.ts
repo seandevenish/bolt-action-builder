@@ -1,20 +1,20 @@
 import { Library } from "./library.interface";
-import { TeamUnitSelector } from "./team-unit-selector.class copy";
+import { VehicleUnitSelector } from "./vehicle-unit-selector.class";
 import { Unit, IUnitModel, IUnitWeaponDetail } from "./unit.class";
+import { ITeamUnitModel } from "./team-unit.class";
 
-export interface ITeamUnitModel extends IUnitModel {
+export interface IVehicleUnitModel extends IUnitModel {
 }
 
-export class TeamUnit extends Unit<TeamUnitSelector> {
+export class VehicleUnit extends Unit<VehicleUnitSelector> {
 
   constructor(data: ITeamUnitModel, library: Library) {
     super(data, library);
-    this.men = this.selector.baseMen;
     this.refresh();
   }
 
   public override get countString(): string {
-    return this.selector.baseMen + ' crew';
+    return 'Vehicle';
   }
 
   protected override validate(): string[] | null {
@@ -38,16 +38,10 @@ export class TeamUnit extends Unit<TeamUnitSelector> {
   }
 
   protected override calculateWeaponSummary(): IUnitWeaponDetail[] {
-    return [{
-      qty: this.selector.baseWeaponQty,
-      role: null,
-      description: this.selector.baseWeaponDescription ?? this.selector.baseWeapon!.name,
-      weapon: this.selector.baseWeapon!,
-      special: this.selector.baseWeapon?.specialRules?.map(r => r.name).join(", ") ?? ""
-    }];
+    return [];
   }
 
-  public override toStoredObject(): ITeamUnitModel {
+  public override toStoredObject(): IVehicleUnitModel {
     return {
       ...super.toStoredObject()
     };

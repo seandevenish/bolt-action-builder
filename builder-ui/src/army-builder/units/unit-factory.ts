@@ -4,8 +4,10 @@ import { UnitSelector } from "./unit-selector.class";
 import { InfantryUnitSelector } from './infantry-unit-selector.class';
 import { Unit, IUnitModel } from "./unit.class";
 import { IInfantryUnitModel, InfantryUnit } from "./infantry-unit.class";
-import { TeamUnitSelector } from "./team-unit-selector.class";
+import { VehicleUnitSelector } from "./vehicle-unit-selector.class";
 import { ITeamUnitModel, TeamUnit } from "./team-unit.class";
+import { IVehicleUnitModel, VehicleUnit } from "./vehicle-unit.class";
+import { TeamUnitSelector } from "./team-unit-selector.class copy";
 
 
 export class UnitFactory {
@@ -40,6 +42,13 @@ export class UnitFactory {
       return new TeamUnit({
         ...base,
         ...unit as ITeamUnitModel
+      }, library);
+    }
+
+    if (selector instanceof VehicleUnitSelector) {
+      return new VehicleUnit({
+        ...base,
+        ...unit as IVehicleUnitModel
       }, library);
     }
 

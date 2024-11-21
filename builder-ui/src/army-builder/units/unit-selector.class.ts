@@ -65,14 +65,3 @@ export class UnitSelector {
     this.options.forEach(o => o.specialRule = library.specialRules.find(r => r.id == o.specialRuleId));
   }
 }
-
-export class WeaponTeamSelector extends UnitSelector {
-  // weaponId: string;
-  // baseMen: number;
-  // generalWeaponOptions: IWeaponOption[];
-}
-
-export class VehicleSelector extends UnitSelector {
-  // weaponIds: Record<string, string>;
-  // generalWeaponOptions: IWeaponOption[];
-}
