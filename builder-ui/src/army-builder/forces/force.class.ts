@@ -1,7 +1,7 @@
 import { Library } from "../units/library.interface";
 import { Platoon } from '../platoons/platoon.class';
 import { Army } from '../armies/army.class';
-import { BehaviorSubject, combineLatest, map, merge, Observable, Subject, switchMap, withLatestFrom } from "rxjs";
+import { BehaviorSubject, combineLatest, map, merge, Observable, Subject, switchMap, tap, withLatestFrom } from "rxjs";
 import { ForceSelector } from "./force-selector";
 import { PlatoonCategory } from "../platoons/platoon-category.enum";
 import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
@@ -14,6 +14,7 @@ export class Force {
   readonly platoons$: BehaviorSubject<Platoon[]>;
   readonly errors$: Observable<string[] | null>;
   readonly cost$: Observable<number>;
+  cost: number = 0;
 
   private readonly platoonChangeTrigger$ = new Subject<void>();
   readonly updated$: Observable<void>;
@@ -51,7 +52,8 @@ export class Force {
         combineLatest(platoons.map(platoon => platoon.cost$)).pipe(
           map(costs => costs.reduce((total, cost) => total + cost, 0))
         )
-      )
+      ),
+      tap(v => this.cost = v)
     );
 
     this.platoonsHaveErrors$ = this.updated$.pipe(

@@ -32,6 +32,7 @@ export class Army {
     this.forceSelectorId = data.forceSelectorId ?? 'Generic';
     this.createdDate = data.createdDate;
     this.modifiedDate = data.modifiedDate;
+    this.points = data.points ?? 0;
     this.update(data);
     if (factionLibrary) this.loadProperties(factionLibrary);
   }

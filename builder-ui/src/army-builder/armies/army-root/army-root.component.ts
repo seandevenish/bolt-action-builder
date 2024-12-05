@@ -126,6 +126,7 @@ export class ArmyRootComponent implements OnInit, OnDestroy, AfterViewInit {
   save(closeAfter: boolean) {
     const army = this.force!.army;
     const platoons = this.force!.platoons$.getValue();
+    army.points = this.force!.cost;
     this.saving.set(closeAfter ? 'saveAndClose' : 'saveOnly');
     this._armyService.updateArmyAndPlatoons(army, platoons).then(() => {
       if (closeAfter) this._router.navigate(['../'], { relativeTo: this._route });

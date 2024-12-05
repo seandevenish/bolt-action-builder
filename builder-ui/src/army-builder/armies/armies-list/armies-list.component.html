@@ -1,7 +1,7 @@
 <div class="max-w-3xl p-2 sm:p-3 md:p-4 shadow-lg mx-auto bg-white rounded-xl">
 
   <div class="flex items-center w-full mb-4">
-    <button type="button" (click)="newArmy()" class="mr-2 px-5 py-2 btn-primary">
+    <button type="button" (click)="newArmy()" class="mr-2 btn-primary">
       New Army
     </button>
 
@@ -42,7 +42,7 @@
                 </p>
               </div>
               <div class="text-sm inline-flex items-center text-base font-normal text-gray-700 dark:text-white">
-                {{1000 | number: '1.0-0'}} Pts
+                {{army.points | number: '1.0-0'}} Pts
               </div>
             </a>
           </li>
