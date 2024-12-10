@@ -9,6 +9,7 @@ import { factionLibrary } from '../faction';
 import { generateGuid } from '../../app/utilities/guid';
 import { Experience } from '../units/experience.enum';
 import { IUnitModel } from '../units/unit.class';
+import { IVehicleUnitModel } from '../units/vehicle-unit.class';
 
 @Injectable({
   providedIn: 'root'
@@ -71,6 +72,19 @@ export class ArmyService extends FirestoreBaseService<IArmyModel> {
             }
           ] as any as IUnitModel[],
           order: 0
+        },
+        {
+          id: generateGuid(),
+          selectorId: 'ARMR',
+          units: [
+            {
+              selectorId: 'US_M5_M5A1',
+              slotId: 'Vehicles',
+              cost: 155,
+              experience: Experience.Regular
+            }
+          ] as IVehicleUnitModel[],
+          order: 1
         }
       ] as IPlatoonModel[];
     }

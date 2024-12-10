@@ -28,6 +28,7 @@ export class VehicleUnitSelector extends UnitSelector {
   readonly baseWeapons: IVehicleWeapon[] = [];
   readonly weaponOptions: IVehicleWeaponOption[] = [];
   readonly damageValue: number;
+  readonly tow: string;
 
   constructor(data: {
     id: string;
@@ -38,6 +39,7 @@ export class VehicleUnitSelector extends UnitSelector {
     baseWeapons?: IVehicleWeapon[];
     weaponOptions?: IVehicleWeaponOption[];
     damageValue: number;
+    tow: string;
     cost: Record<Experience, number>;
     specialRuleIds?: string[];
     options?: IGeneralOptionSelector[];
@@ -47,6 +49,7 @@ export class VehicleUnitSelector extends UnitSelector {
     this.baseWeapons = data.baseWeapons ?? [];
     this.weaponOptions = data.weaponOptions ?? [];
     this.damageValue = data.damageValue;
+    this.tow = data.tow;
   }
 
   public override enrich(library: Library): void {

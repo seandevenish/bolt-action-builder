@@ -12,14 +12,6 @@ export class VehicleUnit extends Unit<VehicleUnitSelector> {
   weaponOptionIds: string[];
   weaponOptions: (IVehicleWeaponOption)[];
 
-  get damageValue() {
-    return this.selector.damageValue;
-  }
-
-  get transportCapacity() {
-    return this.selector.transportCapacity;
-  }
-
   constructor(data: IVehicleUnitModel, library: Library) {
     super(data, library);
     this.refresh();
@@ -61,21 +53,38 @@ export class VehicleUnit extends Unit<VehicleUnitSelector> {
   protected override calculateWeaponSummary(): IUnitWeaponDetail[] {
     const excludeSpecialRules = ['Team','Fixed'];
 
-    const weapons = this.selector.baseWeapons.map(w => ({
-      qty: w.qty ?? 1,
-      description: w.description,
-      weapon: w.weapon,
-      special: w.weapon?.specialRules?.filter(r => !excludeSpecialRules.includes(r.id)).map(r => r.name).join(", ") ?? ""
+    // Get base weapons first
+    let weapons = this.selector.baseWeapons.map(w => ({
+        qty: w.qty ?? 1,
+        description: w.description,
+        weapon: w.weapon,
+        special: w.weapon?.specialRules?.filter(r => !excludeSpecialRules.includes(r.id)).map(r => r.name).join(", ") ?? ""
     }) as IUnitWeaponDetail);
 
-    // Todo: modify for weapon options
-    const options = this.selector.weaponOptions;
+    // Apply weapon options
+    this.weaponOptionIds?.forEach(optionId => {
+        const option = this.weaponOptions.find(o => o.id === optionId);
+        if (!option) return;
 
-    return [
-      ...weapons
-    ].filter(r => r.qty > 0);
+        // Remove weapons that are being replaced
+        weapons = weapons.filter(w => 
+            !option.replaceIds.some(replaceId => 
+                this.selector.baseWeapons.find(bw => bw.id === replaceId)?.description === w.description
+            )
+        );
 
-    return [];
+        // Add new weapons from the option
+        const newWeapons = option.weapons.map(w => ({
+            qty: w.qty ?? 1,
+            description: w.description,
+            weapon: w.weapon,
+            special: w.weapon?.specialRules?.filter(r => !excludeSpecialRules.includes(r.id)).map(r => r.name).join(", ") ?? ""
+        }) as IUnitWeaponDetail);
+
+        weapons = [...weapons, ...newWeapons];
+    });
+
+    return weapons.filter(r => r.qty > 0);
   }
 
   public override toStoredObject(): IVehicleUnitModel {

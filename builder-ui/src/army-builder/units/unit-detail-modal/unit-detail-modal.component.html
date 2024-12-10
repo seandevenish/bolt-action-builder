@@ -134,9 +134,12 @@
         {{calculatedUnit().experience}}
       </span>
 
-      <div class="flex text-sm text-gray-700" *ngIf="vehicleUnit">
-        <span>{{vehicleUnit.damageValue}} Damage</span>
-        <span class="ml-auto" *ngIf="vehicleUnit.transportCapacity">Transports {{vehicleUnit.transportCapacity}}</span>
+      <div class="text-sm text-gray-700" *ngIf="vehicleUnitSelector">
+        <div class="flex">
+          <div>{{vehicleUnitSelector.damageValue}}+ Damage</div>
+          <div class="ml-auto" *ngIf="vehicleUnitSelector.transportCapacity">Transports {{vehicleUnitSelector.transportCapacity}}</div>
+        </div>      
+        <div class="text-xs" *ngIf="vehicleUnitSelector.tow"><strong>Tows</strong> {{vehicleUnitSelector.tow}}</div>
       </div>
 
       <p class="text-sm">
@@ -145,7 +148,7 @@
         </ng-container>
       </p>
 
-      <div class="container text-sm">
+      <div class="container text-sm" *ngIf="calculatedUnit().weaponSummary.length">
         <div class="overflow-x-auto">
           <table class="table-auto w-full text-center">
             <thead class="bg-gray-100">

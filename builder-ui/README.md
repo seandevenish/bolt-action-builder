@@ -13,6 +13,8 @@ Platoons:
 Units:
 * Implement Teams
 * Implement Vehicles
+ - global option for command vehicles
+ - weapon option select controls
 
 Weapons:
 * Faction overrides

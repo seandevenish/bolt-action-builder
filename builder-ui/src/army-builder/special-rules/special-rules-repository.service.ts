@@ -22,6 +22,8 @@ export class SpecialRulesRepositoryService {
       { id: 'RECCE', name: 'Recce', shortDescription: '', description: '' },
       { id: 'VULNERABLE', name: 'Vulnerable', shortDescription: '+1 pen to shots to side and rear', description: 'Because of the riveted construction, all shots to the side and rear of the vehicle get an addition +1 penetration modifier (i.e. in total, +2 for side hits and +3 for rear hits' },
       { id: 'REINFORCED_FRONT', name: 'Reinforced Front Armour', shortDescription: '', description: '' },
+      { id: 'MEDICAL_VEHICLE', name: 'Medical Vehicle', shortDescription: '', description: ''},
+      { id: 'OPEN_TOPPED', name: 'Open-topped', shortDescription: '', description: ''},
       { id: 'SHAPED_CHARGE', name: 'Shaped Charge', shortDescription: '', description: '' },
       { id: 'ONE_SHOT', name: 'One-Shot', shortDescription: '', description: '' },
       { id: 'ASSAULT', name: 'Assault', shortDescription: '', description: '' },

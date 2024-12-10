@@ -11,7 +11,7 @@ import { VehicleUnitSelector } from './vehicle-unit-selector.class';
 })
 export class UnitSelectorRepositoryService {
 
-  private readonly coreConfigUrl = 'assets/army-config/units/core/core-units.json';
+  private readonly coreConfigUrl = 'assets/army-config/units/core';
   private readonly factionConfigUrlTemplate = 'assets/army-config/units'; // Base path for faction-specific JSON
 
   constructor(private readonly http: HttpClient) {}
@@ -23,13 +23,19 @@ export class UnitSelectorRepositoryService {
    * @returns An Observable of UnitSelector[] combining core and faction-specific unit selectors.
    */
   getUnitsForFaction(faction: string, forceSelectorId: string): Observable<UnitSelector[]> {
+    const coreVehicleUrl = `${this.coreConfigUrl}/core-vehicle-units.json`;
     const factionUrl = `${this.factionConfigUrlTemplate}/${faction.toLowerCase()}`;
     const infantryUrl = `${factionUrl}/${faction.toLowerCase()}-infantry-units.json`;
     const vehicleUrl = `${factionUrl}/${faction.toLowerCase()}-vehicle-units.json`;
     const teamUrl = `${factionUrl}/${faction.toLowerCase()}-team-units.json`;
 
     return forkJoin({
-      coreUnits: of([]),//this.loadUnitsFromFile(this.coreConfigUrl),
+      coreVehicleUnits: this.loadUnitsFromFile(coreVehicleUrl, 'vehicle').pipe(
+        catchError(error => {
+          console.error(`No vehicle definition for faction '${faction}':`, error);
+          return of([]); // Fallback to an empty list if vehicle file is missing or fails to load
+        })
+      ),//this.loadUnitsFromFile(this.coreConfigUrl),
       infantryUnits: this.loadUnitsFromFile(infantryUrl, 'infantry').pipe(
         catchError(error => {
           console.error(`No infantry definition for faction '${faction}':`, error);
@@ -49,8 +55,8 @@ export class UnitSelectorRepositoryService {
         })
       )
     }).pipe(
-      map(({ coreUnits, infantryUnits, vehicleUnits, teamUnits }) => [
-        ...coreUnits,
+      map(({ coreVehicleUnits, infantryUnits, vehicleUnits, teamUnits }) => [
+        ...coreVehicleUnits,
         ...infantryUnits,
         ...vehicleUnits,
         ...teamUnits

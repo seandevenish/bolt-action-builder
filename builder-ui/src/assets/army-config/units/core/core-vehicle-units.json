@@ -1,0 +1,118 @@
+{
+  "units": [
+    {
+      "id": "Light_Truck",
+      "name": "Light Truck",
+      "unitType": "TransportVehicle",
+      "cost": {
+        "Inexperienced": 18,
+        "Regular": 23,
+        "Veteran": 28
+      },
+      "damageValue": 6,
+      "transportCapacity": 8,
+      "tow": "Light howitzer, light or medium anti-tank gun, light anti-aircraft gun",
+      "weaponOptions": [
+          {
+            "id": "Pintle_MMG",
+            "description": "Add one additional pintle-mounted MMG for +15pts",
+            "weapons": [
+              {
+                "id": "pintle_mg",
+                "weaponId": "MMG_VEH",
+                "description": "Pintle-mounted MMG"
+              }
+            ],
+            "cost": 15
+          }
+        ]
+    },
+    {
+      "id": "Med_Truck",
+      "name": "Truck",
+      "unitType": "TransportVehicle",
+      "cost": {
+        "Inexperienced": 22,
+        "Regular": 27,
+        "Veteran": 32
+      },
+      "damageValue": 6,
+      "transportCapacity": 12,
+      "tow": "Light howitzer, light or medium anti-tank gun, light anti-aircraft gun",
+      "weaponOptions": [
+          {
+            "id": "Pintle_MMG",
+            "description": "Add one additional pintle-mounted MMG for +15pts",
+            "weapons": [
+              {
+                "id": "pintle_mg",
+                "weaponId": "MMG_VEH",
+                "description": "Pintle-mounted MMG"
+              }
+            ],
+            "cost": 15
+          }
+        ]
+    },
+    {
+      "id": "Horse_Limber",
+      "name": "Horse-Drawn Limber",
+      "unitType": "TransportVehicle",
+      "cost": {
+        "Inexperienced": 8,
+        "Regular": 10,
+        "Veteran": 12
+      },
+      "damageValue": 3,
+      "tow": "Any gun or howitzer"
+    },
+    {
+      "id": "Field_Ambulance",
+      "name": "Field Ambulance",
+      "unitType": "TransportVehicle",
+      "cost": {
+        "Regular": 38,
+        "Veteran": 46
+      },
+      "damageValue": 6,
+      "specialRuleIds": ["MEDICAL_VEHICLE"]
+    },
+    {
+      "id": "Art_Tractor",
+      "name": "Wheeled Artillery Tractor",
+      "unitType": "TransportVehicle",
+      "cost": {
+        "Inexperienced": 12,
+        "Regular": 15,
+        "Veteran": 18
+      },
+      "damageValue": 6,
+      "tow": "Any anti-tank gun, anti-aircraft gun, light or medium howitzer"
+    },
+    {
+      "id": "Art_Tractor_Arm",
+      "name": "Fully-Tracked Armoured Artillery Tractor",
+      "unitType": "TransportVehicle",
+      "cost": {
+        "Inexperienced": 32,
+        "Regular": 35,
+        "Veteran": 38
+      },
+      "damageValue": 7,
+      "tow": "Any anti-tank gun, anti-aircraft gun, light or medium howitzer",
+      "specialRuleIds": ["OPEN_TOPPED"]
+    },
+    {
+      "id": "Civ_Car",
+      "name": "Civilian Car",
+      "unitType": "TransportVehicle",
+      "cost": {
+        "Inexperienced": 14,
+        "Regular": 18,
+        "Veteran": 22
+      },
+      "damageValue": 6,
+      "transportCapacity": 3
+    }
+  ]
+}

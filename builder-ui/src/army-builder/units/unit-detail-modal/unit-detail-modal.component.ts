@@ -13,6 +13,7 @@ import { UnitSelector } from '../unit-selector.class';
 import { InfantryUnitSelector } from '../infantry-unit-selector.class';
 import { IconComponent } from '../../../app/components/icon';
 import { VehicleUnit } from '../vehicle-unit.class';
+import { VehicleUnitSelector } from '../vehicle-unit-selector.class';
 
 @Component({
   selector: 'app-unit-detail-modal',
@@ -53,6 +54,10 @@ export class UnitDetailModalComponent {
     return this.unit instanceof InfantryUnit ? this.unit : null;
   }
 
+  get vehicleUnitSelector(): VehicleUnitSelector | null {
+    return this.selector instanceof VehicleUnitSelector ? this.selector : null;
+  }
+  
   get vehicleUnit(): VehicleUnit | null {
     return this.unit instanceof VehicleUnit ? this.unit : null; 
   }
