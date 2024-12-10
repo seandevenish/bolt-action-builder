@@ -15,7 +15,7 @@
           {
             "id": "main",
             "weaponId": "LIGHT_AT_GUN",
-            "description": "Turret-mouted light anti-tank gun"
+            "description": "Turret-mounted light anti-tank gun"
           },
           {
             "id": "coaxial",
@@ -56,7 +56,7 @@
           {
             "id": "main",
             "weaponId": "LIGHT_AT_GUN",
-            "description": "Gyro-stabilised turret-mouted light anti-tank gun",
+            "description": "Gyro-stabilised turret-mounted light anti-tank gun",
             "specialRuleIds": ["GYROSTABILISED"]
           },
           {
@@ -144,7 +144,7 @@
           {
             "id": "main",
             "weaponId": "LIGHT_AT_GUN",
-            "description": "Gyro-stabilised turret-mouted light anti-tank gun",
+            "description": "Gyro-stabilised turret-mounted light anti-tank gun",
             "specialRuleIds": ["GYROSTABILISED"]
           },
           {

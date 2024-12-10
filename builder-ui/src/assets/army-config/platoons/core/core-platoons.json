@@ -20,7 +20,7 @@
         { "id": "Sniper", "types": ["SniperTeam"], "min": 0, "max": 1 },
         { "id": "AntiTank", "types": ["AntiTankTeam"], "min": 0, "max": 1 },
         { "id": "Mortar", "types": ["MortarTeam"], "subTypes": ["LightMortar"], "min": 0, "max": 1 },
-        { "id": "Transports", "types": ["TransportVehicle"], "min": 0, "maxPerUnit": 1 }
+        { "id": "Transports", "types": ["TransportVehicle"], "min": 0, "maxPerUnit": 1, "requirementName": "Transport Vehicles" }
       ]
     },
     {
@@ -33,7 +33,7 @@
         { "id": "Mortars", "types": ["MortarTeam"], "min": 0, "max": 3 },
         { "id": "MachineGuns", "types": ["MachineGunTeam"], "min": 0, "max": 3 },
         { "id": "AnitTank", "types": ["AntiTankTeam"], "min": 0, "max": 3 },
-        { "id": "Transports", "types": ["TransportVehicle"], "min": 0, "maxPerUnit": 1 }
+        { "id": "Transports", "types": ["TransportVehicle"], "min": 0, "maxPerUnit": 1, "requirementName": "Transport Vehicles" }
       ]
     },
     {
@@ -44,7 +44,7 @@
         { "id": "Officer", "types": ["Officer"], "subTypes": ["PlatoonCommander"], "min": 1, "max": 1, "requirementName": "Platoon Commander" },
         { "id": "Squads", "types": ["EngineerSquad"], "min": 2, "max": 4 },
         { "id": "Flamethrowers", "types": ["FlamethrowerTeam"], "min": 0, "max": 3 },
-        { "id": "Transports", "types": ["TransportVehicle"], "min": 0, "maxPerUnit": 1 }
+        { "id": "Transports", "types": ["TransportVehicle"], "min": 0, "maxPerUnit": 1, "requirementName": "Transport Vehicles" }
       ]
     },
     {
@@ -63,7 +63,7 @@
       "unitRequirements": [
         { "id": "Officer", "types": ["Officer"], "subTypes": ["PlatoonCommander"], "min": 1, "max": 1, "requirementName": "Platoon Commander" },
         { "id": "Artillery", "types": ["FieldArtillery"], "min": 1, "max": 4 },
-        { "id": "Transports", "types": ["TransportVehicle"], "min": 0, "maxPerUnit": 1 }
+        { "id": "Transports", "types": ["TransportVehicle"], "min": 0, "maxPerUnit": 1, "requirementName": "Transport Vehicles" }
       ]
     },
     {
@@ -74,7 +74,7 @@
         { "id": "Officer", "types": ["Officer"], "subTypes": ["PlatoonCommander"], "min": 1, "max": 1, "requirementName": "Platoon Commander" },
         { "id": "Squads", "types": ["InfantrySquad"], "min": 1, "max": 4 },
         { "id": "FOO", "types": ["ForwardObserver"], "min": 0, "max": 1 },
-        { "id": "Transports", "types": ["TransportVehicle"], "min": 0, "minPerUnit": 1, "maxPerUnit": 1 }
+        { "id": "Transports", "types": ["TransportVehicle"], "min": 0, "minPerUnit": 1, "maxPerUnit": 1, "requirementName": "Transport Vehicles" }
       ]
     }
   ]
