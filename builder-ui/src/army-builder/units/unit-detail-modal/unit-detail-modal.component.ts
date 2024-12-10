@@ -89,7 +89,7 @@ export class UnitDetailModalComponent {
         unit = UnitFactory.loadUnit(unit, unit.selector, unit.library);
         this.cost.set(unit.cost);
         this.calculatedUnit.set(unit);
-        this.validationErrors.set(this.unit.errors)
+        this.validationErrors.set(unit.errors)
       }),
       takeUntil(this._unsubscribeAll$)
     ).subscribe();

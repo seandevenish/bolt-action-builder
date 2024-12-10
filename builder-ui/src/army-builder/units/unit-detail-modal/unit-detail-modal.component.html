@@ -118,10 +118,27 @@
         </div>
       </ng-container>
 
-      <!-- Weapon Summary -->
+      <!-- Validation Errors -->
+      <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4" role="alert" *ngIf="validationErrors()">
+        <p class="font-bold !mb-0">Invalid Unit Selection</p>
+        <p class="!mb-0" *ngFor="let error of validationErrors()" [innerHTML]="error"></p>
+      </div>
+
+      <!-- Unit Summary -->
       <h3 class="font-semibold text-gray-800 pt-5">Summary</h3>
 
-      <p class="text-sm">{{calculatedUnit().countString}}</p>
+      <span class="text-sm text-gray-700 mr-2">
+        {{calculatedUnit().countString}}
+      </span>
+      <span class="text-sm text-gray-700 bg-gray-300 rounded-sm px-2 py-0.5">
+        {{calculatedUnit().experience}}
+      </span>
+
+      <p class="text-sm">
+        <ng-container *ngFor="let rule of calculatedUnit().specialRules; let last = last">
+          {{rule.name}}{{!last ? ', ' : ''}}
+        </ng-container>
+      </p>
 
       <div class="container text-sm">
         <div class="overflow-x-auto">
@@ -148,12 +165,6 @@
             </tbody>
           </table>
         </div>
-      </div>
-
-      <!-- Validation Errors -->
-      <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4" role="alert" *ngIf="validationErrors()">
-        <p class="font-bold !mb-0">Invalid Unit Selection</p>
-        <p class="!mb-0" *ngFor="let error of validationErrors()" [innerHTML]="error"></p>
       </div>
 
     </div>

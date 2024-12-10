@@ -2,6 +2,8 @@ import { Library } from "./library.interface";
 import { IInfantryWeaponOption } from "./unit-selector.class";
 import { InfantryUnitSelector } from './infantry-unit-selector.class';
 import { IUnitModel, IUnitWeaponDetail, Unit } from "./unit.class";
+import { SpecialRule } from "../special-rules/special-rule.interface";
+import { concat } from "rxjs";
 
 
 export interface IInfantryUnitModel extends IUnitModel {
@@ -51,7 +53,7 @@ export class InfantryUnit extends Unit<InfantryUnitSelector> {
       errors.push(`Invalid weapon choice for ${this.selector.keyPerson}`);
     // Validate Weapon Options
     const nonKeyPersonMen = this.men - 1;
-    let menForWeaponAddons = 0;
+    let menForWeaponAddons = this.calculateMenUsedByWeaponAddons();
     if (this.generalWeaponIds) {
       Object.keys(this.generalWeaponIds).forEach(k => {
         const qty = this.generalWeaponIds![k];
@@ -62,12 +64,24 @@ export class InfantryUnit extends Unit<InfantryUnitSelector> {
           return;
         }
         if (qty > selector.max) errors.push(`You have ${qty - selector.max} more ${weapon.name}s than this unit allows.`);
-        menForWeaponAddons += (weapon.crew ?? 1) * qty;
       });
       if (menForWeaponAddons > nonKeyPersonMen)
         errors.push(`You have weapon selections that require ${menForWeaponAddons} men but you only have ${nonKeyPersonMen} men available to use them.`);
     }
     return errors.length ? errors : null;
+  }
+
+  private calculateMenUsedByWeaponAddons() {
+    let menForWeaponAddons = 0;
+    if (this.generalWeaponIds) {
+      Object.keys(this.generalWeaponIds).forEach(k => {
+        const qty = this.generalWeaponIds![k];
+        const selector = this.selector?.generalWeaponOptions.find(o => o.weaponId);
+        const weapon = this.library.weapons.find(w => w.id == k);
+        menForWeaponAddons += (weapon?.crew ?? 1) * qty;
+      });
+    }
+    return menForWeaponAddons;
   }
 
   protected override calculateCost() {
@@ -96,7 +110,35 @@ export class InfantryUnit extends Unit<InfantryUnitSelector> {
       weapon: this.keyPersonWeapon ?? this.selector.baseWeapon!,
       special: ncoWeapon?.specialRules?.map(r => r.name).join(", ") ?? ""
     };
-    return [ncoDetail];
+
+    const otherWeapons = this.selector.generalWeaponOptions.map(w => {
+      const qty = this.generalWeaponIds[w.weaponId];
+      const weapon = w.weapon!;
+      return {
+        qty: qty,
+        role: w.weapon?.crew == 0 ? null : qty == 1 ? 'man' : 'men',
+        description: weapon.name,
+        weapon: weapon,
+        special: weapon?.specialRules?.map(r => r.name).join(", ") ?? ""
+      }
+    });
+
+    const baseWeapon = this.selector.baseWeapon!;
+    const baseQty = this.men - 1 - this.calculateMenUsedByWeaponAddons();
+    const baseWeaponDetail: IUnitWeaponDetail = {
+      qty: baseQty,
+      role: baseQty == 1 ? 'man' : 'men',
+      description: baseWeapon.name,
+      weapon: baseWeapon,
+      special: baseWeapon?.specialRules?.map(r => r.name).join(", ") ?? ""
+    }
+
+    return [
+      ncoDetail,
+      baseWeaponDetail,
+      ...otherWeapons
+    ].filter(r => r.qty > 0);
+
   }
 
   public override toStoredObject(): IInfantryUnitModel {
