@@ -1,3 +1,18 @@
 {
-  "platoons": []
+  "platoons": [
+     {
+      "id": "HVWP",
+      "name": "Heavy Weapons Platoon",
+      "category": "Support",
+      "unitRequirements": [
+        { "id": "Officer", "types": ["Officer"], "subTypes": ["PlatoonCommander"], "min": 1, "max": 1, "requirementName": "Platoon Commander" },
+        { "id": "Core", "types": ["MachineGunTeam", "MortarTeam"], "min": 2, "max": 2, "requirementName": "Machine Gun or Mortar Teams" },
+        { "id": "Mortars", "types": ["MortarTeam"], "min": 0, "max": 3 },
+        { "id": "MachineGuns", "types": ["MachineGunTeam"], "min": 0, "max": 3 },
+        { "id": "BonusMachineGuns", "unitSelectorIds": ["US_MMG"], "min": 0, "max": 10, "requirementName": "Additional MMG's (2 per 1)" },
+        { "id": "AntiTank", "types": ["AntiTankTeam"], "min": 0, "max": 3 },
+        { "id": "Transports", "types": ["TransportVehicle"], "min": 0, "maxPerUnit": 1 }
+      ]
+    }
+  ]
 }

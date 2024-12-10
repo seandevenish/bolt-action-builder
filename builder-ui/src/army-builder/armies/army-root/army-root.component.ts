@@ -146,7 +146,7 @@ export class ArmyRootComponent implements OnInit, OnDestroy, AfterViewInit {
     dialogRef
       .afterClosed()
       .subscribe((result: Army|null) => {
-        if (result) this.force!.army = army;
+        if (result) Object.assign(this.force!.army, result);
       });
   }
 

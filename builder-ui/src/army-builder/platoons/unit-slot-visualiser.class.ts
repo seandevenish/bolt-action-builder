@@ -43,11 +43,15 @@ export class UnitSlotVisualiser {
     this.min = this.calculateMin(requirement);
     this.max = this.calculateMax(requirement);
     this.groupable = this.max == 1;
-    const { types, subTypes, excludeSubTypes } = this.requirement;
+    const { unitSelectorIds, types, subTypes, excludeSubTypes } = this.requirement;
     this.availableUnitSelectors = library.unitSelectors.filter(s => {
-      if (!types.includes(s.unitType)) return false;
-      if (subTypes && s.subType && !subTypes.includes(s.subType)) return false;
-      if (excludeSubTypes && s.subType && excludeSubTypes.includes(s.subType)) return false;
+      if (unitSelectorIds?.length) return unitSelectorIds.includes(s.id);
+      else if (types?.length) {
+        if (!types.includes(s.unitType)) return false;
+        if (subTypes && s.subType && !subTypes.includes(s.subType)) return false;
+        if (excludeSubTypes && s.subType && excludeSubTypes.includes(s.subType)) return false;
+        return true;
+      }
       return true;
     });
 

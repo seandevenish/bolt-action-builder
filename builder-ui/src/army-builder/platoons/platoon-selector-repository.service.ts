@@ -31,7 +31,26 @@ export class PlatoonSelectorRepositoryService {
         })
       )
     }).pipe(
-      map(({ corePlatoons, factionPlatoons }) => [...corePlatoons, ...factionPlatoons])
+      map(({ corePlatoons, factionPlatoons }) => {
+        // Create a map of faction platoons by ID for quick lookup
+        const factionPlatoonMap = new Map(
+          factionPlatoons.map(platoon => [platoon.id, platoon])
+        );
+
+        // For each core platoon, either keep it or replace with faction version
+        const mergedPlatoons = corePlatoons.map(corePlatoon =>
+          factionPlatoonMap.get(corePlatoon.id) || corePlatoon
+        );
+
+        // Add any remaining faction platoons that don't override core ones
+        factionPlatoons.forEach(factionPlatoon => {
+          if (!mergedPlatoons.some(p => p.id === factionPlatoon.id)) {
+            mergedPlatoons.push(factionPlatoon);
+          }
+        });
+
+        return mergedPlatoons;
+      })
     );
   }
 

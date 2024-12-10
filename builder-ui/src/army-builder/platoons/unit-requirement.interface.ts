@@ -12,6 +12,13 @@ export interface UnitRequirement {
   requirementName?: string;
 
   /**
+   * An array of specific unit IDs that are allowed for this requirement.
+   * Use this to explicitly specify which units can be selected, rather than relying on type/subtype filtering.
+   * If empty, all units matching the type/subtype criteria are allowed.
+   */
+  unitSelectorIds: string[];
+
+  /**
    * An array of primary unit types that are required or allowed.
    * E.g., [UnitType.PlatoonCommander, UnitType.CompanyCommander]
    */
