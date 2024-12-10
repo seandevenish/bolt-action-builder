@@ -26,11 +26,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { ArmyFormComponent } from '../army-form/army-form.component';
 import { ForceService } from '../../forces/force.service';
 import { Force } from '../../forces/force.class';
+import { SpinnerComponent } from '../../../app/components/spinner/spinner.component';
 
 @Component({
   selector: 'app-army-root',
   standalone: true,
-  imports: [CommonModule, MatProgressBarModule, MatButtonModule, MatProgressSpinnerModule, MatIconModule, MatMenuModule, MatToolbarModule, MatTooltipModule, MatExpansionModule, PlatoonComponent, DragDropModule, IconComponent],
+  imports: [CommonModule, MatProgressBarModule, MatButtonModule, MatProgressSpinnerModule, MatIconModule, MatMenuModule, MatToolbarModule, MatTooltipModule, MatExpansionModule, PlatoonComponent, DragDropModule, IconComponent, SpinnerComponent],
   templateUrl: './army-root.component.html',
   styleUrl: './army-root.component.scss'
 })

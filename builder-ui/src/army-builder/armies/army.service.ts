@@ -15,7 +15,7 @@ import { IUnitModel } from '../units/unit.class';
 })
 export class ArmyService extends FirestoreBaseService<IArmyModel> {
 
-  private readonly debug = false;
+  private readonly debug = true;
 
   constructor(
     private readonly _authService: AuthService
