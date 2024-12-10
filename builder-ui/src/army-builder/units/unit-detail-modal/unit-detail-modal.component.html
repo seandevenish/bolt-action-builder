@@ -33,7 +33,7 @@
               'border-r-0': i < (unit.selector.availableExperienceLevels.length - 1)
             }">
             <div>{{exp}}</div>
-            <div class="text-xs">{{(unit.selector?.cost?.[exp] ?? 0) + ((infantryUnitSelector?.costPerMan?.[exp] ?? 0) * ((calculatedUnit()?.men ?? 0) - (infantryUnitSelector?.baseMen ?? 0))) | number}} Pts</div>
+            <div class="text-xs">{{(unit.selector.cost[exp]) + ((infantryUnitSelector?.costPerMan?.[exp] ?? 0) * ((calculatedUnit().men ?? 0) - (infantryUnitSelector?.baseMen ?? 0))) | number}} Pts</div>
           </label>
         </div>
       </div>
