@@ -91,7 +91,7 @@
     },
     {
       "id": "Art_Tractor_Arm",
-      "name": "Fully-Tracked Armoured Artillery Tractor",
+      "name": "Fully-Tracked Armoured Tractor",
       "unitType": "TransportVehicle",
       "cost": {
         "Inexperienced": 32,
