@@ -37,6 +37,7 @@ export class UnitSelector {
   readonly cost: Record<Experience, number>;
   readonly specialRuleIds?: string[] = [];
   readonly options: IGeneralOptionSelector[] = [];
+  readonly defaultCost: number;
 
   get availableExperienceLevels(): Experience[] {
     return Object.keys(this.cost)
@@ -59,6 +60,7 @@ export class UnitSelector {
     this.cost = data.cost;
     this.specialRuleIds = data.specialRuleIds ?? [];
     this.options = data.options || [];
+    this.defaultCost = this.cost['Regular'] ?? this.cost['Veteran'] ?? this.cost['Inexperienced'];
   }
 
   public enrich(library: Library): void {

@@ -65,7 +65,10 @@
               *ngFor="let selector of visualiser.availableUnitSelectors"
               (click)="addUnit(visualiser, selector)"
             >
-              {{ selector.name }}
+              <div class="flex justify-between items-center">
+                <span>{{ selector.name }}</span>
+                <span class="ml-8 text-xs text-gray-700 whitespace-nowrap">{{ selector.defaultCost }} Pts</span>
+              </div>
             </button>
           </mat-menu>
         </ng-container>

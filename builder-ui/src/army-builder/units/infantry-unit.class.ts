@@ -20,7 +20,7 @@ export class InfantryUnit extends Unit<InfantryUnitSelector> {
   }
   generalWeaponIds: Record<string, number> = {};
 
-  keyPersonWeaponOptions: (IInfantryWeaponOption | any)[];
+  keyPersonWeaponOptions: (IInfantryWeaponOption)[];
 
   constructor(data: IInfantryUnitModel, library: Library) {
     super(data, library);
