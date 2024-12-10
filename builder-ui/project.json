@@ -73,7 +73,8 @@
           "buildTarget": "builder-ui:build:production"
         },
         "development": {
-          "buildTarget": "builder-ui:build:development"
+          "buildTarget": "builder-ui:build:development",
+          "hmr": true
         }
       },
       "defaultConfiguration": "development"
