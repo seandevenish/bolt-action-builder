@@ -113,6 +113,7 @@ export abstract class Unit<TSelector extends UnitSelector = UnitSelector> {
     this._cost = this.calculateCost();
     this._specialRules = this.calculateSpecialRules();
     this._weaponSummary = this.calculateWeaponSummary();
+
     this.updated$.next();
   }
 }

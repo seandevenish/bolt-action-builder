@@ -1,16 +1,37 @@
 import { Library } from "./library.interface";
-import { VehicleUnitSelector } from "./vehicle-unit-selector.class";
+import { IVehicleWeaponOption, VehicleUnitSelector } from "./vehicle-unit-selector.class";
 import { Unit, IUnitModel, IUnitWeaponDetail } from "./unit.class";
 import { ITeamUnitModel } from "./team-unit.class";
 
 export interface IVehicleUnitModel extends IUnitModel {
+  weaponOptionIds?: string[];
 }
 
 export class VehicleUnit extends Unit<VehicleUnitSelector> {
 
-  constructor(data: ITeamUnitModel, library: Library) {
+  weaponOptionIds: string[];
+  weaponOptions: (IVehicleWeaponOption)[];
+
+  get damageValue() {
+    return this.selector.damageValue;
+  }
+
+  get transportCapacity() {
+    return this.selector.transportCapacity;
+  }
+
+  constructor(data: IVehicleUnitModel, library: Library) {
     super(data, library);
     this.refresh();
+    this.weaponOptionIds = data?.weaponOptionIds ?? [];
+    this.weaponOptions = this.selector.weaponOptions.map(o => ({
+      ...o,
+      weapons: o.weapons.map(w => ({
+        ...w,
+        weapon: library.weapons.find(lw => lw.id == w.weaponId)
+      })) 
+    }));
+
   }
 
   public override get countString(): string {
@@ -38,12 +59,29 @@ export class VehicleUnit extends Unit<VehicleUnitSelector> {
   }
 
   protected override calculateWeaponSummary(): IUnitWeaponDetail[] {
+    const excludeSpecialRules = ['Team','Fixed'];
+
+    const weapons = this.selector.baseWeapons.map(w => ({
+      qty: w.qty ?? 1,
+      description: w.description,
+      weapon: w.weapon,
+      special: w.weapon?.specialRules?.filter(r => !excludeSpecialRules.includes(r.id)).map(r => r.name).join(", ") ?? ""
+    }) as IUnitWeaponDetail);
+
+    // Todo: modify for weapon options
+    const options = this.selector.weaponOptions;
+
+    return [
+      ...weapons
+    ].filter(r => r.qty > 0);
+
     return [];
   }
 
   public override toStoredObject(): IVehicleUnitModel {
     return {
-      ...super.toStoredObject()
+      ...super.toStoredObject(),
+      weaponOptionIds: this.weaponOptionIds
     };
   }
 

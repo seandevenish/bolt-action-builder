@@ -134,6 +134,11 @@
         {{calculatedUnit().experience}}
       </span>
 
+      <div class="flex text-sm text-gray-700" *ngIf="vehicleUnit">
+        <span>{{vehicleUnit.damageValue}} Damage</span>
+        <span class="ml-auto" *ngIf="vehicleUnit.transportCapacity">Transports {{vehicleUnit.transportCapacity}}</span>
+      </div>
+
       <p class="text-sm">
         <ng-container *ngFor="let rule of calculatedUnit().specialRules; let last = last">
           {{rule.name}}{{!last ? ', ' : ''}}

@@ -11,19 +11,19 @@
           "Veteran": 167
         },
         "damageValue": 8,
-        "weapons": [
+        "baseWeapons": [
           {
             "id": "main",
             "weaponId": "LIGHT_AT_GUN",
             "description": "Turret-mouted light anti-tank gun"
           },
           {
-            "id": "main",
+            "id": "coaxial",
             "weaponId": "MMG_VEH",
             "description": "Coaxial MMG"
           },
           {
-            "id": "main",
+            "id": "hull_mgs",
             "weaponId": "MMG_VEH",
             "description": "Forward-facing hull-mounted MMG",
             "qty": 2
@@ -52,7 +52,7 @@
           "Veteran": 172
         },
         "damageValue": 8,
-        "weapons": [
+        "baseWeapons": [
           {
             "id": "main",
             "weaponId": "LIGHT_AT_GUN",
@@ -60,12 +60,12 @@
             "specialRuleIds": ["GYROSTABILISED"]
           },
           {
-            "id": "main",
+            "id": "coaxial",
             "weaponId": "MMG_VEH",
             "description": "Coaxial MMG"
           },
           {
-            "id": "main",
+            "id": "hull_mg",
             "weaponId": "MMG_VEH",
             "description": "Forward-facing hull-mounted MMG"
           }
@@ -96,7 +96,7 @@
           "Veteran": 172
         },
         "damageValue": 8,
-        "weapons": [
+        "baseWeapons": [
           {
             "id": "main",
             "weaponId": "FLAMETHROWER_VEH",
@@ -104,12 +104,12 @@
             "specialRuleIds": ["GYROSTABILISED"]
           },
           {
-            "id": "main",
+            "id": "coaxial",
             "weaponId": "MMG_VEH",
             "description": "Coaxial MMG"
           },
           {
-            "id": "main",
+            "id": "hull_mg",
             "weaponId": "MMG_VEH",
             "description": "Forward-facing hull-mounted MMG"
           }
@@ -140,7 +140,7 @@
           "Veteran": 187
         },
         "damageValue": 8,
-        "weapons": [
+        "baseWeapons": [
           {
             "id": "main",
             "weaponId": "LIGHT_AT_GUN",
@@ -148,12 +148,12 @@
             "specialRuleIds": ["GYROSTABILISED"]
           },
           {
-            "id": "main",
+            "id": "coaxial",
             "weaponId": "MMG_VEH",
             "description": "Coaxial MMG"
           },
           {
-            "id": "main",
+            "id": "hull_mg",
             "weaponId": "MMG_VEH",
             "description": "Forward-facing hull-mounted MMG"
           }
@@ -165,7 +165,7 @@
             "description": "Add one additional pintle-mounted MMG for +15pts",
             "weapons": [
               {
-                "id": "main",
+                "id": "pintle_mg",
                 "weaponId": "MMG_VEH",
                 "description": "Pintle-mounted MMG"
               }
@@ -178,7 +178,7 @@
             "description": "Add one additional pintle-mounted HMG for +25pts",
             "weapons": [
               {
-                "id": "main",
+                "id": "pintle_mg",
                 "weaponId": "HMG_VEH",
                 "description": "Pintle-mounted HMG"
               }
