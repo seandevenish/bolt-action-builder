@@ -1,11 +1,12 @@
 <div class="flex items-center md:p-8 p-6 h-full lg:w-11/12 lg:ml-auto">
 
-  <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4" role="alert" *ngIf="error()">
-    <p class="font-bold !mb-0">Error</p>
-    <p class="!mb-0">{{ error() }}</p>
-  </div>
-
   <form class="max-w-lg w-full mx-auto space-y-4" [formGroup]="registerForm" (ngSubmit)="register()">
+
+    <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4" role="alert" *ngIf="error()">
+      <p class="font-bold !mb-0">Error</p>
+      <p class="!mb-0">{{ error() }}</p>
+    </div>
+
     <div class="sm:mx-auto sm:w-full sm:max-w-sm">
       <h2 class="mt-2 text-center text-2xl/9 font-bold tracking-tight text-gray-900">Create your account</h2>
     </div>
@@ -62,9 +63,6 @@
       <span>Sign up with Facebook</span>
     </button>
 
-    <div *ngIf="error" class="alert alert-danger">
-      {{ error }}
-    </div>
   </form>
 </div>
 

@@ -12,7 +12,7 @@ import { SpinnerComponent } from '../../app/components/spinner/spinner.component
   imports: [ReactiveFormsModule, CommonModule, RouterModule, SpinnerComponent],
   templateUrl: './forgot-password.component.html'
 })
-export class RegisterComponent {
+export class ForgotPasswordComponent {
 
   success = signal(false);
   error = signal<string|null>(null);

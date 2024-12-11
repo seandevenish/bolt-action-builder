@@ -22,6 +22,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'forgot-password',
+    loadComponent: () =>
+      import('../user/forgot-password/forgot-password.component').then(
+        (mod) => mod.ForgotPasswordComponent
+      ),
+  },
+  {
     path: '',
     canActivate: [authGuard],
     canActivateChild: [authGuard],
