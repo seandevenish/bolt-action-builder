@@ -31,7 +31,7 @@
     <button type="button" class="btn-primary text-truncate" (click)="save(true)">
       <app-icon *ngIf="saving() != 'saveAndClose'" pack="shared" icon="save" class="mr-1"></app-icon>
       <output *ngIf="saving() == 'saveAndClose'">
-        <app-spinner></app-spinner>
+        <app-spinner class="mr-1"></app-spinner>
       </output>
       Save and Close
     </button>

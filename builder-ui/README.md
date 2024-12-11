@@ -1,20 +1,14 @@
 Todo:
 
 Infrastructure:
-* Forgotten Password
-* Registration
 * Google Auth
 * Facebook Auth
 * Deployment
 
-Platoons:
-* Faction overrides (US add 'bonus MMG' to Heavy Weapons Platoon)
-
 Units:
-* Implement Teams
 * Implement Vehicles
  - global option for command vehicles
- - weapon option select controls
+ - weapon option select controls (fix, not setting and updating values, option sets need to still be checkboxes)
 
 Weapons:
 * Faction overrides
