@@ -88,6 +88,11 @@ export class UnitDetailModalComponent {
     if (this.isInfantry) {
       this.initializeInfantryUnitFormControls();
     }
+
+    if (this.selector instanceof VehicleUnitSelector) {
+      this.initializeVehicleUnitFormControls();
+    }
+
     this.form.patchValue(this.toForm(data.unit));
   }
 
@@ -158,8 +163,11 @@ export class UnitDetailModalComponent {
     const newValue = {
       ...formValue,
       optionIds: formValue.optionIds == null ? null : Object.entries(formValue.optionIds)
-      .filter(([_, value]) => value === true)
-      .map(([key]) => key)
+        .filter(([_, value]) => value === true)
+        .map(([key]) => key),
+      weaponOptionIds: formValue.weaponOptionIds == null ? null : Object.entries(formValue.weaponOptionIds)
+        .filter(([_, value]) => value === true)
+        .map(([key]) => key)
     }
     Object.assign(unit, newValue);
   }
@@ -194,5 +202,38 @@ export class UnitDetailModalComponent {
     }
 
   }
+
+
+  private initializeVehicleUnitFormControls(): void {
+  if (this.vehicleUnitSelector == null || this.vehicleUnit == null) return;
+
+  // Initialize 'weaponOptionIds' FormGroup
+  if (this.vehicleUnitSelector!.weaponOptions.length) {
+    const weaponOptionIdsGroup = this._formBuilder.group({});
+    const optionSets: { [key: string]: any[] } = {};
+
+    // Group options by optionSetId
+    this.vehicleUnitSelector!.weaponOptions.forEach(option => {
+      if (option.optionSetId) {
+        if (!optionSets[option.optionSetId]) {
+          optionSets[option.optionSetId] = [];
+        }
+        optionSets[option.optionSetId].push(option);
+      } else {
+        const selected = this.vehicleUnit?.weaponOptionIds?.includes(option.id) || false;
+        weaponOptionIdsGroup.addControl(option.id, this._formBuilder.control(selected));
+      }
+    });
+
+    // Add grouped options as radio button controls
+    Object.keys(optionSets).forEach(optionSetId => {
+      const selectedOption = this.vehicleUnit?.weaponOptionIds?.find(id => optionSets[optionSetId].some(opt => opt.id === id)) || null;
+      weaponOptionIdsGroup.addControl(optionSetId, this._formBuilder.control(selectedOption));
+    });
+
+    this.form.addControl('weaponOptionIds', weaponOptionIdsGroup);
+  }
+ 
+}
 
 }

@@ -104,6 +104,29 @@
 
       </ng-container>
 
+      <!-- Vehicle Weapon Options -->
+      <ng-container *ngIf="vehicleUnitSelector?.weaponOptions?.length">
+        <h3 class="font-semibold text-gray-800 pt-5">Weapon Options</h3>
+        <div class="space-y-4 border-l-4 border-primary-300 pl-3" formGroupName="weaponOptionIds">
+          <div class="flex items-center" *ngFor="let option of vehicleUnitSelector!.weaponOptions">
+            <ng-container *ngIf="!option.optionSetId">
+              <input type="checkbox" [id]="option.id" [formControlName]="option.id"
+                class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+              <label [for]="option.id" class="ms-2 text-sm text-gray-900 dark:text-gray-300">
+                <span [innerHTML]="option.description"></span>
+              </label>
+            </ng-container>
+            <div *ngIf="option.optionSetId">
+              <input type="radio" [id]="option.id" [formControlName]="option.optionSetId" [value]="option.id"
+                class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+              <label [for]="option.id" class="ms-2 text-sm text-gray-900 dark:text-gray-300">
+                <span [innerHTML]="option.description"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
       <!-- General Options -->
       <ng-container *ngIf="selector.options?.length">
         <h3 class="font-semibold text-gray-800 pt-5">Options</h3>

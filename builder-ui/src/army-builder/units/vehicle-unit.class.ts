@@ -47,7 +47,12 @@ export class VehicleUnit extends Unit<VehicleUnitSelector> {
       if (!selected) return v;
       return v + (o.cost ?? 0);
     }, 0);
-    return base + options;
+    const weaponOptionsCost = this.selector.weaponOptions?.reduce((v, o) => {
+      const selected = this.weaponOptionIds?.some(s => s == o.id);
+      if (!selected) return v;
+      return v + (o.cost ?? 0);
+    }, 0);
+    return base + options + weaponOptionsCost;
   }
 
   protected override calculateWeaponSummary(): IUnitWeaponDetail[] {
