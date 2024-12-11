@@ -1,7 +1,7 @@
 <ng-container *ngIf="isLoggedIn()">
 
   <!-- Small Screen -->
-  <button class="flex items-center md:hidden font-semibold px-4 py-1 text-gray-700 hover:bg-primary-200 hover:text-primary-800">
+  <button class="flex items-center md:hidden font-semibold px-4 py-1 text-gray-700 hover:bg-primary-200 hover:text-primary-800" (click)="signout()">
     <app-icon pack="shared" icon="logout" size="sm" class="mr-1"></app-icon>
     Logout
   </button>

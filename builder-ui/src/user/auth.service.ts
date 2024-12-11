@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Auth, authState, GoogleAuthProvider  } from '@angular/fire/auth';
 import { createUserWithEmailAndPassword, FacebookAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { Observable } from 'rxjs';
+import { sendPasswordResetEmail } from 'firebase/auth';
 
 
 @Injectable({
@@ -37,5 +38,9 @@ export class AuthService {
 
   signout() {
     return this.auth.signOut();
+  }
+
+  passwordReset(email: string) {
+    return sendPasswordResetEmail(this.auth, email);
   }
 }
