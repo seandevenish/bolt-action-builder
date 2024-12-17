@@ -14,16 +14,15 @@ export class VehicleUnit extends Unit<VehicleUnitSelector> {
 
   constructor(data: IVehicleUnitModel, library: Library) {
     super(data, library);
-    this.refresh();
     this.weaponOptionIds = data?.weaponOptionIds ?? [];
     this.weaponOptions = this.selector.weaponOptions.map(o => ({
       ...o,
       weapons: o.weapons.map(w => ({
         ...w,
         weapon: library.weapons.find(lw => lw.id == w.weaponId)
-      })) 
+      }))
     }));
-
+    this.refresh();
   }
 
   public override get countString(): string {
@@ -72,10 +71,10 @@ export class VehicleUnit extends Unit<VehicleUnitSelector> {
         if (!option) return;
 
         // Remove weapons that are being replaced
-        weapons = weapons.filter(w => 
-            !option.replaceIds.some(replaceId => 
+        weapons = weapons.filter(w =>
+            !option.replaceIds?.some(replaceId =>
                 this.selector.baseWeapons.find(bw => bw.id === replaceId)?.description === w.description
-            )
+            ) ?? true
         );
 
         // Add new weapons from the option
