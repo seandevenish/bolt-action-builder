@@ -13,7 +13,7 @@ import { UnitSelector } from '../unit-selector.class';
 import { InfantryUnitSelector } from '../infantry-unit-selector.class';
 import { IconComponent } from '../../../app/components/icon';
 import { VehicleUnit } from '../vehicle-unit.class';
-import { VehicleUnitSelector } from '../vehicle-unit-selector.class';
+import { IVehicleWeaponOption, VehicleUnitSelector } from '../vehicle-unit-selector.class';
 
 @Component({
   selector: 'app-unit-detail-modal',
@@ -57,9 +57,9 @@ export class UnitDetailModalComponent {
   get vehicleUnitSelector(): VehicleUnitSelector | null {
     return this.selector instanceof VehicleUnitSelector ? this.selector : null;
   }
-  
+
   get vehicleUnit(): VehicleUnit | null {
-    return this.unit instanceof VehicleUnit ? this.unit : null; 
+    return this.unit instanceof VehicleUnit ? this.unit : null;
   }
 
   private readonly _unsubscribeAll$ = new Subject<void>();
@@ -135,6 +135,17 @@ export class UnitDetailModalComponent {
     this.dialogRef.close(null);
   }
 
+  isFirstInGroup(options: any[], optionSetId: string, index: number): boolean {
+    return options.findIndex(opt => opt.optionSetId === optionSetId) === index;
+  }
+
+  toggleSelection(optionSetId: string, optionId: string): void {
+    const control = this.form.get('weaponOptionIds')?.get(optionSetId);
+    if (control?.value === optionId) {
+      control.setValue(''); // Reset to null (hidden radio value)
+    }
+  }
+
   private initialiseGeneralOptionControls(options: IGeneralOptionSelector[]) {
     // Create form group for general options
     const optionsGroup = this._formBuilder.group({});
@@ -165,9 +176,19 @@ export class UnitDetailModalComponent {
       optionIds: formValue.optionIds == null ? null : Object.entries(formValue.optionIds)
         .filter(([_, value]) => value === true)
         .map(([key]) => key),
-      weaponOptionIds: formValue.weaponOptionIds == null ? null : Object.entries(formValue.weaponOptionIds)
-        .filter(([_, value]) => value === true)
-        .map(([key]) => key)
+        weaponOptionIds: formValue.weaponOptionIds == null
+        ? null
+        : Object.entries(formValue.weaponOptionIds)
+            .flatMap(([key, value]) => {
+              if (value === true) {
+                // Ungrouped weapon option selected
+                return key;
+              } else if (typeof value === 'string' && value) {
+                // Grouped weapon option (optionSetId with selected option ID)
+                return value;
+              }
+              return [];
+            })
     }
     Object.assign(unit, newValue);
   }
@@ -205,35 +226,40 @@ export class UnitDetailModalComponent {
 
 
   private initializeVehicleUnitFormControls(): void {
-  if (this.vehicleUnitSelector == null || this.vehicleUnit == null) return;
+    if (this.vehicleUnitSelector == null || this.vehicleUnit == null) return;
 
-  // Initialize 'weaponOptionIds' FormGroup
-  if (this.vehicleUnitSelector!.weaponOptions.length) {
-    const weaponOptionIdsGroup = this._formBuilder.group({});
-    const optionSets: { [key: string]: any[] } = {};
+    // Initialize 'weaponOptionIds' FormGroup
+    if (this.vehicleUnitSelector!.weaponOptions.length) {
+      const weaponOptionIdsGroup = this._formBuilder.group({});
+      const optionSets: { [key: string]: IVehicleWeaponOption[] } = {};
 
-    // Group options by optionSetId
-    this.vehicleUnitSelector!.weaponOptions.forEach(option => {
-      if (option.optionSetId) {
-        if (!optionSets[option.optionSetId]) {
-          optionSets[option.optionSetId] = [];
+      // Group options by optionSetId and retain ungrouped options
+      this.vehicleUnitSelector!.weaponOptions.forEach(option => {
+        if (option.optionSetId) {
+          if (!optionSets[option.optionSetId]) {
+            optionSets[option.optionSetId] = [];
+          }
+          optionSets[option.optionSetId].push(option);
+        } else {
+          // Add ungrouped options with a boolean control
+          const selected = this.vehicleUnit?.weaponOptionIds?.includes(option.id) || false;
+          weaponOptionIdsGroup.addControl(option.id, this._formBuilder.control(selected));
         }
-        optionSets[option.optionSetId].push(option);
-      } else {
-        const selected = this.vehicleUnit?.weaponOptionIds?.includes(option.id) || false;
-        weaponOptionIdsGroup.addControl(option.id, this._formBuilder.control(selected));
-      }
-    });
+      });
 
-    // Add grouped options as radio button controls
-    Object.keys(optionSets).forEach(optionSetId => {
-      const selectedOption = this.vehicleUnit?.weaponOptionIds?.find(id => optionSets[optionSetId].some(opt => opt.id === id)) || null;
-      weaponOptionIdsGroup.addControl(optionSetId, this._formBuilder.control(selectedOption));
-    });
+      // Add grouped options as radio button controls
+      Object.keys(optionSets).forEach(optionSetId => {
+        const selectedOption = this.vehicleUnit?.weaponOptionIds?.find(id =>
+          optionSets[optionSetId].some(opt => opt.id === id)
+        ) || null;
 
-    this.form.addControl('weaponOptionIds', weaponOptionIdsGroup);
+        weaponOptionIdsGroup.addControl(optionSetId, this._formBuilder.control(selectedOption));
+      });
+
+      this.form.addControl('weaponOptionIds', weaponOptionIdsGroup);
+    }
   }
- 
-}
+
+
 
 }

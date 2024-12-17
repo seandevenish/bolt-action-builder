@@ -108,21 +108,30 @@
       <ng-container *ngIf="vehicleUnitSelector?.weaponOptions?.length">
         <h3 class="font-semibold text-gray-800 pt-5">Weapon Options</h3>
         <div class="space-y-4 border-l-4 border-primary-300 pl-3" formGroupName="weaponOptionIds">
-          <div class="flex items-center" *ngFor="let option of vehicleUnitSelector!.weaponOptions">
+
+          <!-- Loop through weapon options -->
+          <div *ngFor="let option of vehicleUnitSelector!.weaponOptions; let i = index"
+               class="relative flex items-center group">
+
+            <!-- Ungrouped Options -->
             <ng-container *ngIf="!option.optionSetId">
               <input type="checkbox" [id]="option.id" [formControlName]="option.id"
-                class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-              <label [for]="option.id" class="ms-2 text-sm text-gray-900 dark:text-gray-300">
+                class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-primary-500">
+              <label [for]="option.id" class="ms-2 text-sm text-gray-900">
                 <span [innerHTML]="option.description"></span>
               </label>
             </ng-container>
-            <div *ngIf="option.optionSetId">
+
+            <!-- Grouped Options -->
+            <div *ngIf="option.optionSetId" class="flex items-center relative">
               <input type="radio" [id]="option.id" [formControlName]="option.optionSetId" [value]="option.id"
-                class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-              <label [for]="option.id" class="ms-2 text-sm text-gray-900 dark:text-gray-300">
+                (click)="toggleSelection(option.optionSetId, option.id)"
+                class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-primary-500">
+              <label [for]="option.id" class="ms-2 text-sm text-gray-900">
                 <span [innerHTML]="option.description"></span>
               </label>
             </div>
+
           </div>
         </div>
       </ng-container>
@@ -161,7 +170,7 @@
         <div class="flex">
           <div>{{vehicleUnitSelector.damageValue}}+ Damage</div>
           <div class="ml-auto" *ngIf="vehicleUnitSelector.transportCapacity">Transports {{vehicleUnitSelector.transportCapacity}}</div>
-        </div>      
+        </div>
         <div class="text-xs" *ngIf="vehicleUnitSelector.tow"><strong>Tows</strong> {{vehicleUnitSelector.tow}}</div>
       </div>
 
