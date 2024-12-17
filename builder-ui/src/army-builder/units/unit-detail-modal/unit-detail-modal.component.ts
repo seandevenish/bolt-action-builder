@@ -176,19 +176,19 @@ export class UnitDetailModalComponent {
       optionIds: formValue.optionIds == null ? null : Object.entries(formValue.optionIds)
         .filter(([_, value]) => value === true)
         .map(([key]) => key),
-        weaponOptionIds: formValue.weaponOptionIds == null
-        ? null
-        : Object.entries(formValue.weaponOptionIds)
-            .flatMap(([key, value]) => {
-              if (value === true) {
-                // Ungrouped weapon option selected
-                return key;
-              } else if (typeof value === 'string' && value) {
-                // Grouped weapon option (optionSetId with selected option ID)
-                return value;
-              }
-              return [];
-            })
+      weaponOptionIds: formValue.weaponOptionIds == null
+      ? null
+      : Object.entries(formValue.weaponOptionIds)
+          .flatMap(([key, value]) => {
+            if (value === true) {
+              // Ungrouped weapon option selected
+              return key;
+            } else if (typeof value === 'string' && value) {
+              // Grouped weapon option (optionSetId with selected option ID)
+              return value;
+            }
+            return [];
+          })
     }
     Object.assign(unit, newValue);
   }

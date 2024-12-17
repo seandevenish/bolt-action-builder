@@ -21,7 +21,8 @@
 
     <div class="space-y-3">
 
-      <div class="inline-flex rounded !mb-4">
+      <!-- Experience Selector -->
+      <div class="inline-flex rounded">
         <div class="inline-block" *ngFor="let exp of unit.selector?.availableExperienceLevels; let i = index">
           <input type="radio" [id]="exp" [value]="exp" class="hidden peer" required formControlName="experience" />
           <label [for]="exp" class="text-sm text-center inline-block p-2.5 text-gray-500 bg-gray-50 cursor-pointer border border-gray-300
@@ -104,37 +105,49 @@
 
       </ng-container>
 
+
       <!-- Vehicle Weapon Options -->
       <ng-container *ngIf="vehicleUnitSelector?.weaponOptions?.length">
         <h3 class="font-semibold text-gray-800 pt-5">Weapon Options</h3>
         <div class="space-y-4 border-l-4 border-primary-300 pl-3" formGroupName="weaponOptionIds">
 
           <!-- Loop through weapon options -->
-          <div *ngFor="let option of vehicleUnitSelector!.weaponOptions; let i = index"
-               class="relative flex items-center group">
+          <div *ngFor="let option of vehicleUnitSelector!.weaponOptions; let i = index" class="relative">
 
             <!-- Ungrouped Options -->
             <ng-container *ngIf="!option.optionSetId">
-              <input type="checkbox" [id]="option.id" [formControlName]="option.id"
-                class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-primary-500">
-              <label [for]="option.id" class="ms-2 text-sm text-gray-900">
-                <span [innerHTML]="option.description"></span>
-              </label>
+              <div class="flex items-center pl-0">
+                <input type="checkbox" [id]="option.id" [formControlName]="option.id"
+                  class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-primary-500">
+                <label [for]="option.id" class="ms-2 text-sm text-gray-900">
+                  <span [innerHTML]="option.description"></span>
+                </label>
+              </div>
             </ng-container>
 
             <!-- Grouped Options -->
-            <div *ngIf="option.optionSetId" class="flex items-center relative">
-              <input type="radio" [id]="option.id" [formControlName]="option.optionSetId" [value]="option.id"
-                (click)="toggleSelection(option.optionSetId, option.id)"
-                class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-primary-500">
-              <label [for]="option.id" class="ms-2 text-sm text-gray-900">
-                <span [innerHTML]="option.description"></span>
-              </label>
-            </div>
+            <ng-container *ngIf="option.optionSetId">
+              <div class="flex flex-col">
+                <!-- Vertical Connector Line -->
+                <div *ngIf="!isFirstInGroup(vehicleUnitSelector!.weaponOptions, option.optionSetId, i)"
+                     class="ml-2 my-1 h-2 -mt-3 border-l w-2 border-gray-300"></div>
+
+                <!-- Radio Input and Label -->
+                <div class="flex items-center">
+                  <input type="radio" [id]="option.id" [formControlName]="option.optionSetId" [value]="option.id"
+                  (click)="toggleSelection(option.optionSetId, option.id)"
+                    class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-primary-500">
+                  <label [for]="option.id" class="ms-2 text-sm text-gray-900">
+                    <span [innerHTML]="option.description"></span>
+                  </label>
+                </div>
+              </div>
+            </ng-container>
 
           </div>
         </div>
       </ng-container>
+
 
       <!-- General Options -->
       <ng-container *ngIf="selector.options?.length">
