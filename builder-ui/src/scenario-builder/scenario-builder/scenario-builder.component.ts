@@ -24,9 +24,9 @@ export class ScenarioBuilderComponent {
   ];
 
   deploymentTypes = [
-    { roll: [1, 2, 3], name: 'Meeting Engagement', summary: 'No units deployed at start of the game, first wave enters during Turn 1. Up to half of units can be left in reserve.' },
-    { roll: [4, 5], name: 'Prepared Positions', summary: 'Units not in reserve are deployed on the table. Declare reserves and infiltrating units. Up to half of units can be left in reserve.' },
-    { roll: [6], name: 'Fog of War', summary: 'Players alternate deploying units. No flanking is allowed, and reserves can enter from any edge.' }
+    { roll: [1, 2, 3], name: 'Meeting Engagement', summary: 'No units deployed at start of the game, first wave enters during Turn 1. Up to half of the units can be left in reserve.' },
+    { roll: [4, 5], name: 'Prepared Positions', summary: 'Units not in reserve are deployed on the table prior to Turn 1 (using order dice from bag). Up to half of the units can be left in reserve.' },
+    { roll: [6], name: 'Fog of War', summary: 'Units not in reserve are deployed on the table prior to Turn 1 (using order dice from bag). No flanking is allowed, and reserves can enter from any edge. At least half of the units must be left in reserve.' }
   ];
 
   // Selected scenario properties
