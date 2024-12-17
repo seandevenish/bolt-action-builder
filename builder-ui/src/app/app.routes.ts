@@ -29,6 +29,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'scenarios',
+    loadComponent: () =>
+      import('../scenario-builder/scenario-builder/scenario-builder.component').then(
+        (mod) => mod.ScenarioBuilderComponent
+      ),
+  },
+  {
     path: '',
     canActivate: [authGuard],
     canActivateChild: [authGuard],

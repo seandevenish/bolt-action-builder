@@ -8,14 +8,12 @@ Infrastructure:
 Units:
 * Implement Vehicles
  - global option for command vehicles
- - weapon option select controls (fix, not setting and updating values, option sets need to still be checkboxes)
 
 Weapons:
 * Faction overrides
 
 Tools:
 * PDF Export
-* Scenario Editor
 
 
 

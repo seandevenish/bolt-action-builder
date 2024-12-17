@@ -1,0 +1,38 @@
+<div class="max-w-2xl mx-auto mt-10 p-6 bg-gray-100 rounded-lg shadow-lg">
+
+  <h1 class="text-2xl font-bold text-center text-primary-600 mb-6">
+    Scenario Builder
+  </h1>
+
+  <p *ngIf="!generated">Click the button below to generate a battle scenario. Based on the rules for <strong>The Battle Scenario</strong> in the Bolt Action 3rd Edition rulebook.</p>
+
+  <!-- Scenario Summary -->
+  <div *ngIf="selectedVictoryCondition" class="mb-6 space-y-4">
+    <!-- Victory Condition -->
+    <div>
+      <p class="text-primary-600 font-medium"><strong>{{selectedVictoryCondition.name}}</strong></p>
+      <p class="text-gray-600">{{ selectedVictoryCondition.summary }}</p>
+    </div>
+
+    <!-- Deployment Zone -->
+    <div>
+      <p class="text-primary-600 font-medium"><strong>{{selectedDeploymentZone.name}}</strong> Deployment Zones</p>
+      <p class="text-gray-600">{{ selectedDeploymentZone.summary }}</p>
+    </div>
+
+    <!-- Deployment Type -->
+    <div>
+      <p class="text-primary-600 font-medium"><strong>{{selectedDeploymentType.name}}</strong> Deployment</p>
+      <p class="text-gray-600">{{ selectedDeploymentType.summary }}</p>
+    </div>
+  </div>
+
+  <!-- Generate Button -->
+  <div class="text-center mt-8">
+    <button
+      (click)="generateScenario()"
+      class="btn btn-primary">
+      {{generated ? 'Regenerate' : 'Generate'}} Scenario
+    </button>
+  </div>
+</div>
