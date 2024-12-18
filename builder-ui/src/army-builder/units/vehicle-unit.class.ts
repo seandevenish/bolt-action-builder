@@ -2,6 +2,7 @@ import { Library } from "./library.interface";
 import { IVehicleWeaponOption, VehicleUnitSelector } from "./vehicle-unit-selector.class";
 import { Unit, IUnitModel, IUnitWeaponDetail } from "./unit.class";
 import { ITeamUnitModel } from "./team-unit.class";
+import { UnitRequirement } from "../platoons/unit-requirement.interface";
 
 export interface IVehicleUnitModel extends IUnitModel {
   weaponOptionIds?: string[];
@@ -12,8 +13,8 @@ export class VehicleUnit extends Unit<VehicleUnitSelector> {
   weaponOptionIds: string[];
   weaponOptions: (IVehicleWeaponOption)[];
 
-  constructor(data: IVehicleUnitModel, library: Library) {
-    super(data, library);
+  constructor(data: IVehicleUnitModel, slot: UnitRequirement, library: Library) {
+    super(data, slot, library);
     this.weaponOptionIds = data?.weaponOptionIds ?? [];
     this.weaponOptions = this.selector.weaponOptions.map(o => ({
       ...o,
@@ -41,7 +42,7 @@ export class VehicleUnit extends Unit<VehicleUnitSelector> {
   protected override calculateCost() {
     if (this.selector == null) throw Error('Selector missing, unable to calculate cost.');
     const base = this.selector.cost[this.experience];
-    const options = this.selector.options.reduce((v, o) => {
+    const options = this.availableOptions.reduce((v, o) => {
       const selected = this.optionIds.some(s => s == o.id);
       if (!selected) return v;
       return v + (o.cost ?? 0);

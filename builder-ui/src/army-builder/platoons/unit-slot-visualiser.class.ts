@@ -18,7 +18,7 @@ export class UnitSlotVisualiser {
   public readonly title: string;
   public readonly availableUnitSelectors: UnitSelector[] = [];
 
-  private readonly requirement: UnitRequirement;
+  public readonly requirement: UnitRequirement;
   private readonly min: number | null;
   private readonly max: number | null | 'indeterminate';
 

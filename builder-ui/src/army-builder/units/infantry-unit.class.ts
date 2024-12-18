@@ -4,6 +4,7 @@ import { InfantryUnitSelector } from './infantry-unit-selector.class';
 import { IUnitModel, IUnitWeaponDetail, Unit } from "./unit.class";
 import { SpecialRule } from "../special-rules/special-rule.interface";
 import { concat } from "rxjs";
+import { UnitRequirement } from "../platoons/unit-requirement.interface";
 
 
 export interface IInfantryUnitModel extends IUnitModel {
@@ -22,8 +23,8 @@ export class InfantryUnit extends Unit<InfantryUnitSelector> {
 
   keyPersonWeaponOptions: (IInfantryWeaponOption)[];
 
-  constructor(data: IInfantryUnitModel, library: Library) {
-    super(data, library);
+  constructor(data: IInfantryUnitModel, slot: UnitRequirement, library: Library) {
+    super(data, slot, library);
     this.men = data.men;
     if (data.keyPersonWeaponId) this.keyPersonWeaponId = data.keyPersonWeaponId;
     if (data.generalWeaponIds) this.generalWeaponIds = data.generalWeaponIds;
@@ -88,7 +89,7 @@ export class InfantryUnit extends Unit<InfantryUnitSelector> {
     if (this.selector == null) throw Error('Selector missing, unable to calculate cost.');
     const base = this.selector.cost[this.experience];
     const perMan = (this.men - this.selector.baseMen) * this.selector.costPerMan[this.experience];
-    const options = this.selector.options.reduce((v, o) => {
+    const options = this.availableOptions.reduce((v, o) => {
       const selected = this.optionIds.some(s => s == o.id);
       if (!selected) return v;
       return v + (o.costPerMan ?? 0) * this.men + (o.cost ?? 0);

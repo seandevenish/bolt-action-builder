@@ -1,3 +1,4 @@
+import { IGeneralOptionSelector } from "../units/unit-selector.class";
 import { UnitType, UnitSubType } from "../units/unit-type.enum";
 
 
@@ -54,4 +55,9 @@ export interface UnitRequirement {
   maxPerUnit?: number | null;
 
   minCarryAll?: boolean;
+
+  /**
+   * Options available to this unit
+   */
+  options?: IGeneralOptionSelector[];
 }

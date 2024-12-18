@@ -52,7 +52,12 @@
       "name": "Armoured Platoon",
       "category": "Support",
       "unitRequirements": [
-        { "id": "Command", "types": ["Vehicle"], "min": 1, "max": 1, "requirementName": "Platoon Commander" },
+        { "id": "Command", "types": ["Vehicle"], "min": 1, "max": 1, "requirementName": "Platoon Commander", "options": [{
+          "id": "COMMAND_VEHICLE",
+          "description": "Add the Command Vehicle special rule for +10 pts. Required if this unit does not already have the Command Vehicle special rule.",
+          "specialRuleId": "COMMAND_VEHICLE",
+          "cost": 10
+        }] },
         { "id": "Vehicles", "types": ["Vehicle"], "min": 1, "max": 4 }
       ]
     },

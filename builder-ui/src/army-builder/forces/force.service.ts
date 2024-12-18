@@ -10,6 +10,7 @@ import { Library } from '../units/library.interface';
 import { Force } from './force.class';
 import { Platoon } from '../platoons/platoon.class';
 import { ForceSelectorRepositoryService } from './force-selector-repository.service';
+import { IGeneralOptionSelector } from '../units/unit-selector.class';
 
 @Injectable({
   providedIn: 'root'
@@ -43,8 +44,9 @@ export class ForceService {
       weapons: await firstValueFrom(this._weaponService.getWeapons()),
       specialRules: this._specialRuleService.getRules()
     } as Library;
+    library.platoonSelectors.flatMap(s => s.unitRequirements.flatMap(r => r.options)).filter(o => !!o?.specialRuleId).map(o => o as IGeneralOptionSelector).forEach(o => o.specialRule = library.specialRules.find(r => r.id == o?.specialRuleId));
     library.unitSelectors.forEach(u => u.enrich(library));
-    library.weapons.forEach(w => w.specialRules = w.specialRuleIds.map(i => library.specialRules.find(r => r.id == i)).filter(i => i !== undefined));
+    library.weapons.filter(w => w.specialRuleIds?.length).forEach(w => w.specialRules = w.specialRuleIds.map(i => library.specialRules.find(r => r.id == i)).filter(i => i !== undefined));
     return library;
   }
 }

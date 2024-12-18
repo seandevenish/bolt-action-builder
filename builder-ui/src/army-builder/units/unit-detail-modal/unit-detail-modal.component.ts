@@ -62,6 +62,10 @@ export class UnitDetailModalComponent {
     return this.unit instanceof VehicleUnit ? this.unit : null;
   }
 
+  get generalOptions() {
+    return this.unit.availableOptions;
+  }
+
   private readonly _unsubscribeAll$ = new Subject<void>();
 
   constructor(
@@ -71,7 +75,7 @@ export class UnitDetailModalComponent {
   ) {
     this.unit = data.unit as Unit;
     this.cost = signal(this.unit.cost);
-    this.calculatedUnit = signal(UnitFactory.loadUnit(data.unit, data.unit.selector, data.library));
+    this.calculatedUnit = signal(UnitFactory.loadUnit(data.unit, data.unit.selector, data.unit.slot, data.library));
     this.validationErrors = signal(this.unit.errors);
     this.selector = data.unit.selector;
     this.isInfantry = this.selector instanceof InfantryUnitSelector;
@@ -81,8 +85,8 @@ export class UnitDetailModalComponent {
       description: [null, [Validators.maxLength(1024)]]
     })
 
-    if (this.selector.options?.length) {
-      this.initialiseGeneralOptionControls(this.selector.options);
+    if (this.generalOptions?.length) {
+      this.initialiseGeneralOptionControls(this.generalOptions);
     }
 
     if (this.isInfantry) {
@@ -101,7 +105,7 @@ export class UnitDetailModalComponent {
       tap(v => {
         let unit = this.calculatedUnit();
         this.assignFormToUnit(v, unit)
-        unit = UnitFactory.loadUnit(unit, unit.selector, unit.library);
+        unit = UnitFactory.loadUnit(unit, unit.selector, unit.slot, unit.library);
         this.cost.set(unit.cost);
         this.calculatedUnit.set(unit);
         this.validationErrors.set(unit.errors)

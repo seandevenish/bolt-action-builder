@@ -8,21 +8,22 @@ import { VehicleUnitSelector } from "./vehicle-unit-selector.class";
 import { ITeamUnitModel, TeamUnit } from "./team-unit.class";
 import { IVehicleUnitModel, VehicleUnit } from "./vehicle-unit.class";
 import { TeamUnitSelector } from "./team-unit-selector.class copy";
+import { UnitRequirement } from "../platoons/unit-requirement.interface";
 
 
 export class UnitFactory {
 
-  static generateNewUnit(selector: UnitSelector, library: Library): Unit {
-    var unit = this.getUnit(selector, library);
+  static generateNewUnit(selector: UnitSelector, slot: UnitRequirement, library: Library): Unit {
+    var unit = this.getUnit(selector, library, slot);
     return unit;
   }
 
-  static loadUnit(unit: IUnitModel, selector: UnitSelector, library: Library) {
-    const loadedUnit = this.getUnit(selector, library, unit);
+  static loadUnit(unit: IUnitModel, selector: UnitSelector, slot: UnitRequirement, library: Library) {
+    const loadedUnit = this.getUnit(selector, library, slot, unit);
     return loadedUnit;
   }
 
-  private static getUnit(selector: UnitSelector, library: Library, unit?: IUnitModel): Unit {
+  private static getUnit(selector: UnitSelector, library: Library, slot: UnitRequirement, unit?: IUnitModel): Unit {
     const base = {
       selectorId: selector.id,
       experience: selector.availableExperienceLevels.includes(Experience.Regular) ?
@@ -35,21 +36,21 @@ export class UnitFactory {
         ...base,
         ...unit as IInfantryUnitModel,
         men: (unit as IInfantryUnitModel)?.men ?? selector.baseMen
-      }, library);
+      }, slot, library);
     }
 
     if (selector instanceof TeamUnitSelector) {
       return new TeamUnit({
         ...base,
         ...unit as ITeamUnitModel
-      }, library);
+      }, slot, library);
     }
 
     if (selector instanceof VehicleUnitSelector) {
       return new VehicleUnit({
         ...base,
         ...unit as IVehicleUnitModel
-      }, library);
+      }, slot, library);
     }
 
     throw Error('Unknown selector type');

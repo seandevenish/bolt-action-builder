@@ -14,5 +14,3 @@ export class PlatoonSelector {
     this.unitRequirements = unitRequirements;
   }
 }
-
-

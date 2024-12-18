@@ -19,6 +19,7 @@ export class SpecialRulesRepositoryService {
       { id: 'SNIPER', name: 'Sniper', shortDescription: '', description: '' },
       { id: 'INFILTRATOR', name: 'Infiltrator', shortDescription: '', description: '' },
       { id: 'STUBBORN', name: 'Stubborn', shortDescription: '', description: '' },
+      { id: 'COMMAND_VEHICLE', name: 'Command Vehicle', shortDescription: '+1 Morale Bonus within 12", and \'You men, snap to action!\' to one friendly vehicle within 12"', description: ''},
       { id: 'RECCE', name: 'Recce', shortDescription: '', description: '' },
       { id: 'VULNERABLE', name: 'Vulnerable', shortDescription: '+1 pen to shots to side and rear', description: 'Because of the riveted construction, all shots to the side and rear of the vehicle get an addition +1 penetration modifier (i.e. in total, +2 for side hits and +3 for rear hits' },
       { id: 'REINFORCED_FRONT', name: 'Reinforced Front Armour', shortDescription: '', description: '' },

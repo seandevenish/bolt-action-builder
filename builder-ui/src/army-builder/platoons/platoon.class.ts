@@ -6,6 +6,7 @@ import { IUnitModel } from "../units/unit.class";
 import { PlatoonSelector } from "./platoon-selector.class";
 import { BehaviorSubject, combineLatest, map, merge, Observable, startWith, switchMap } from 'rxjs';
 import { IFirestoreStorable } from '../../app/services/firestore-base-service.service';
+import { UnitRequirement } from './unit-requirement.interface';
 
 export interface IPlatoonModel extends IFirestoreStorable {
   id: string;
@@ -92,7 +93,8 @@ export class Platoon {
     return unitModels.map(u => {
       const selector = library.unitSelectors.find(s => s.id == u.selectorId);
       if (!selector) throw Error("Unable to find selector " + u.selectorId);
-      return UnitFactory.loadUnit(u, selector, library);
+      const slot = this.selector.unitRequirements.find(r => r.id == u.slotId) ?? {id: 'unknown' } as UnitRequirement;
+      return UnitFactory.loadUnit(u, selector, slot, library);
     })
   }
 

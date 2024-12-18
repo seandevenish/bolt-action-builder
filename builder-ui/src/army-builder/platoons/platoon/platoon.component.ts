@@ -62,7 +62,7 @@ export class PlatoonComponent implements OnInit, OnDestroy {
   }
 
   addUnit(visualiser: UnitSlotVisualiser, selector: UnitSelector) {
-    const unit = UnitFactory.generateNewUnit(selector, this.library);
+    const unit = UnitFactory.generateNewUnit(selector, visualiser.requirement, this.library);
     visualiser.addUnit(unit);
   }
 

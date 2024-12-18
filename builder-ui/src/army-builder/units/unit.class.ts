@@ -5,6 +5,7 @@ import { Experience } from "./experience.enum";
 import { Library } from "./library.interface";
 import { UnitSelector } from "./unit-selector.class";
 import { Weapon } from "../weapons/weapon.interface";
+import { UnitRequirement } from "../platoons/unit-requirement.interface";
 
 export interface IUnitModel extends IFirestoreStorable {
   selectorId: string;
@@ -30,6 +31,7 @@ export abstract class Unit<TSelector extends UnitSelector = UnitSelector> {
   optionIds: string[];
 
   selector: TSelector;
+  slot: UnitRequirement;
   library: Library;
   men?: number;
 
@@ -45,11 +47,15 @@ export abstract class Unit<TSelector extends UnitSelector = UnitSelector> {
     return this.selector?.availableExperienceLevels ?? [];
   }
 
+  get availableOptions() {
+    return  (this.selector?.options ?? []).concat(this.slot?.options ?? []);
+  }
+
   private _errors: string[] | null = null;
   get errors() { return this._errors != null && this._errors.length > 0 ? this._errors : null; }
 
   protected _cost: number = 0;
-  get cost() { return this._cost;}
+  get cost() { return this._cost; }
 
   protected _specialRules: SpecialRule[] = [];
   get specialRules() { return this._specialRules; }
@@ -57,9 +63,10 @@ export abstract class Unit<TSelector extends UnitSelector = UnitSelector> {
   protected _weaponSummary: IUnitWeaponDetail[] = [];
   get weaponSummary() { return this._weaponSummary; }
 
-  constructor(data: IUnitModel, library: Library) {
+  constructor(data: IUnitModel, slot: UnitRequirement, library: Library) {
     this.selectorId = data.selectorId;
     this.slotId = data.slotId;
+    this.slot = slot;
     this.experience = data.experience;
     this.optionIds = data.optionIds ?? [];
     const selector = library.unitSelectors.find(p => p.id === data.selectorId);
@@ -75,7 +82,7 @@ export abstract class Unit<TSelector extends UnitSelector = UnitSelector> {
     const errors: string[] = [];
     //Validate General Options
     this.optionIds?.forEach(o => {
-      const selectorOption = this.selector?.options.find(s => s.id == o);
+      const selectorOption = this.availableOptions.find(s => s.id == o);
       if (!selectorOption) return;
       if (selectorOption.availableExperienceLevels && !selectorOption.availableExperienceLevels.includes(this.experience))
         errors.push(`A <strong>${this.experience}</strong> unit is not allowed "${selectorOption.description}".`)
@@ -85,7 +92,7 @@ export abstract class Unit<TSelector extends UnitSelector = UnitSelector> {
 
   protected calculateSpecialRules(): SpecialRule[] {
     const ids = this.selector?.specialRuleIds ?? [];
-    const optionIds = this.selector?.options
+    const optionIds = this.availableOptions
       .filter(so => this.optionIds.some(o => o == so.id))
       .map(o => o.specialRuleId)
       .filter(s => !!s)
