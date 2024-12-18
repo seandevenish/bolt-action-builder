@@ -5,10 +5,6 @@ Infrastructure:
 * Facebook Auth
 * Deployment
 
-Units:
-* Implement Vehicles
- - global option for command vehicles
-
 Weapons:
 * Faction overrides
 
