@@ -43,14 +43,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-      this.defaultLogin();
-  }
 
-  private defaultLogin() {
-    this.loginForm.patchValue({
-      email: 'sbdevenish@gmail.com',
-      password: 'spitfire'
-    });
   }
 
   public loginWithGoogle() {
