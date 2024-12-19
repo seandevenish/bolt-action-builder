@@ -8,12 +8,13 @@ import { ArmyService } from '../army.service';
 import { FirestoreError } from 'firebase/firestore';
 import { generateGuid } from '../../../app/utilities/guid';
 import { Faction, factionLibrary } from '../../faction';
+import { SpinnerComponent } from '../../../app/components/spinner/spinner.component';
 
 @Component({
   selector: 'app-army-form',
   standalone: true,
   imports: [ReactiveFormsModule,
-    CommonModule],
+    CommonModule, SpinnerComponent],
   templateUrl: './army-form.component.html',
   styleUrls: ['./army-form.component.scss'],
 })
@@ -85,7 +86,7 @@ export class ArmyFormComponent implements OnInit, OnDestroy {
     }
 
     this.saving.set(true);
-    this._armyService.add(army).then(() =>
+    this._armyService.add(army.toStoredObject()).then(() =>
       this.dialogRef.close(army)
     ).catch((e: FirestoreError) => {
       this.error = e.message;

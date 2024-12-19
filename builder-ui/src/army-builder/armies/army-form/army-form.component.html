@@ -64,6 +64,7 @@
     <!-- Right-aligned Save and Cancel buttons -->
     <div class="ml-auto flex space-x-2">
       <button type="submit" class="btn-primary">
+        <app-spinner *ngIf="saving()"></app-spinner>
         {{isAdd ? 'Add Army' : 'Save'}}
       </button>
       <button type="button" class="btn-secondary" (click)="cancel()">

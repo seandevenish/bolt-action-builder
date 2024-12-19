@@ -87,8 +87,9 @@
       </button>
 
 
-      <div *ngIf="error" class="alert alert-danger">
-        {{ error }}
+      <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4" role="alert" *ngIf="error">
+        <p class="font-bold !mb-0">Error</p>
+        <p class="!mb-0">{{ error }}</p>
       </div>
 
     </form>

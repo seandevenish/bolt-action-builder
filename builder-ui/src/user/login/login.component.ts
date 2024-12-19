@@ -48,26 +48,22 @@ export class LoginComponent implements OnInit {
   }
 
   public loginWithGoogle() {
-    this.busy.submit.set(true);
     this._authService.loginWithGoogle()
       .then((result) => {
         this.postLoginActions(result);
       })
       .catch((error) => {
         this.handleError(error);
-        this.busy.submit.set(false);
       });
   }
 
   public loginWithFacebook() {
-    this.busy.submit.set(true);
     this._authService.loginWithFacebook()
       .then((result) => {
         this.postLoginActions(result);
       })
       .catch((error) => {
         this.handleError(error);
-        this.busy.submit.set(false);
       });
   }
 
@@ -108,6 +104,9 @@ export class LoginComponent implements OnInit {
       case 'auth/weak-password':
         this.error = 'The password is too weak. Please enter a stronger password (at least 6 characters).';
         break;
+        case 'auth/invalid-credential':
+          this.error = 'Invalid email or password. Please check your credentials and try again.';
+          break;
       default:
         this.error = 'An unexpected error occurred. Please try again.';
     }

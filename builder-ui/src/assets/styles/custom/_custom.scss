@@ -1,2 +1,10 @@
 @import 'buttons';
 @import 'dialogs';
+
+.form-text {
+  @apply text-sm;
+}
+
+.text-danger {
+  @apply text-red-600;
+}
