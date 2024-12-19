@@ -34,14 +34,14 @@
                 </div>
               </div>
               <div class="flex-1 min-w-0">
-                <h3 class="text-base font-semibold text-gray-900 truncate dark:text-white !mb-0" [title]="army.name">
+                <h3 class="text-base font-semibold text-gray-900 truncate !mb-0" [title]="army.name">
                   {{army.name}}
                 </h3>
-                <p class="text-xs text-gray-500 truncate dark:text-gray-400 !mb-0">
+                <p class="text-xs text-gray-500 truncate !mb-0">
                   {{army.modifiedDate | date}}
                 </p>
               </div>
-              <div class="text-sm inline-flex items-center text-base font-normal text-gray-700 dark:text-white">
+              <div class="text-sm inline-flex items-center text-base font-normal text-gray-700">
                 {{army.points | number: '1.0-0'}} Pts
               </div>
             </a>

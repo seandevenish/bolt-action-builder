@@ -7,6 +7,7 @@ import { Router, RouterModule } from '@angular/router';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { filter, take } from 'rxjs';
 import { SpinnerComponent } from '../../app/components/spinner/spinner.component';
+import { UserCredential } from 'firebase/auth';
 
 @Component({
   selector: 'app-login',
@@ -47,11 +48,27 @@ export class LoginComponent implements OnInit {
   }
 
   public loginWithGoogle() {
-    this._authService.loginWithGoogle();
+    this.busy.submit.set(true);
+    this._authService.loginWithGoogle()
+      .then((result) => {
+        this.postLoginActions(result);
+      })
+      .catch((error) => {
+        this.handleError(error);
+        this.busy.submit.set(false);
+      });
   }
 
   public loginWithFacebook() {
-    this._authService.loginWithFacebook();
+    this.busy.submit.set(true);
+    this._authService.loginWithFacebook()
+      .then((result) => {
+        this.postLoginActions(result);
+      })
+      .catch((error) => {
+        this.handleError(error);
+        this.busy.submit.set(false);
+      });
   }
 
   public loginWithEmail() {
@@ -60,20 +77,24 @@ export class LoginComponent implements OnInit {
       const { email, password } = this.loginForm.value;
       this._authService.loginWithEmail(email, password)
         .then((result) => {
-          console.log('Registration successful', result);
-          this.busy.submit.set(false);
-          this._authService.state$.pipe(
-            filter(authState => authState !== null),
-            take(1) // Complete after getting the first non-null value
-          ).subscribe(() => {
-            this._router.navigate(['armies']);
-          });
+          this.postLoginActions(result);
         })
         .catch((error) => {
           this.handleError(error);
           this.busy.submit.set(false);
         });
     }
+  }
+
+  private postLoginActions(result: UserCredential) {
+    console.log('Registration successful', result);
+    this.busy.submit.set(false);
+    this._authService.state$.pipe(
+      filter(authState => authState !== null),
+      take(1) // Complete after getting the first non-null value
+    ).subscribe(() => {
+      this._router.navigate(['armies']);
+    });
   }
 
   private handleError(error: FirebaseError) {

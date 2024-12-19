@@ -73,9 +73,9 @@ export class VehicleUnit extends Unit<VehicleUnitSelector> {
 
         // Remove weapons that are being replaced
         weapons = weapons.filter(w =>
-            !option.replaceIds?.some(replaceId =>
+            !(option.replaceIds?.some(replaceId =>
                 this.selector.baseWeapons.find(bw => bw.id === replaceId)?.description === w.description
-            ) ?? true
+            ))
         );
 
         // Add new weapons from the option
