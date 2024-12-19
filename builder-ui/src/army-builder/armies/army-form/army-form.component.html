@@ -25,7 +25,7 @@
       <div class="col-span-full">
         <label for="faction" class="block mb-2 text-sm font-medium text-gray-900">Faction</label>
         <select formControlName="faction" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" cdkFocusInitial>
-          <option *ngFor="let faction of factions" [ngValue]="faction">
+          <option *ngFor="let faction of factions" [ngValue]="faction" class="py-3">
             {{ faction.name }}
           </option>
         </select>

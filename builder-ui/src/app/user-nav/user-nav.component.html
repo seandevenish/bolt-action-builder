@@ -1,7 +1,7 @@
 <ng-container *ngIf="isLoggedIn()">
 
   <!-- Small Screen -->
-  <button class="flex items-center md:hidden font-semibold px-4 py-1 text-gray-700 hover:bg-primary-200 hover:text-primary-800" (click)="signout()">
+  <button class="w-full flex items-center md:hidden font-semibold p-3 text-gray-700 hover:bg-primary-200 hover:text-primary-800" (click)="signout()">
     <app-icon pack="shared" icon="logout" size="sm" class="mr-1"></app-icon>
     Logout
   </button>
@@ -11,11 +11,19 @@
     <mat-icon>person</mat-icon>
   </button>
   <mat-menu #menu1="matMenu" class="!bg-white">
-    <div class="px-3 py-1 text-muted">{{username()}}</div>
-    <button type="button" mat-menu-item (click)="signout()">
+    <div class="p-3 pb-1 text-gray-700 text-sm">
+      <div class="text-xs text-gray-400">
+        Logged in as
+      </div>
+      <div class="">
+        {{username()}}
+      </div>
+    </div>
+    <div class="h-px bg-gray-200 my-2"></div>
+    <button type="button" class="w-full flex items-center font-semibold p-3 text-gray-700 hover:bg-primary-200 hover:text-primary-800" (click)="signout()">
       <app-icon pack="shared" icon="logout" size="sm" class="mr-1"></app-icon>
       Logout
     </button>
   </mat-menu>
-  
+
 </ng-container>

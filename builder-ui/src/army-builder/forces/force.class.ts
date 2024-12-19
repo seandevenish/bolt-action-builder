@@ -1,7 +1,7 @@
 import { Library } from "../units/library.interface";
 import { Platoon } from '../platoons/platoon.class';
 import { Army } from '../armies/army.class';
-import { BehaviorSubject, combineLatest, map, merge, Observable, Subject, switchMap, tap, withLatestFrom } from "rxjs";
+import { BehaviorSubject, combineLatest, map, merge, Observable, startWith, Subject, switchMap, tap, withLatestFrom } from "rxjs";
 import { ForceSelector } from "./force-selector";
 import { PlatoonCategory } from "../platoons/platoon-category.enum";
 import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
@@ -53,6 +53,7 @@ export class Force {
           map(costs => costs.reduce((total, cost) => total + cost, 0))
         )
       ),
+      startWith(0),
       tap(v => this.cost = v)
     );
 
