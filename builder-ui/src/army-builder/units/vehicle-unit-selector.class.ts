@@ -1,6 +1,7 @@
 import { Weapon } from "../weapons/weapon.interface";
 import { Experience } from "./experience.enum";
 import { Library } from "./library.interface";
+import { RuleBook } from "./rulebook.enum";
 import { UnitSelector, IGeneralOptionSelector } from "./unit-selector.class";
 import { UnitType, UnitSubType } from "./unit-type.enum";
 
@@ -35,6 +36,7 @@ export class VehicleUnitSelector extends UnitSelector {
     name: string;
     unitType: UnitType;
     subType?: UnitSubType;
+    ruleBook: RuleBook;
     transportCapacity?: number;
     baseWeapons?: IVehicleWeapon[];
     weaponOptions?: IVehicleWeaponOption[];

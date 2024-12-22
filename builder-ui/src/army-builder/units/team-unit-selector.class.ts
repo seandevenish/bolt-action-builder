@@ -1,6 +1,7 @@
 import { Weapon } from "../weapons/weapon.interface";
 import { Experience } from "./experience.enum";
 import { Library } from "./library.interface";
+import { RuleBook } from "./rulebook.enum";
 import { UnitSelector, IGeneralOptionSelector } from "./unit-selector.class";
 import { UnitType, UnitSubType } from "./unit-type.enum";
 
@@ -16,6 +17,7 @@ export class TeamUnitSelector extends UnitSelector {
     id: string;
     name: string;
     unitType: UnitType;
+    ruleBook: RuleBook;
     baseWeaponQty?: number;
     baseWeaponId: string;
     baseWeaponDescription?: string;

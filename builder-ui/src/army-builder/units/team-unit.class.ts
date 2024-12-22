@@ -1,6 +1,6 @@
 import { UnitRequirement } from "../platoons/unit-requirement.interface";
 import { Library } from "./library.interface";
-import { TeamUnitSelector } from "./team-unit-selector.class copy";
+import { TeamUnitSelector } from "./team-unit-selector.class";
 import { Unit, IUnitModel, IUnitWeaponDetail } from "./unit.class";
 
 export interface ITeamUnitModel extends IUnitModel {

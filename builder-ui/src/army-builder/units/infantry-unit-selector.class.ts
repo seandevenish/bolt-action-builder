@@ -1,6 +1,7 @@
 import { Weapon } from "../weapons/weapon.interface";
 import { Experience } from "./experience.enum";
 import { Library } from "./library.interface";
+import { RuleBook } from "./rulebook.enum";
 import { UnitSelector, IInfantryWeaponOption, IGeneralOptionSelector } from "./unit-selector.class";
 import { UnitType, UnitSubType } from "./unit-type.enum";
 
@@ -19,6 +20,8 @@ export class InfantryUnitSelector extends UnitSelector {
     id: string;
     name: string;
     unitType: UnitType;
+    subType?: UnitSubType;
+    ruleBook: RuleBook;
     keyPerson: string;
     baseWeaponId: string;
     keyPersonWeaponOptions?: IInfantryWeaponOption[];
@@ -26,7 +29,6 @@ export class InfantryUnitSelector extends UnitSelector {
     costPerMan: Record<Experience, number>;
     baseMen: number;
     maxMen: number;
-    subType?: UnitSubType;
     cost: Record<Experience, number>;
     specialRuleIds?: string[];
     options?: IGeneralOptionSelector[];

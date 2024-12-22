@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { UnitSelector } from './unit-selector.class';
 import { InfantryUnitSelector } from './infantry-unit-selector.class';
 import { catchError, map, Observable, of, forkJoin } from 'rxjs';
-import { TeamUnitSelector } from './team-unit-selector.class copy';
+import { TeamUnitSelector } from './team-unit-selector.class';
 import { VehicleUnitSelector } from './vehicle-unit-selector.class';
 
 @Injectable({

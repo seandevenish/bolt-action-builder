@@ -7,7 +7,7 @@ import { IInfantryUnitModel, InfantryUnit } from "./infantry-unit.class";
 import { VehicleUnitSelector } from "./vehicle-unit-selector.class";
 import { ITeamUnitModel, TeamUnit } from "./team-unit.class";
 import { IVehicleUnitModel, VehicleUnit } from "./vehicle-unit.class";
-import { TeamUnitSelector } from "./team-unit-selector.class copy";
+import { TeamUnitSelector } from "./team-unit-selector.class";
 import { UnitRequirement } from "../platoons/unit-requirement.interface";
 
 

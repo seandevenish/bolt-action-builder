@@ -3,6 +3,7 @@ import { Experience } from "./experience.enum";
 import { SpecialRule } from '../special-rules/special-rule.interface';
 import { Library } from './library.interface';
 import { Weapon } from '../weapons/weapon.interface';
+import { RuleBook } from './rulebook.enum';
 
 export interface IGeneralOptionSelector {
   id: string;
@@ -34,6 +35,7 @@ export class UnitSelector {
   readonly name: string;
   readonly unitType: UnitType;
   readonly subType?: UnitSubType;
+  readonly ruleBook: RuleBook;
   readonly cost: Record<Experience, number>;
   readonly specialRuleIds?: string[] = [];
   readonly options: IGeneralOptionSelector[] = [];
@@ -49,6 +51,7 @@ export class UnitSelector {
     name: string;
     unitType: UnitType;
     subType?: UnitSubType;
+    ruleBook: RuleBook;
     cost: Record<Experience, number>;
     specialRuleIds?: string[];
     options?: IGeneralOptionSelector[];
@@ -57,6 +60,7 @@ export class UnitSelector {
     this.name = data.name;
     this.unitType = data.unitType;
     this.subType = data.subType;
+    this.ruleBook = data.ruleBook ?? RuleBook.MainRuleBook;
     this.cost = data.cost;
     this.specialRuleIds = data.specialRuleIds ?? [];
     this.options = data.options || [];
