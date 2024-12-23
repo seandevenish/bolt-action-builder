@@ -66,6 +66,7 @@ export const SharedIconPack: IIconPack = {
         'settings',
         'chevron',
         'save',
+        'share',
         'search',
         'subtract-alt',
         'shuffle',

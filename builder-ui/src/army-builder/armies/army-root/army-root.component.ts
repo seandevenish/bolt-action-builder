@@ -27,6 +27,7 @@ import { ArmyFormComponent } from '../army-form/army-form.component';
 import { ForceService } from '../../forces/force.service';
 import { Force } from '../../forces/force.class';
 import { SpinnerComponent } from '../../../app/components/spinner/spinner.component';
+import { ArmyPdfService } from '../army-pdf.service';
 
 @Component({
   selector: 'app-army-root',
@@ -60,7 +61,8 @@ export class ArmyRootComponent implements OnInit, OnDestroy, AfterViewInit {
     private readonly _confirmationService: ConfirmationService,
     private readonly _ngZone: NgZone,
     private readonly _snackbar: MatSnackBar,
-    private readonly _dialog: MatDialog
+    private readonly _dialog: MatDialog,
+    private readonly _armyPdfService: ArmyPdfService
   ) {
 
   }
@@ -133,6 +135,10 @@ export class ArmyRootComponent implements OnInit, OnDestroy, AfterViewInit {
       if (closeAfter) this._router.navigate(['../'], { relativeTo: this._route });
       else this._snackbar.open('Successfully Saved Army', 'Dismiss', {duration: 3000});
     }).catch(e => this.error = e).finally(() => this.saving.set(false));
+  }
+
+  exportPdf() {
+    this._armyPdfService.generateArmySummaryPDF(this.force!, this.force!.army.name);
   }
 
   editArmyDetails() {

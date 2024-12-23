@@ -17,6 +17,10 @@
       </output>
     </button>
 
+    <button type="button" class="btn-tertiary !px-1" matTooltip="Export to PDF" aria-label="Export to PDF" (click)="exportPdf()">
+      <app-icon pack="file" icon="pdf" size="md" class="mr-1"></app-icon>
+    </button>
+
     <button class="btn-tertiary !px-1 md:!px-3" [matMenuTriggerFor]="menu" aria-label="Settings">
       <app-icon pack="shared" icon="settings" size="md" class="mr-1"></app-icon>
       <span class="hidden md:block">Settings</span>
