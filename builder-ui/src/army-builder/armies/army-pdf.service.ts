@@ -4,6 +4,7 @@ import { Force } from '../forces/force.class';
 import { firstValueFrom } from 'rxjs';
 import { Platoon } from '../platoons/platoon.class';
 import { Unit } from '../units/unit.class';
+import { VehicleUnitSelector } from '../units/vehicle-unit-selector.class';
 
 @Injectable({
   providedIn: 'root',
@@ -18,6 +19,7 @@ export class ArmyPdfService {
   private readonly textGray500 = (pdf: jsPDF) => pdf.setTextColor(100, 116, 139);
 
   private readonly bgGray100 = (pdf: jsPDF) => pdf.setFillColor(226, 232, 240);
+  private readonly borderGray100 = (pdf: jsPDF) => pdf.setDrawColor(226, 232, 240);
 
   private readonly textLgSize = 18 * 0.75;
   private readonly textLglineHeight = 24 * 0.264583;
@@ -64,11 +66,10 @@ export class ArmyPdfService {
       yPosition += description.length * this.textSmlineHeight; // Adjust for wrapped text height
     }
 
-    yPosition += 6  * 0.264583;
-
     // Fetch platoons using platoons$ observable
     const platoons = await firstValueFrom(force.platoons$);
     for (const platoon of platoons) {
+      yPosition += 6  * 0.264583;
       yPosition = await this.writePlatoon(platoon, pdf, yPosition);
     }
 
@@ -96,10 +97,10 @@ export class ArmyPdfService {
       yPosition = this.topMargin;
     }
 
-    // Draw panel background with shadow
-    this.bgGray100(pdf);
-    pdf.setDrawColor(0); // Set draw color to black
-    pdf.roundedRect(this.leftMargin, panelStartY, panelWidth, panelHeight, this.panelRadius, this.panelRadius, 'F');
+    // Draw panel outline with no fill
+    this.borderGray100(pdf);
+    pdf.setLineWidth(0.1); // Set line width to thin
+    pdf.roundedRect(this.leftMargin, panelStartY, panelWidth, panelHeight, this.panelRadius, this.panelRadius, 'S'); // 'S' for stroke only
 
     // Add platoon title and cost
     yPosition = await this.writePlatoonTitle(platoon, pdf, yPosition, false);
@@ -141,31 +142,117 @@ export class ArmyPdfService {
       }
 
       // Calculate the height of the unit's content
-      const unitText = `${unit.selector.name} (${unit.countString})`;
-      const wrappedText = pdf.splitTextToSize(unitText, columnWidth);
-      const unitHeight = wrappedText.length * this.textSmlineHeight;
+      // Handle simulation mode to calculate unit height
+      const unitHeight = this.writeUnit(unit, pdf, xPosition, yPosition, columnWidth, true);
 
       // Update max row height
       maxRowHeight = Math.max(maxRowHeight, unitHeight);
 
-      // Handle simulation mode
-      if (simulate) return;
-
       // Handle page break if necessary
-      if (yPosition + unitHeight > this.pageHeight - this.topMargin) {
+      if (!simulate && yPosition + unitHeight > this.pageHeight - this.topMargin) {
         pdf.addPage();
         yPosition = this.topMargin;
         maxRowHeight = unitHeight; // Reset max row height for the new page
       }
 
-      // Write the unit details
-      pdf.setFontSize(this.textSmSize);
-      wrappedText.forEach((line: string | string[], lineIndex: number) => {
-        pdf.text(line, xPosition, yPosition + lineIndex * this.textSmlineHeight);
-      });
+      // Write the unit details if not simulating
+      if (!simulate) {
+        this.writeUnit(unit, pdf, xPosition, yPosition, columnWidth, false);
+      }
     });
 
     // Add the height of the last row to the final yPosition
     return yPosition + maxRowHeight;
+  }
+
+  private writeUnit(unit: Unit, pdf: jsPDF, xPosition: number, yPosition: number, columnWidth: number, simulate: boolean): number {
+    const unitText = `${unit.selector.name} (${unit.countString})`;
+    const wrappedText = pdf.splitTextToSize(unitText, columnWidth);
+    let unitHeight = wrappedText.length * this.textSmlineHeight;
+
+    if (!simulate) {
+      pdf.setFontSize(this.textSmSize);
+      wrappedText.forEach((line: string | string[], lineIndex: number) => {
+        pdf.text(line, xPosition, yPosition + lineIndex * this.textSmlineHeight);
+      });
+    }
+
+    yPosition += unitHeight;
+    unitHeight += this.textSmlineHeight; // Add spacing after unit name
+
+    // Experience
+    const experienceText = `${unit.experience}`;
+    if (!simulate) {
+      pdf.setFontSize(this.textSmSize);
+      pdf.text(experienceText, xPosition, yPosition);
+    }
+    yPosition += this.textSmlineHeight;
+    unitHeight += this.textSmlineHeight;
+
+    // Vehicle details
+    const vehicleUnitSelector = (unit.selector instanceof VehicleUnitSelector) ? unit.selector as VehicleUnitSelector : null;
+    if (vehicleUnitSelector) {
+      const vehicleDetails = `${vehicleUnitSelector.damageValue}+ Damage`;
+      if (!simulate) {
+        pdf.setFontSize(this.textSmSize);
+        pdf.text(vehicleDetails, xPosition, yPosition);
+      }
+      yPosition += this.textSmlineHeight;
+      unitHeight += this.textSmlineHeight;
+
+      if (vehicleUnitSelector.transportCapacity) {
+        const transportDetails = `Transports ${vehicleUnitSelector.transportCapacity}`;
+        if (!simulate) {
+          pdf.setFontSize(this.textSmSize);
+          pdf.text(transportDetails, xPosition, yPosition);
+        }
+        yPosition += this.textSmlineHeight;
+        unitHeight += this.textSmlineHeight;
+      }
+
+      if (vehicleUnitSelector.tow) {
+        const towDetails = `Tows ${vehicleUnitSelector.tow}`;
+        if (!simulate) {
+          pdf.setFontSize(this.textSmSize);
+          pdf.text(towDetails, xPosition, yPosition);
+        }
+        yPosition += this.textSmlineHeight;
+        unitHeight += this.textSmlineHeight;
+      }
+    }
+
+    // Weapon Summary
+    const weaponSummaryText = unit.weaponSummary.map(w => `${w.qty} ${w.role ? w.role + ' with ' : ''}${w.description}`).join(', ');
+    if (weaponSummaryText?.length) {
+      const wrappedWeaponSummaryText = pdf.splitTextToSize(weaponSummaryText, columnWidth);
+      unitHeight += wrappedWeaponSummaryText.length * this.textSmlineHeight;
+  
+      if (!simulate) {
+        pdf.setFontSize(this.textSmSize);
+        wrappedWeaponSummaryText.forEach((line: string | string[], lineIndex: number) => {
+        pdf.text(line, xPosition, yPosition + lineIndex * this.textSmlineHeight);
+        });
+      }
+  
+      yPosition += wrappedWeaponSummaryText.length * this.textSmlineHeight;
+    }
+    
+    // Special rules
+    const specialRulesText = unit.specialRules.map(rule => rule.name).join(', ');
+    if (specialRulesText?.length) {
+      const wrappedRulesText = pdf.splitTextToSize(specialRulesText, columnWidth);
+      unitHeight += wrappedRulesText.length * this.textSmlineHeight;
+  
+      if (!simulate) {
+        pdf.setFontSize(this.textSmSize);
+        wrappedRulesText.forEach((line: string | string[], lineIndex: number) => {
+          pdf.text(line, xPosition, yPosition + lineIndex * this.textSmlineHeight);
+        });
+      }
+  
+      yPosition += wrappedRulesText.length * this.textSmlineHeight;
+    }
+
+    return unitHeight;
   }
 }
