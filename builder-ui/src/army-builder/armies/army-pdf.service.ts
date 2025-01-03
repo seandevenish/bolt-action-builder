@@ -115,14 +115,18 @@ export class ArmyPdfService {
 
   private async writePlatoonTitle(platoon: Platoon, pdf: jsPDF, yPosition: number, simulate: boolean) {
     yPosition += this.panelPadding;
+    pdf.setFont('Helvetica', 'bold');
     pdf.setFontSize(this.textMdSize);
+    this.textGray500(pdf);
     pdf.text(`${platoon.name}`, this.leftMargin + this.panelPadding, yPosition);
 
     pdf.setFontSize(this.textSmSize);
+    this.textGray700(pdf);
     const cost = await firstValueFrom(platoon.cost$);
     const platoonCostText = `${cost.toLocaleString()} Pts`;
     const textWidth = pdf.getTextWidth(platoonCostText);
-    pdf.text(platoonCostText, this.pageWidth - this.leftMargin - this.panelPadding - textWidth, yPosition);
+
+    if (!simulate) pdf.text(platoonCostText, this.pageWidth - this.leftMargin - this.panelPadding - textWidth, yPosition);
 
     return yPosition + this.textMdlineHeight;
   }
@@ -166,7 +170,9 @@ export class ArmyPdfService {
   }
 
   private writeUnit(unit: Unit, pdf: jsPDF, xPosition: number, yPosition: number, columnWidth: number, simulate: boolean): number {
-    const unitText = `${unit.selector.name} (${unit.countString})`;
+    const unitText = `${unit.title}`;
+    pdf.setFont('Helvetica', 'bold');
+    pdf.setFontSize(this.textSmSize);
     const wrappedText = pdf.splitTextToSize(unitText, columnWidth);
     let unitHeight = wrappedText.length * this.textSmlineHeight;
 
@@ -180,12 +186,24 @@ export class ArmyPdfService {
     yPosition += unitHeight;
     unitHeight += this.textSmlineHeight; // Add spacing after unit name
 
-    // Experience
+    pdf.setFont('Helvetica', 'regular');
+
+    // Count and Experience
+    const countString = `${unit.countString}`;
     const experienceText = `${unit.experience}`;
+
     if (!simulate) {
       pdf.setFontSize(this.textSmSize);
-      pdf.text(experienceText, xPosition, yPosition);
+      this.textGray700(pdf);
+      pdf.text(countString, xPosition, yPosition);
+
+      const countStringWidth = pdf.getTextWidth(countString);
+      this.bgGray100(pdf);
+      pdf.roundedRect(xPosition + countStringWidth + 2, yPosition - this.textSmlineHeight + 2, pdf.getTextWidth(experienceText) + 4, this.textSmlineHeight, 1, 1, 'F');
+      this.textGray700(pdf);
+      pdf.text(experienceText, xPosition + countStringWidth + 4, yPosition);
     }
+
     yPosition += this.textSmlineHeight;
     unitHeight += this.textSmlineHeight;
 

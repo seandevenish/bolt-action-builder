@@ -38,7 +38,7 @@ export abstract class Unit<TSelector extends UnitSelector = UnitSelector> {
   updated$ = new Subject<void>();
 
   get title() {
-    return this.selector
+    return this.selector.name;
   }
 
   get countString(): string { return 'Unit'; }
