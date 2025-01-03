@@ -18,7 +18,7 @@ import { UserCredential } from 'firebase/auth';
 })
 export class LoginComponent implements OnInit {
 
-  error?: string;
+  error?: string | null;
   loginForm: FormGroup;
   busy = {
     submit: signal(false)
@@ -48,6 +48,7 @@ export class LoginComponent implements OnInit {
   }
 
   public loginWithGoogle() {
+    this.error = null;
     this._authService.loginWithGoogle()
       .then((result) => {
         this.postLoginActions(result);
@@ -58,6 +59,7 @@ export class LoginComponent implements OnInit {
   }
 
   public loginWithFacebook() {
+    this.error = null;
     this._authService.loginWithFacebook()
       .then((result) => {
         this.postLoginActions(result);
@@ -68,6 +70,7 @@ export class LoginComponent implements OnInit {
   }
 
   public loginWithEmail() {
+    this.error = null;
     if (this.loginForm.valid) {
       this.busy.submit.set(true);
       const { email, password } = this.loginForm.value;
