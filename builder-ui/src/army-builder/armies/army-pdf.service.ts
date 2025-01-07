@@ -141,7 +141,7 @@ export class ArmyPdfService {
 
       // Determine the vertical position for the current row
       if (column === 0 && index !== 0) {
-        yPosition += maxRowHeight + 5; // Move to the next row, adding spacing
+        yPosition += maxRowHeight + 0; // Move to the next row, adding spacing
         maxRowHeight = 0; // Reset row height for the next row
       }
 
@@ -269,6 +269,14 @@ export class ArmyPdfService {
       }
   
       yPosition += wrappedRulesText.length * this.textSmlineHeight;
+    }
+
+    // todo: insert a yellow dash right here
+    if (true) {
+      pdf.setDrawColor(255, 204, 0); // Yellow color
+      if (!simulate) pdf.setDrawColor(0, 204, 255); // Blue color
+      pdf.setLineWidth(0.5); // Set line width
+      pdf.line(xPosition, yPosition, xPosition + columnWidth - (!simulate ? 5 : 0), yPosition); // Draw the dash
     }
 
     return unitHeight;
