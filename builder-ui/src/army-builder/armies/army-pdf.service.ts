@@ -27,7 +27,7 @@ export class ArmyPdfService {
   private readonly textMdlineHeight = 24 * 0.264583;
   private readonly textSmSize = 14 * 0.75;
   private readonly textSmlineHeight = 20 * 0.264583;
-
+  private readonly textXsSize = 12 * 0.75;
 
   private readonly panelPadding = 12 * 0.264583;
   private readonly panelRadius = 12 * 0.264583;
@@ -88,7 +88,8 @@ export class ArmyPdfService {
     // Calculate panel height dynamically based on unit content
     let simulatedYPosition = yPosition;
     simulatedYPosition = await this.writePlatoonTitle(platoon, pdf, simulatedYPosition, true);
-    simulatedYPosition = this.writeUnits(units, pdf, simulatedYPosition, this.leftMargin + this.panelPadding, panelWidth, true) + this.panelPadding;
+    simulatedYPosition = this.writeUnits(units, pdf, simulatedYPosition, this.leftMargin + this.panelPadding, panelWidth, true);
+    //simulatedYPosition = simulatedYPosition + this.panelPadding;
     const panelHeight = simulatedYPosition - panelStartY;
 
     // Handle page break
@@ -108,7 +109,7 @@ export class ArmyPdfService {
     // Render units in two columns
     yPosition = this.writeUnits(units, pdf, yPosition, this.leftMargin + this.panelPadding, panelWidth, false);
 
-    yPosition += this.panelPadding; // Add bottom padding of panel
+    // yPosition += this.panelPadding; // Add bottom padding of panel
 
     return yPosition;
   }
@@ -132,6 +133,9 @@ export class ArmyPdfService {
   }
 
   private writeUnits(units: Unit[], pdf: jsPDF, yPosition: number, xStart: number, panelWidth: number, simulate: boolean): number {
+
+    this.drawDebugLine(pdf, 'blue', this.leftMargin + this.panelPadding, yPosition, 5);
+
     const columnWidth = (panelWidth - 2 * this.panelPadding) / 2; // Divide space into two columns
     let maxRowHeight = 0; // Track the tallest unit in the current row
 
@@ -141,7 +145,7 @@ export class ArmyPdfService {
 
       // Determine the vertical position for the current row
       if (column === 0 && index !== 0) {
-        yPosition += maxRowHeight + 0; // Move to the next row, adding spacing
+        yPosition += maxRowHeight + 3; // Move to the next row, adding spacing between rows (Row Spacer)
         maxRowHeight = 0; // Reset row height for the next row
       }
 
@@ -166,15 +170,17 @@ export class ArmyPdfService {
     });
 
     // Add the height of the last row to the final yPosition
+    this.drawDebugLine(pdf, 'green', this.leftMargin + this.panelPadding, yPosition, 10);
+    this.drawDebugLine(pdf, 'yellow', this.leftMargin + this.panelPadding, yPosition + maxRowHeight, 15);
     return yPosition + maxRowHeight;
   }
 
   private writeUnit(unit: Unit, pdf: jsPDF, xPosition: number, yPosition: number, columnWidth: number, simulate: boolean): number {
+    const startingYPosition = yPosition;
     const unitText = `${unit.title}`;
     pdf.setFont('Helvetica', 'bold');
     pdf.setFontSize(this.textSmSize);
-    const wrappedText = pdf.splitTextToSize(unitText, columnWidth);
-    let unitHeight = wrappedText.length * this.textSmlineHeight;
+    const wrappedText = pdf.splitTextToSize(unitText, columnWidth - 5);
 
     if (!simulate) {
       pdf.setFontSize(this.textSmSize);
@@ -183,29 +189,42 @@ export class ArmyPdfService {
       });
     }
 
-    yPosition += unitHeight;
-    unitHeight += this.textSmlineHeight; // Add spacing after unit name
+    yPosition += wrappedText.length * this.textSmlineHeight;
 
-    pdf.setFont('Helvetica', 'regular');
+    pdf.setFont('Helvetica', 'normal');
 
-    // Count and Experience
+    // Cost, Count and Experience
+    const costString = `${unit.cost} Pts`;
     const countString = `${unit.countString}`;
     const experienceText = `${unit.experience}`;
 
     if (!simulate) {
+      let stringXPosition = xPosition;
+
+      // Cost String
+      pdf.setFont('Helvetica', 'bold');
+      pdf.setFontSize(this.textXsSize);
+      this.textGray500(pdf);
+      pdf.text(costString, stringXPosition, yPosition);
+      stringXPosition += pdf.getTextWidth(costString) + 3;
+
+      // Count String (eg. '6 men')
+      pdf.setFont('Helvetica', 'normal');
       pdf.setFontSize(this.textSmSize);
       this.textGray700(pdf);
-      pdf.text(countString, xPosition, yPosition);
+      pdf.text(countString, stringXPosition, yPosition);
+      if (countString != '') stringXPosition += pdf.getTextWidth(countString) + 2;
 
-      const countStringWidth = pdf.getTextWidth(countString);
+      // Experience
+      // Experience Bounding Rectangle
       this.bgGray100(pdf);
-      pdf.roundedRect(xPosition + countStringWidth + 2, yPosition - this.textSmlineHeight + 2, pdf.getTextWidth(experienceText) + 4, this.textSmlineHeight, 1, 1, 'F');
+      pdf.roundedRect(stringXPosition, yPosition - this.textSmlineHeight + 2 - 0.8, pdf.getTextWidth(experienceText) + 4 + 0.2, this.textSmlineHeight + 0.5, 1, 1, 'F');
       this.textGray700(pdf);
-      pdf.text(experienceText, xPosition + countStringWidth + 4, yPosition);
+      // Experience Text
+      pdf.text(experienceText, stringXPosition + 2, yPosition);
     }
 
-    yPosition += this.textSmlineHeight;
-    unitHeight += this.textSmlineHeight;
+    yPosition += this.textSmlineHeight + 1;
 
     // Vehicle details
     const vehicleUnitSelector = (unit.selector instanceof VehicleUnitSelector) ? unit.selector as VehicleUnitSelector : null;
@@ -216,7 +235,6 @@ export class ArmyPdfService {
         pdf.text(vehicleDetails, xPosition, yPosition);
       }
       yPosition += this.textSmlineHeight;
-      unitHeight += this.textSmlineHeight;
 
       if (vehicleUnitSelector.transportCapacity) {
         const transportDetails = `Transports ${vehicleUnitSelector.transportCapacity}`;
@@ -225,7 +243,6 @@ export class ArmyPdfService {
           pdf.text(transportDetails, xPosition, yPosition);
         }
         yPosition += this.textSmlineHeight;
-        unitHeight += this.textSmlineHeight;
       }
 
       if (vehicleUnitSelector.tow) {
@@ -235,50 +252,63 @@ export class ArmyPdfService {
           pdf.text(towDetails, xPosition, yPosition);
         }
         yPosition += this.textSmlineHeight;
-        unitHeight += this.textSmlineHeight;
       }
     }
 
     // Weapon Summary
     const weaponSummaryText = unit.weaponSummary.map(w => `${w.qty} ${w.role ? w.role + ' with ' : ''}${w.description}`).join(', ');
     if (weaponSummaryText?.length) {
-      const wrappedWeaponSummaryText = pdf.splitTextToSize(weaponSummaryText, columnWidth);
-      unitHeight += wrappedWeaponSummaryText.length * this.textSmlineHeight;
-  
+      const wrappedWeaponSummaryText = pdf.splitTextToSize(weaponSummaryText, columnWidth - 5);
+
       if (!simulate) {
         pdf.setFontSize(this.textSmSize);
         wrappedWeaponSummaryText.forEach((line: string | string[], lineIndex: number) => {
         pdf.text(line, xPosition, yPosition + lineIndex * this.textSmlineHeight);
         });
       }
-  
+
       yPosition += wrappedWeaponSummaryText.length * this.textSmlineHeight;
     }
-    
+
     // Special rules
     const specialRulesText = unit.specialRules.map(rule => rule.name).join(', ');
     if (specialRulesText?.length) {
-      const wrappedRulesText = pdf.splitTextToSize(specialRulesText, columnWidth);
-      unitHeight += wrappedRulesText.length * this.textSmlineHeight;
-  
+      const wrappedRulesText = pdf.splitTextToSize(specialRulesText, columnWidth - 5);
+
       if (!simulate) {
         pdf.setFontSize(this.textSmSize);
         wrappedRulesText.forEach((line: string | string[], lineIndex: number) => {
           pdf.text(line, xPosition, yPosition + lineIndex * this.textSmlineHeight);
         });
       }
-  
+
       yPosition += wrappedRulesText.length * this.textSmlineHeight;
     }
 
     // todo: insert a yellow dash right here
-    if (true) {
-      pdf.setDrawColor(255, 204, 0); // Yellow color
-      if (!simulate) pdf.setDrawColor(0, 204, 255); // Blue color
-      pdf.setLineWidth(0.5); // Set line width
-      pdf.line(xPosition, yPosition, xPosition + columnWidth - (!simulate ? 5 : 0), yPosition); // Draw the dash
-    }
+    this.drawDebugLine(pdf, 'red', xPosition, yPosition, 10);
 
-    return unitHeight;
+    return yPosition - startingYPosition;
+  }
+
+  private drawDebugLine(pdf: jsPDF, color: 'red' | 'yellow' | 'blue' | 'green', xPosition: number, yPosition: number, length: number = 0) {
+    return;
+    switch(color) {
+      case 'red':
+        pdf.setDrawColor(255, 0, 0); // Red color
+        break;
+      case 'yellow':
+        pdf.setDrawColor(255, 204, 0); // Yellow color
+        break;
+      case 'blue':
+        pdf.setDrawColor(0, 204, 255); // Blue color
+        break;
+      case 'green':
+        pdf.setDrawColor(0, 255, 0); // Green color
+        break;
+    }
+    pdf.setLineWidth(0.5); // Set line width
+    pdf.line(xPosition, yPosition, xPosition + length, yPosition); // Draw the dash
+    //pdf.text(yPosition.toFixed(1).toString(), xPosition + length + 2, yPosition);
   }
 }

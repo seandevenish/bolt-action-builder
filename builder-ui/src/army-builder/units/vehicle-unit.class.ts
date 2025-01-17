@@ -27,7 +27,7 @@ export class VehicleUnit extends Unit<VehicleUnitSelector> {
   }
 
   public override get countString(): string {
-    return 'Vehicle';
+    return '';
   }
 
   protected override validate(): string[] | null {

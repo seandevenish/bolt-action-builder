@@ -172,7 +172,7 @@
       <!-- Unit Summary -->
       <h3 class="font-semibold text-gray-800 pt-5">Summary</h3>
 
-      <span class="text-sm text-gray-700 mr-2">
+      <span class="text-sm text-gray-700 mr-2" *ngIf="calculatedUnit().countString">
         {{calculatedUnit().countString}}
       </span>
       <span class="text-sm text-gray-700 bg-gray-300 rounded-sm px-2 py-0.5">
