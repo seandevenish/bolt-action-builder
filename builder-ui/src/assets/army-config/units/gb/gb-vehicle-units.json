@@ -1,0 +1,202 @@
+{
+    "units": [
+      {
+        "id": "US_M3",
+        "name": "Stuart M3",
+        "unitType": "Vehicle",
+        "subType": "Tank",
+        "cost": {
+          "Inexperienced": 103,
+          "Regular": 130,
+          "Veteran": 167
+        },
+        "damageValue": 8,
+        "baseWeapons": [
+          {
+            "id": "main",
+            "weaponId": "LIGHT_AT_GUN",
+            "description": "Turret-mounted light anti-tank gun"
+          },
+          {
+            "id": "coaxial",
+            "weaponId": "MMG_VEH",
+            "description": "Coaxial MMG"
+          },
+          {
+            "id": "hull_mgs",
+            "weaponId": "MMG_VEH",
+            "description": "Forward-facing hull-mounted MMG",
+            "qty": 2
+          }
+        ],
+        "options": [
+          {
+            "id": "RECCE",
+            "specialRuleId": "RECCE",
+            "description": "Gain the Recce rule for +10pts",
+            "cost": 10
+          }
+        ],
+        "specialRuleIds": [
+          "VULNERABLE"
+        ]
+      },
+      {
+        "id": "US_M3A1",
+        "name": "Stuart M3A1/M3A3",
+        "unitType": "Vehicle",
+        "subType": "Tank",
+        "cost": {
+          "Inexperienced": 108,
+          "Regular": 135,
+          "Veteran": 172
+        },
+        "damageValue": 8,
+        "baseWeapons": [
+          {
+            "id": "main",
+            "weaponId": "LIGHT_AT_GUN",
+            "description": "Gyro-stabilised turret-mounted light anti-tank gun",
+            "specialRuleIds": ["GYROSTABILISED"]
+          },
+          {
+            "id": "coaxial",
+            "weaponId": "MMG_VEH",
+            "description": "Coaxial MMG"
+          },
+          {
+            "id": "hull_mg",
+            "weaponId": "MMG_VEH",
+            "description": "Forward-facing hull-mounted MMG"
+          }
+        ],
+        "options": [
+          {
+            "id": "RECCE",
+            "specialRuleId": "RECCE",
+            "description": "Gain the Recce rule for +10pts",
+            "cost": 10
+          },
+          {
+            "id": "VULNERABLE",
+            "specialRuleId": "VULNERABLE",
+            "description": "Gain the Vulnerable rule for +15pts (M3A1)",
+            "cost": -15
+          }
+        ]
+      },
+      {
+        "id": "US_M3A1_Flame",
+        "name": "Stuart M3A1/M3A3 Flamethrower",
+        "unitType": "Vehicle",
+        "subType": "Tank",
+        "cost": {
+          "Inexperienced": 108,
+          "Regular": 135,
+          "Veteran": 172
+        },
+        "damageValue": 8,
+        "baseWeapons": [
+          {
+            "id": "main",
+            "weaponId": "FLAMETHROWER_VEH",
+            "description": "Turret-mounted flamethrower",
+            "specialRuleIds": ["GYROSTABILISED"]
+          },
+          {
+            "id": "coaxial",
+            "weaponId": "MMG_VEH",
+            "description": "Coaxial MMG"
+          },
+          {
+            "id": "hull_mg",
+            "weaponId": "MMG_VEH",
+            "description": "Forward-facing hull-mounted MMG"
+          }
+        ],
+        "options": [
+          {
+            "id": "RECCE",
+            "specialRuleId": "RECCE",
+            "description": "Gain the Recce rule for +10pts",
+            "cost": 10
+          },
+          {
+            "id": "VULNERABLE",
+            "specialRuleId": "VULNERABLE",
+            "description": "Gain the Vulnerable rule for +15pts (M3A1)",
+            "cost": -15
+          }
+        ]
+      },
+      {
+        "id": "US_M5_M5A1",
+        "name": "Stuart M5/M5A1",
+        "unitType": "Vehicle",
+        "subType": "Tank",
+        "cost": {
+          "Inexperienced": 123,
+          "Regular": 150,
+          "Veteran": 187
+        },
+        "damageValue": 8,
+        "baseWeapons": [
+          {
+            "id": "main",
+            "weaponId": "LIGHT_AT_GUN",
+            "description": "Gyro-stabilised turret-mounted light anti-tank gun",
+            "specialRuleIds": ["GYROSTABILISED"]
+          },
+          {
+            "id": "coaxial",
+            "weaponId": "MMG_VEH",
+            "description": "Coaxial MMG"
+          },
+          {
+            "id": "hull_mg",
+            "weaponId": "MMG_VEH",
+            "description": "Forward-facing hull-mounted MMG"
+          }
+        ],
+        "weaponOptions": [
+          {
+            "id": "Pintle_MMG",
+            "optionSetId": "Pintle_MG",
+            "description": "Add one additional pintle-mounted MMG for +15pts",
+            "weapons": [
+              {
+                "id": "pintle_mg",
+                "weaponId": "MMG_VEH",
+                "description": "Pintle-mounted MMG"
+              }
+            ],
+            "cost": 15
+          },
+          {
+            "id": "Pintle_HMG",
+            "optionSetId": "Pintle_MG",
+            "description": "Add one additional pintle-mounted HMG for +25pts",
+            "weapons": [
+              {
+                "id": "pintle_mg",
+                "weaponId": "HMG_VEH",
+                "description": "Pintle-mounted HMG"
+              }
+            ],
+            "cost": 25
+          }
+        ],
+        "options": [
+          {
+            "id": "RECCE",
+            "specialRuleId": "RECCE",
+            "description": "Gain the Recce rule for +10pts",
+            "cost": 10
+          }
+        ],
+        "specialRuleIds": [
+          "REINFORCED_FRONT"
+        ]
+      }
+    ]
+  }

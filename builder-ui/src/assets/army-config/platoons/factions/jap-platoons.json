@@ -1,0 +1,20 @@
+{
+  "platoons": [
+    {
+      "id": "RIFL",
+      "name": "Rifle Platoon",
+      "category": "Infantry",
+      "unitRequirements": [
+        { "id": "Officer", "types": ["Officer"], "subTypes": ["PlatoonCommander"], "min": 1, "max": 1, "requirementName": "Platoon Commander" },
+        { "id": "Kemp", "unitSelectorIds": ["Kemp"], "min": 0, "max": 1, "requirementName": "Kempeitai Political Officer" },
+        { "id": "Squads", "types": ["InfantrySquad"], "min": 2, "max": 4 },
+        { "id": "Medic", "types": ["Medic"], "min": 0, "max": 1 },
+        { "id": "FOO", "types": ["ForwardObserver"], "min": 0, "max": 1 },
+        { "id": "Sniper", "types": ["SniperTeam"], "min": 0, "max": 1 },
+        { "id": "AntiTank", "types": ["AntiTankTeam"], "min": 0, "max": 1 },
+        { "id": "Mortar", "types": ["MortarTeam"], "subTypes": ["LightMortar"], "min": 0, "max": 1 },
+        { "id": "Transports", "types": ["TransportVehicle"], "min": 0, "maxPerUnit": 1, "requirementName": "Transport Vehicles" }
+      ]
+    }
+  ]
+}

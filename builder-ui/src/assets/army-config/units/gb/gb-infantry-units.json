@@ -1,0 +1,479 @@
+{
+    "units": [
+      {
+        "id": "GB_CMP_COM",
+        "name": "Company Commander (Captain, Major)",
+        "unitType": "Officer",
+        "subType": "CompanyCommander",
+        "cost": {
+          "Inexperienced": 42,
+          "Regular": 60,
+          "Veteran": 78
+        },
+        "specialRuleIds": [],
+        "keyPerson": "Officer",
+        "baseWeaponId": "RIFLE",
+        "keyPersonWeaponOptions": [
+          {
+            "weaponId": "SMG",
+            "max": 1,
+            "cost": 0
+          },
+          {
+            "weaponId": "PISTOL",
+            "max": 1,
+            "cost": 0
+          }
+        ],
+        "generalWeaponOptions": [
+          {
+            "weaponId": "SMG",
+            "max": 2,
+            "cost": 0
+          },
+          {
+            "weaponId": "PISTOL",
+            "max": 2,
+            "cost": 0
+          }
+        ],
+        "costPerMan": {
+          "Inexperienced": 7,
+          "Regular": 10,
+          "Veteran": 13
+        },
+        "baseMen": 1,
+        "maxMen": 3
+      },
+      {
+        "id": "GB_PLT_COM",
+        "name": "Platoon Commander (1st/2nd Lieutenant)",
+        "unitType": "Officer",
+        "subType": "PlatoonCommander",
+        "cost": {
+          "Inexperienced": 21,
+          "Regular": 30,
+          "Veteran": 39
+        },
+        "specialRuleIds": [],
+        "keyPerson": "Officer",
+        "baseWeaponId": "RIFLE",
+        "keyPersonWeaponOptions": [
+          {
+            "weaponId": "SMG",
+            "max": 1,
+            "cost": 0
+          },
+          {
+            "weaponId": "PISTOL",
+            "max": 1,
+            "cost": 0
+          }
+        ],
+        "generalWeaponOptions": [
+          {
+            "weaponId": "SMG",
+            "max": 2,
+            "cost": 0
+          },
+          {
+            "weaponId": "PISTOL",
+            "max": 2,
+            "cost": 0
+          }
+        ],
+        "costPerMan": {
+          "Inexperienced": 7,
+          "Regular": 10,
+          "Veteran": 13
+        },
+        "baseMen": 1,
+        "maxMen": 3
+      },
+      {
+        "id": "GB_MEDIC",
+        "name": "Medic",
+        "unitType": "Medic",
+        "cost": {
+          "Regular": 23,
+          "Veteran": 30
+        },
+        "specialRuleIds": [],
+        "keyPerson": "Medic",
+        "baseWeaponId": "PISTOL",
+        "costPerMan": {
+          "Regular": 8,
+          "Veteran": 11
+        },
+        "baseMen": 1,
+        "maxMen": 3
+      },
+      {
+        "id": "GB_FOO",
+        "name": "Forward Observer",
+        "unitType": "ForwardObserver",
+        "cost": {
+          "Regular": 75,
+          "Veteran": 90
+        },
+        "specialRuleIds": [],
+        "keyPerson": "Forward Observer",
+        "baseWeaponId": "RIFLE",
+        "keyPersonWeaponOptions": [
+          {
+            "weaponId": "SMG",
+            "max": 1,
+            "cost": 0
+          },
+          {
+            "weaponId": "PISTOL",
+            "max": 1,
+            "cost": 0
+          }
+        ],
+        "generalWeaponOptions": [
+          {
+            "weaponId": "SMG",
+            "description": "Rifle",
+            "max": 2,
+            "cost": 0
+          },
+          {
+            "weaponId": "PISTOL",
+            "max": 2,
+            "cost": 0
+          }
+        ],
+        "costPerMan": {
+          "Regular": 11,
+          "Veteran": 14
+        },
+        "baseMen": 1,
+        "maxMen": 3
+      },
+      {
+        "id": "GB_REG_INF",
+        "name": "Infantry Section",
+        "unitType": "InfantrySquad",
+        "subType": null,
+        "cost": {
+          "Inexperienced": 35,
+          "Regular": 50,
+          "Veteran": 65
+        },
+        "specialRuleIds": [],
+        "options": [
+          {
+            "id": "TANKHUNT",
+            "specialRuleId": "TANKHUNT",
+            "description": "The squad may be given <em>anti-tank grenades</em> for +2pts per man",
+            "costPerMan": 2
+          }
+        ],
+        "keyPerson": "NCO",
+        "baseWeaponId": "RIFLE",
+        "keyPersonWeaponOptions": [
+          {
+            "weaponId": "SMG",
+            "max": 1,
+            "cost": 4
+          }
+        ],
+        "generalWeaponOptions": [
+          {
+            "weaponId": "SMG",
+            "max": 2,
+            "cost": 4
+          },
+          {
+            "weaponId": "LMG",
+            "description": "Light Machine Gun",
+            "max": 2,
+            "cost": 15
+          }
+        ],
+        "costPerMan": {
+          "Inexperienced": 7,
+          "Regular": 10,
+          "Veteran": 13
+        },
+        "baseMen": 5,
+        "maxMen": 10
+      },
+      {
+        "id": "GB_HOME_GUARD",
+        "name": "Home Guard Section",
+        "unitType": "InfantrySquad",
+        "subType": null,
+        "cost": {
+          "Inexperienced": 35
+        },
+        "specialRuleIds": [],
+        "options": [
+          {
+            "id": "TANKHUNT",
+            "specialRuleId": "TANKHUNT",
+            "description": "The squad may be given <em>anti-tank grenades</em> for +2pts per man",
+            "costPerMan": 2
+          }
+        ],
+        "keyPerson": "NCO",
+        "baseWeaponId": "RIFLE",
+        "baseWeaponIdExtras": "UNARMED",
+        "keyPersonWeaponOptions": [
+          {
+            "weaponId": "SMG",
+            "max": 1,
+            "cost": 4
+          }
+        ],
+        "generalWeaponOptions": [
+          {
+            "weaponId": "PISTOL",
+            "max": 2,
+            "cost": 1
+          },
+          {
+            "weaponId": "LMG",
+            "description": "Light Machine Gun",
+            "max": 1,
+            "cost": 15
+          },
+          {
+            "weaponId": "AR",
+            "description": "BAR Automatic Rifle",
+            "max": 1,
+            "cost": 6
+          },
+          {
+            "weaponId": "SHOTGUN",
+            "description": "Shotgun",
+            "max": 3,
+            "cost": 3
+          }
+        ],
+        "costPerMan": {
+          "Inexperienced": 7
+        },
+        "baseMen": 5,
+        "maxMen": 10
+      },
+      {
+        "id": "GB_PARA",
+        "name": "Paratroop Section",
+        "unitType": "InfantrySquad",
+        "subType": null,
+        "cost": {
+          "Veteran": 70
+        },
+        "specialRuleIds": ["STUBBORN"],
+        "options": [
+          {
+            "id": "TANKHUNT",
+            "specialRuleId": "TANKHUNT",
+            "description": "The squad may be given <em>anti-tank grenades</em> for +2pts per man",
+            "costPerMan": 2
+          },
+          {
+            "id": "BICYCLES",
+            "specialRuleId": "BICYCLES",
+            "description": "The entire suqad may be mounted upon Welbikes (bicycles) for +1 pt per man",
+            "costPerMan": 1
+          }
+        ],
+        "keyPerson": "NCO",
+        "baseWeaponId": "RIFLE",
+        "keyPersonWeaponOptions": [
+          {
+            "weaponId": "SMG",
+            "max": 1,
+            "cost": 4
+          }
+        ],
+        "generalWeaponOptions": [
+          {
+            "weaponId": "SMG",
+            "max": 4,
+            "cost": 4
+          },
+          {
+            "weaponId": "LMG",
+            "description": "Light Machine Gun",
+            "max": 1,
+            "cost": 15
+          }
+        ],
+        "costPerMan": {
+          "Veteran": 14
+        },
+        "baseMen": 5,
+        "maxMen": 10
+      },
+      {
+        "id": "GB_CHINDIT",
+        "name": "Chindit Section",
+        "unitType": "InfantrySquad",
+        "subType": null,
+        "cost": {
+          "Veteran": 70
+        },
+        "specialRuleIds": ["BEHIND"],
+        "options": [],
+        "keyPerson": "NCO",
+        "baseWeaponId": "RIFLE",
+        "keyPersonWeaponOptions": [
+          {
+            "weaponId": "SMG",
+            "max": 1,
+            "cost": 4
+          }
+        ],
+        "generalWeaponOptions": [
+          {
+            "weaponId": "SMG",
+            "max": 1,
+            "cost": 4
+          },
+          {
+            "weaponId": "LMG",
+            "description": "Light Machine Gun",
+            "max": 1,
+            "cost": 15
+          }
+        ],
+        "costPerMan": {
+          "Veteran": 14
+        },
+        "baseMen": 5,
+        "maxMen": 10
+      },
+      {
+        "id": "GB_SPEC_FORCES",
+        "name": "Special Forces Infantry Section",
+        "unitType": "InfantrySquad",
+        "subType": null,
+        "cost": {
+          "Veteran": 60
+        },
+        "specialRuleIds": ["BEHIND", "TOUGH"],
+        "options": [
+          {
+            "id": "TANKHUNT",
+            "specialRuleId": "TANKHUNT",
+            "description": "The squad may be given <em>anti-tank grenades</em> for +2pts per man",
+            "costPerMan": 2
+          },
+          {
+            "id": "FANATICS",
+            "specialRuleId": "FANATICS",
+            "description": "The entire squad may be upgraded to SAS, getting the Who Dares Wins! special rule for +2pts per model",
+            "costPerMan": 2
+          }
+        ],
+        "keyPerson": "NCO",
+        "baseWeaponId": "RIFLE",
+        "keyPersonWeaponOptions": [
+          {
+            "weaponId": "SMG",
+            "max": 1,
+            "cost": 4
+          }
+        ],
+        "generalWeaponOptions": [
+          {
+            "weaponId": "SMG",
+            "max": 8,
+            "cost": 3
+          },
+          {
+            "weaponId": "LMG",
+            "description": "Light Machine Gun",
+            "max": 2,
+            "cost": 15
+          },
+          {
+            "weaponId": "LMG_GB_VICKERSK",
+            "description": "Vickers K Light Machine Gun",
+            "max": 2,
+            "cost": 20
+          }
+        ],
+        "costPerMan": {
+          "Veteran": 14
+        },
+        "baseMen": 4,
+        "maxMen": 9
+      },
+      {
+        "id": "GB_GURKHA",
+        "name": "Gurkha Section",
+        "unitType": "InfantrySquad",
+        "subType": null,
+        "cost": {
+          "Veteran": 75
+        },
+        "specialRuleIds": ["TOUGH", "SCARY"],
+        "options": [],
+        "keyPerson": "NCO",
+        "baseWeaponId": "RIFLE",
+        "keyPersonWeaponOptions": [
+          {
+            "weaponId": "SMG",
+            "max": 1,
+            "cost": 4
+          }
+        ],
+        "generalWeaponOptions": [
+          {
+            "weaponId": "SMG",
+            "max": 1,
+            "cost": 3
+          },
+          {
+            "weaponId": "LMG",
+            "description": "Light Machine Gun",
+            "max": 1,
+            "cost": 15
+          }
+        ],
+        "costPerMan": {
+          "Veteran": 15
+        },
+        "baseMen": 5,
+        "maxMen": 10
+      },
+      {
+        "id": "GB_SNIPER",
+        "name": "Sniper Team",
+        "unitType": "SniperTeam",
+        "cost": {
+          "Regular": 52,
+          "Veteran": 67
+        },
+        "specialRuleIds": [
+          "TEAM",
+          "SNIPER",
+          "INFLITRATOR"
+        ],
+        "keyPerson": "Sniper",
+        "baseWeaponId": "RIFLE",
+        "baseWeaponDescription": "Sniper has a rifle and a pistol, spotter has a pistol",
+        "keyPersonWeaponOptions": [
+          {
+            "weaponId": "SMG",
+            "max": 1,
+            "cost": 3
+          }
+        ],
+        "generalWeaponOptions": [
+          {
+            "weaponId": "SMG",
+            "max": 2,
+            "cost": 3
+          }
+        ],
+        "baseMen": 2,
+        "maxMen": 2
+      }
+    ]
+  }

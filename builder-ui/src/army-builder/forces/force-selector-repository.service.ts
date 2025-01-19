@@ -19,8 +19,11 @@ export class ForceSelectorRepositoryService {
         'RECE'
       ],
       [
+        'GER',
         'US',
-        'GER'
+        'GB',
+        'SOV',
+        'JAP'
       ])
   ];
 

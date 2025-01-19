@@ -1,0 +1,18 @@
+{
+  "weapons": [
+    {
+      "id": "LMG_GB_VICKERSK",
+      "name": "Vickers K LMG",
+      "type": "Small Arms",
+      "crew": 2,
+      "penetrationValue": 0,
+      "hits": 1,
+      "range": 36,
+      "minIndirectRange": 0,
+      "maxIndirectRange": 0,
+      "shots": 5,
+      "specialRuleIds": ["TEAM"],
+      "heDiameter": 0
+    }
+  ]
+}

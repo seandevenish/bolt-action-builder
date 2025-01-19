@@ -12,6 +12,29 @@ export interface ArmySpecialRule extends SpecialRule {
 
 export const factionLibrary: Faction[] = [
   {
+    id: 'GER',
+    name: 'Germany',
+    specialRules: [
+      {
+        id: 'BLTZ',
+        name: 'Fire and Manoeuvre',
+        shortDescription: 'Additional order in Snap to Action',
+        description: 'German officers using...' },
+      {
+        id: 'INTR',
+        name: 'Initiative Training',
+        shortDescription: 'Replace NCO on a 2+',
+        description: 'If an infantry squad\'s NCO is killed...'
+       },
+       {
+        id: 'HTBZ',
+        name: 'Hitlers Buzz Saw',
+        shortDescription: 'All MMG and LMG have fire one additioanl shot',
+        description: 'German light and medium...'
+       }
+    ],
+  },
+  {
     id: 'US',
     name: 'United States',
     specialRules: [
@@ -41,26 +64,18 @@ export const factionLibrary: Faction[] = [
     ],
   },
   {
-    id: 'GER',
-    name: 'Germany',
-    specialRules: [
-      {
-        id: 'BLTZ',
-        name: 'Fire and Manoeuvre',
-        shortDescription: 'Additional order in Snap to Action',
-        description: 'German officers using...' },
-      {
-        id: 'INTR',
-        name: 'Initiative Training',
-        shortDescription: 'Replace NCO on a 2+',
-        description: 'If an infantry squad\'s NCO is killed...'
-       },
-       {
-        id: 'HTBZ',
-        name: 'Hitlers Buzz Saw',
-        shortDescription: 'All MMG and LMG have fire one additioanl shot',
-        description: 'German light and medium...'
-       }
-    ],
+    id: 'GB',
+    name: 'Great Britain',
+    specialRules: [],
+  },
+  {
+    id: 'SOV',
+    name: 'Soviet Union',
+    specialRules: [],
+  },
+  {
+    id: 'JAP',
+    name: 'Japan',
+    specialRules: [],
   },
 ];
