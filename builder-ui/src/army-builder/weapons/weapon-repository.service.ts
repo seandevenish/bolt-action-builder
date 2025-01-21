@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, map, Observable, of } from 'rxjs';
+import { catchError, forkJoin, map, Observable, of } from 'rxjs';
 import { Weapon } from './weapon.interface';
 
 @Injectable({
@@ -16,8 +16,30 @@ export class WeaponRepositoryService {
    * Fetches the list of weapons from the JSON file.
    * @returns An Observable of Weapon[] containing the global set of weapons.
    */
-  getWeapons(): Observable<Weapon[]> {
-    return this.http.get<{ weapons: any[] }>(this.weaponConfigUrl).pipe(
+  getWeapons(factionId: string): Observable<Weapon[]> {
+    const factionWeaponConfigUrl = `assets/army-config/weapons/${factionId}-weapons.json`;
+
+    return forkJoin({
+      coreWeapons: this.fetchWeapons(this.weaponConfigUrl),
+      factionWeapons: this.fetchWeapons(factionWeaponConfigUrl)
+    }).pipe(
+      map(({ coreWeapons, factionWeapons }) => {
+        const weaponMap = new Map<string, Weapon>();
+
+        coreWeapons.forEach(weapon => weaponMap.set(weapon.id, weapon));
+        factionWeapons.forEach(weapon => weaponMap.set(weapon.id, weapon));
+
+        return Array.from(weaponMap.values());
+      }),
+      catchError(error => {
+        console.error('Error fetching weapons:', error);
+        return of([]);
+      })
+    );
+  }
+  
+  fetchWeapons(url: string): Observable<Weapon[]> {
+    return this.http.get<{ weapons: any[] }>(url).pipe(
       map(data => data.weapons.map(weapon => ({
         id: weapon.id,
         name: weapon.name,

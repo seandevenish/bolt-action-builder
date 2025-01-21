@@ -1,0 +1,467 @@
+{
+    "units": [
+      {
+        "id": "JAP_CMP_COM",
+        "name": "Company Commander (Rikugun Taii, Rikugun Shosa)",
+        "unitType": "Officer",
+        "subType": "CompanyCommander",
+        "cost": {
+          "Regular": 60,
+          "Veteran": 78
+        },
+        "specialRuleIds": [],
+        "options": [
+          {
+            "id": "CAVALRY",
+            "specialRuleId": "CAVALRY",
+            "description": "A captain or major may be mounted on a horse for +3pts, gaining the Cavalry special rule",
+            "cost": 3
+          }
+        ],
+        "keyPerson": "Officer",
+        "baseWeaponId": "RIFLE",
+        "keyPersonWeaponOptions": [
+          {
+            "weaponId": "SMG",
+            "max": 1,
+            "cost": 0
+          },
+          {
+            "weaponId": "PISTOL",
+            "max": 1,
+            "cost": 0
+          }
+        ],
+        "generalWeaponOptions": [
+          {
+            "weaponId": "SMG",
+            "max": 2,
+            "cost": 0
+          },
+          {
+            "weaponId": "PISTOL",
+            "max": 2,
+            "cost": 0
+          }
+        ],
+        "costPerMan": {
+          "Regular": 10,
+          "Veteran": 13
+        },
+        "baseMen": 1,
+        "maxMen": 3
+      },
+      {
+        "id": "JAP_PLT_COM",
+        "name": "Platoon Commander (Rikugun Shoi, Rikugun Chui)",
+        "unitType": "Officer",
+        "subType": "PlatoonCommander",
+        "cost": {
+          "Regular": 30,
+          "Veteran": 39
+        },
+        "specialRuleIds": [],
+        "keyPerson": "Officer",
+        "baseWeaponId": "RIFLE",
+        "keyPersonWeaponOptions": [
+          {
+            "weaponId": "SMG",
+            "max": 1,
+            "cost": 0
+          },
+          {
+            "weaponId": "PISTOL",
+            "max": 1,
+            "cost": 0
+          }
+        ],
+        "generalWeaponOptions": [
+          {
+            "weaponId": "SMG",
+            "max": 2,
+            "cost": 0
+          },
+          {
+            "weaponId": "PISTOL",
+            "max": 2,
+            "cost": 0
+          }
+        ],
+        "costPerMan": {
+          "Regular": 10,
+          "Veteran": 13
+        },
+        "baseMen": 1,
+        "maxMen": 3
+      },
+      {
+        "id": "JAP_KEMP",
+        "name": "Kempeitai Political Officer",
+        "unitType": "Officer",
+        "subType": "Special",
+        "cost": {
+          "Inexperienced": 15
+        },
+        "specialRuleIds": ["SHOWLOY"],
+        "keyPerson": "Officer",
+        "baseWeaponId": "RIFLE",
+        "keyPersonWeaponOptions": [
+          {
+            "weaponId": "SMG",
+            "max": 1,
+            "cost": 0
+          },
+          {
+            "weaponId": "PISTOL",
+            "max": 1,
+            "cost": 0
+          }
+        ],
+        "generalWeaponOptions": [
+          {
+            "weaponId": "SMG",
+            "max": 2,
+            "cost": 0
+          },
+          {
+            "weaponId": "PISTOL",
+            "max": 2,
+            "cost": 0
+          }
+        ],
+        "costPerMan": {
+          "Inexperienced": 7
+        },
+        "baseMen": 1,
+        "maxMen": 3
+      },
+      {
+        "id": "JAP_MEDIC",
+        "name": "Medic",
+        "unitType": "Medic",
+        "cost": {
+          "Regular": 23,
+          "Veteran": 30
+        },
+        "specialRuleIds": [],
+        "keyPerson": "Medic",
+        "baseWeaponId": "PISTOL",
+        "costPerMan": {
+          "Regular": 8,
+          "Veteran": 11
+        },
+        "baseMen": 1,
+        "maxMen": 3
+      },
+      {
+        "id": "JAP_FOO",
+        "name": "Forward Observer",
+        "unitType": "ForwardObserver",
+        "cost": {
+          "Regular": 75,
+          "Veteran": 90
+        },
+        "specialRuleIds": [],
+        "keyPerson": "Forward Observer",
+        "baseWeaponId": "RIFLE",
+        "keyPersonWeaponOptions": [
+          {
+            "weaponId": "SMG",
+            "max": 1,
+            "cost": 0
+          },
+          {
+            "weaponId": "PISTOL",
+            "max": 1,
+            "cost": 0
+          }
+        ],
+        "generalWeaponOptions": [
+          {
+            "weaponId": "SMG",
+            "description": "Rifle",
+            "max": 2,
+            "cost": 0
+          },
+          {
+            "weaponId": "PISTOL",
+            "max": 2,
+            "cost": 0
+          }
+        ],
+        "costPerMan": {
+          "Regular": 11,
+          "Veteran": 14
+        },
+        "baseMen": 1,
+        "maxMen": 3
+      },
+      {
+        "id": "JAP_REG_INF",
+        "name": "IJA or SNLSF Infantry Squad",
+        "unitType": "InfantrySquad",
+        "subType": null,
+        "cost": {
+          "Regular": 50,
+          "Veteran": 65
+        },
+        "specialRuleIds": [],
+        "options": [
+          {
+            "id": "BICYCLES",
+            "specialRuleId": "BICYCLES",
+            "description": "The entire squad may be mounted on <em>bicycles</em> for +1pts per man",
+            "costPerMan": 1
+          },
+          {
+            "id": "TANKHUNT",
+            "specialRuleId": "TANKHUNT",
+            "description": "The squad may be given <em>anti-tank grenades</em> for +2pts per man",
+            "costPerMan": 2
+          }
+        ],
+        "keyPerson": "NCO",
+        "baseWeaponId": "RIFLE",
+        "keyPersonWeaponOptions": [
+          {
+            "weaponId": "SMG",
+            "max": 1,
+            "cost": 4
+          }
+        ],
+        "generalWeaponOptions": [
+          {
+            "weaponId": "LMG",
+            "description": "Light Machine Gun",
+            "max": 1,
+            "cost": 15
+          },
+          {
+            "weaponId": "LIGHT_MORTAR",
+            "description": "Light Mortar",
+            "max": 1,
+            "cost": 20
+          }
+        ],
+        "costPerMan": {
+          "Regular": 10,
+          "Veteran": 13
+        },
+        "baseMen": 5,
+        "maxMen": 15
+      },
+      {
+        "id": "JAP_GRENADIERS",
+        "name": "IJA or SNLSF Grenadier Squad",
+        "unitType": "InfantrySquad",
+        "subType": null,
+        "cost": {
+          "Regular": 50,
+          "Veteran": 65
+        },
+        "specialRuleIds": [],
+        "options": [
+          {
+            "id": "BICYCLES",
+            "specialRuleId": "BICYCLES",
+            "description": "The entire squad may be mounted on <em>bicycles</em> for +1pts per man",
+            "costPerMan": 1
+          },
+          {
+            "id": "TANKHUNT",
+            "specialRuleId": "TANKHUNT",
+            "description": "The squad may be given <em>anti-tank grenades</em> for +2pts per man",
+            "costPerMan": 2
+          }
+        ],
+        "keyPerson": "NCO",
+        "baseWeaponId": "RIFLE",
+        "keyPersonWeaponOptions": [
+          {
+            "weaponId": "SMG",
+            "max": 1,
+            "cost": 4
+          }
+        ],
+        "generalWeaponOptions": [
+          {
+            "weaponId": "LIGHT_MORTAR",
+            "description": "Light Mortar",
+            "max": 3,
+            "cost": 20
+          }
+        ],
+        "costPerMan": {
+          "Regular": 10,
+          "Veteran": 13
+        },
+        "baseMen": 5,
+        "maxMen": 18
+      },
+      {
+        "id": "JAP_IJA_PARA",
+        "name": "IJA Teishin Shudan Paratrooper Squad",
+        "unitType": "InfantrySquad",
+        "subType": null,
+        "cost": {
+          "Veteran": 65
+        },
+        "specialRuleIds": [],
+        "options": [
+          {
+            "id": "TANKHUNT",
+            "specialRuleId": "TANKHUNT",
+            "description": "The squad may be given <em>anti-tank grenades</em> for +2pts per man",
+            "costPerMan": 2
+          }
+        ],
+        "keyPerson": "NCO",
+        "baseWeaponId": "RIFLE",
+        "keyPersonWeaponOptions": [
+          {
+            "weaponId": "SMG",
+            "max": 1,
+            "cost": 4
+          }
+        ],
+        "generalWeaponOptions": [
+          {
+            "weaponId": "SMG",
+            "max": 2,
+            "cost": 4
+          },
+          {
+            "weaponId": "LMG",
+            "description": "Light Machine Gun",
+            "max": 1,
+            "cost": 15
+          }
+        ],
+        "costPerMan": {
+          "Veteran": 14
+        },
+        "baseMen": 5,
+        "maxMen": 10
+      },
+      {
+        "id": "JAP_SNLF_PARA",
+        "name": "SNLF Rikusentai Paratrooper Squad",
+        "unitType": "InfantrySquad",
+        "subType": null,
+        "cost": {
+          "Veteran": 65
+        },
+        "specialRuleIds": [],
+        "options": [
+          {
+            "id": "TANKHUNT",
+            "specialRuleId": "TANKHUNT",
+            "description": "The squad may be given <em>anti-tank grenades</em> for +2pts per man",
+            "costPerMan": 2
+          }
+        ],
+        "keyPerson": "NCO",
+        "baseWeaponId": "RIFLE",
+        "keyPersonWeaponOptions": [
+          {
+            "weaponId": "SMG",
+            "max": 1,
+            "cost": 4
+          }
+        ],
+        "generalWeaponOptions": [
+          {
+            "weaponId": "SMG",
+            "max": 2,
+            "cost": 4
+          },
+          {
+            "weaponId": "LMG",
+            "description": "Light Machine Gun",
+            "max": 1,
+            "cost": 15
+          }
+        ],
+        "costPerMan": {
+          "Veteran": 14
+        },
+        "baseMen": 5,
+        "maxMen": 12
+      },
+      {
+        "id": "JAP_BAMBOO",
+        "name": "Bamboo Spear Fighter Squad (Late-War)",
+        "unitType": "InfantrySquad",
+        "subType": null,
+        "cost": {
+          "Inexperienced": 30
+        },
+        "specialRuleIds": ["GREEN"],
+        "options": [
+          {
+            "id": "TANKHUNT",
+            "specialRuleId": "TANKHUNT",
+            "description": "The squad may be given <em>anti-tank grenades</em> for +2pts per man",
+            "costPerMan": 2
+          }
+        ],
+        "keyPerson": "NCO",
+        "baseWeaponId": "JAP_BAMBOO",
+        "keyPersonWeaponOptions": [],
+        "generalWeaponOptions": [],
+        "costPerMan": {
+          "Inexperienced": 6
+        },
+        "baseMen": 5,
+        "maxMen": 15
+      },
+      {
+        "id": "JAP_MILITIA",
+        "name": "Milita Squad (Late War)",
+        "unitType": "InfantrySquad",
+        "subType": null,
+        "cost": {
+          "Inexperienced": 35
+        },
+        "specialRuleIds": ["GREEN"],
+        "options": [
+          {
+            "id": "TANKHUNT",
+            "specialRuleId": "TANKHUNT",
+            "description": "The squad may be given <em>anti-tank grenades</em> for +2pts per man",
+            "costPerMan": 2
+          }
+        ],
+        "keyPerson": "NCO",
+        "baseWeaponId": "RIFLE",
+        "keyPersonWeaponOptions": [],
+        "generalWeaponOptions": [],
+        "costPerMan": {
+          "Inexperienced": 7
+        },
+        "baseMen": 5,
+        "maxMen": 15
+      },
+      {
+        "id": "JAP_SNIPER",
+        "name": "Sniper Team",
+        "unitType": "SniperTeam",
+        "cost": {
+          "Regular": 52,
+          "Veteran": 67
+        },
+        "specialRuleIds": [
+          "TEAM",
+          "SNIPER",
+          "INFLITRATOR"
+        ],
+        "keyPerson": "Sniper",
+        "baseWeaponId": "RIFLE",
+        "baseWeaponDescription": "Sniper has a rifle and a pistol, spotter has a pistol",
+        "keyPersonWeaponOptions": [],
+        "generalWeaponOptions": [],
+        "baseMen": 2,
+        "maxMen": 2
+      }
+    ]
+  }

@@ -41,7 +41,7 @@ export class ForceService {
     const library = {
       platoonSelectors: await firstValueFrom(this._platoonSelectorService.getPlatoonsForForceSelector(army.factionId, army.forceSelectorId)),
       unitSelectors: await firstValueFrom(this._unitSelectorService.getUnitsForFaction(army.factionId, army.forceSelectorId)),
-      weapons: await firstValueFrom(this._weaponService.getWeapons()),
+      weapons: await firstValueFrom(this._weaponService.getWeapons(army.factionId)),
       specialRules: this._specialRuleService.getRules()
     } as Library;
     library.platoonSelectors.flatMap(s => s.unitRequirements.flatMap(r => r.options)).filter(o => !!o?.specialRuleId).map(o => o as IGeneralOptionSelector).forEach(o => o.specialRule = library.specialRules.find(r => r.id == o?.specialRuleId));

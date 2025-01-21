@@ -76,6 +76,24 @@ export const factionLibrary: Faction[] = [
   {
     id: 'JAP',
     name: 'Japan',
-    specialRules: [],
+    specialRules: [
+      {
+        id: 'DTHBEFDSH',
+        name: 'Death before Dishonour',
+        shortDescription: 'All units get fanatics, infantry/artillery pass morale checks after assault by enemy tanks',
+        description: 'Every unit in this list has the Fanatics special rule. In addition, infantry and artillery units automatically pass morale checks for being assaulted by enemy tanks (note that artillery pieces are still destroyed as normal).'
+      },
+      {
+        id: 'BANZAI',
+        name: 'Banzai Charge',
+        shortDescription: 'Reroll failed order test to assault',
+        description: 'If the unit is ordered to assault and fails its order test to Run, measure the range to the target, if the unit was in range, you can re-roll the failed Order test to assault.'
+      },      {
+        id: 'SHOWLOY',
+        name: 'Show your Loyalty!',
+        shortDescription: 'IJA Armies can include a single Kempeitai for each rifle platoon',
+        description: 'IJA Armies can include a single Kempeitai political officer for each rifle platoon. Kempeitai offices don\'t confer any morale bonus to nearby troops. However, the presence of these feared officers is useful in steeling the nerve of untied units, such as militia. When a green friendly Japanese unit within 6" of the Kempeitai officer rolls for its Green special rule, the player may re-roll the result.'
+      }
+    ],
   },
 ];

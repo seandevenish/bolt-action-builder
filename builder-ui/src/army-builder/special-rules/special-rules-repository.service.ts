@@ -44,6 +44,8 @@ export class SpecialRulesRepositoryService {
       { id: 'INDIRECT_FIRE', name: 'Indirect Fire', shortDescription: '', description: '' },
       { id: 'FLAMETHROWER', name: 'Flamethrower', shortDescription: '', description: '' },
       { id: 'RANGERS', name: 'Rangers lead the way!', shortDescription: 'Free run move before first turn', description: 'Units of Rangers are allowed to make a <em>Run</em> move after both sides have finished set-up, but before the first turn of the game. During this move, the unit cannot assault enemy units, and cannot be targeted by enemies in <em>Ambush</em>.' },
+      { id: 'CAVALRY', name: 'Cavalry', shortDescription: '9" advance, 18" run, no entering or assaulting buildings, no boarding transports, no Down, saves reduced by 1, recce at normal speed. Tough Fighters, 2D6 for regroup move.', description: '' },
+      { id: 'SHOWLOY', name: 'Show your Loyalty!', shortDescription: 'Reroll green result if within 6"', description: ''}
     ];
 
   }

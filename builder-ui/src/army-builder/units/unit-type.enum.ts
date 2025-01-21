@@ -18,6 +18,7 @@ export enum UnitType {
 export enum UnitSubType {
   PlatoonCommander = 'Platoon Commander',
   CompanyCommander = 'Company Commander',
+  Special = 'Special',
   LightMortar = 'Light Mortar',
   MediumMortar = 'Medium Mortar',
   HeavyMortar = 'Heavy Mortar',

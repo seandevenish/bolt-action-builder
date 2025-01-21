@@ -1,0 +1,17 @@
+{
+  "weapons": [
+    {
+      "id": "JAP_BAMBOO",
+      "name": "Bamboo Spear",
+      "type": "Small Arms",
+      "penetrationValue": 0,
+      "hits": 0,
+      "range": 0,
+      "minIndirectRange": 0,
+      "maxIndirectRange": 0,
+      "shots": 0,
+      "specialRuleIds": [],
+      "heDiameter": 0
+    }
+  ]
+}
