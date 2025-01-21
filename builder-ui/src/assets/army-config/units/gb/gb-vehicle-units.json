@@ -1,21 +1,124 @@
 {
     "units": [
       {
-        "id": "US_M3",
-        "name": "Stuart M3",
+        "id": "GB_MatildaI",
+        "name": "Matilda I",
         "unitType": "Vehicle",
         "subType": "Tank",
         "cost": {
-          "Inexperienced": 103,
-          "Regular": 130,
-          "Veteran": 167
+          "Inexperienced": 96,
+          "Regular": 120,
+          "Veteran": 144
+        },
+        "damageValue": 9,
+        "baseWeapons": [
+          {
+            "id": "main",
+            "weaponId": "HMG",
+            "description": "Turret-mounted HMG"
+          }
+        ],
+        "specialRuleIds": [
+          "SLOW"
+        ]
+      },
+      {
+        "id": "GB_MatildaII",
+        "name": "Matilda II",
+        "unitType": "Vehicle",
+        "subType": "Tank",
+        "cost": {
+          "Inexperienced": 131,
+          "Regular": 155,
+          "Veteran": 179
+        },
+        "damageValue": 9,
+        "baseWeapons": [
+          {
+            "id": "main",
+            "weaponId": "LIGHT_AT_GUN",
+            "description": "Turret-mounted Light Anti-Tank Gun"
+          },
+          {
+            "id": "coaxial",
+            "weaponId": "MMG_VEH",
+            "description": "Coaxial MMG"
+          }
+        ],
+        "specialRuleIds": [
+          "SLOW"
+        ]
+      },
+      {
+        "id": "GB_MatildaIICS",
+        "name": "Matilda IICS",
+        "unitType": "Vehicle",
+        "subType": "Tank",
+        "cost": {
+          "Inexperienced": 131,
+          "Regular": 155,
+          "Veteran": 179
+        },
+        "damageValue": 9,
+        "baseWeapons": [
+          {
+            "id": "main",
+            "weaponId": "LIGHT_HOWITZER",
+            "description": "Turret-mounted Howitzer"
+          },
+          {
+            "id": "coaxial",
+            "weaponId": "MMG_VEH",
+            "description": "Coaxial MMG"
+          }
+        ],
+        "specialRuleIds": [
+          "SLOW"
+        ]
+      },
+      {
+        "id": "GB_MatildaFrog",
+        "name": "Matilda Frog, Murray",
+        "unitType": "Vehicle",
+        "subType": "Tank",
+        "cost": {
+          "Inexperienced": 131,
+          "Regular": 155,
+          "Veteran": 179
+        },
+        "damageValue": 9,
+        "baseWeapons": [
+          {
+            "id": "main",
+            "weaponId": "FLAMETHROWER_VEH",
+            "description": "Turret-mounted Flamethrower"
+          },
+          {
+            "id": "coaxial",
+            "weaponId": "MMG_VEH",
+            "description": "Coaxial MMG"
+          }
+        ],
+        "specialRuleIds": [
+          "SLOW"
+        ]
+      },
+      {
+        "id": "GB_StuartI&II",
+        "name": "Stuart I & II",
+        "unitType": "Vehicle",
+        "subType": "Tank",
+        "cost": {
+          "Inexperienced": 110,
+          "Regular": 135,
+          "Veteran": 160
         },
         "damageValue": 8,
         "baseWeapons": [
           {
             "id": "main",
             "weaponId": "LIGHT_AT_GUN",
-            "description": "Turret-mounted light anti-tank gun"
+            "description": "Turret-mounted Light Anti-Tank Gun"
           },
           {
             "id": "coaxial",
@@ -23,41 +126,33 @@
             "description": "Coaxial MMG"
           },
           {
-            "id": "hull_mgs",
+            "id": "hull_mg",
             "weaponId": "MMG_VEH",
             "description": "Forward-facing hull-mounted MMG",
             "qty": 2
           }
         ],
-        "options": [
-          {
-            "id": "RECCE",
-            "specialRuleId": "RECCE",
-            "description": "Gain the Recce rule for +10pts",
-            "cost": 10
-          }
-        ],
         "specialRuleIds": [
-          "VULNERABLE"
+          "VULNERABLE",
+          "RECCE"
         ]
       },
       {
-        "id": "US_M3A1",
-        "name": "Stuart M3A1/M3A3",
+        "id": "GB_StuartIII&IV",
+        "name": "Stuart III & IV",
         "unitType": "Vehicle",
         "subType": "Tank",
         "cost": {
-          "Inexperienced": 108,
-          "Regular": 135,
-          "Veteran": 172
+          "Inexperienced": 100,
+          "Regular": 125,
+          "Veteran": 150
         },
         "damageValue": 8,
         "baseWeapons": [
           {
             "id": "main",
             "weaponId": "LIGHT_AT_GUN",
-            "description": "Gyro-stabilised turret-mounted light anti-tank gun",
-            "specialRuleIds": ["GYROSTABILISED"]
+            "description": "Turret-mounted Light Anti-Tank Gun"
           },
           {
             "id": "coaxial",
@@ -70,82 +165,27 @@
             "description": "Forward-facing hull-mounted MMG"
           }
         ],
-        "options": [
-          {
-            "id": "RECCE",
-            "specialRuleId": "RECCE",
-            "description": "Gain the Recce rule for +10pts",
-            "cost": 10
-          },
-          {
-            "id": "VULNERABLE",
-            "specialRuleId": "VULNERABLE",
-            "description": "Gain the Vulnerable rule for +15pts (M3A1)",
-            "cost": -15
-          }
+        "specialRuleIds": [
+          "VULNERABLE",
+          "RECCE"
         ]
       },
       {
-        "id": "US_M3A1_Flame",
-        "name": "Stuart M3A1/M3A3 Flamethrower",
+        "id": "GB_StuartV",
+        "name": "Stuart V",
         "unitType": "Vehicle",
         "subType": "Tank",
         "cost": {
-          "Inexperienced": 108,
+          "Inexperienced": 110,
           "Regular": 135,
-          "Veteran": 172
-        },
-        "damageValue": 8,
-        "baseWeapons": [
-          {
-            "id": "main",
-            "weaponId": "FLAMETHROWER_VEH",
-            "description": "Turret-mounted flamethrower",
-            "specialRuleIds": ["GYROSTABILISED"]
-          },
-          {
-            "id": "coaxial",
-            "weaponId": "MMG_VEH",
-            "description": "Coaxial MMG"
-          },
-          {
-            "id": "hull_mg",
-            "weaponId": "MMG_VEH",
-            "description": "Forward-facing hull-mounted MMG"
-          }
-        ],
-        "options": [
-          {
-            "id": "RECCE",
-            "specialRuleId": "RECCE",
-            "description": "Gain the Recce rule for +10pts",
-            "cost": 10
-          },
-          {
-            "id": "VULNERABLE",
-            "specialRuleId": "VULNERABLE",
-            "description": "Gain the Vulnerable rule for +15pts (M3A1)",
-            "cost": -15
-          }
-        ]
-      },
-      {
-        "id": "US_M5_M5A1",
-        "name": "Stuart M5/M5A1",
-        "unitType": "Vehicle",
-        "subType": "Tank",
-        "cost": {
-          "Inexperienced": 123,
-          "Regular": 150,
-          "Veteran": 187
+          "Veteran": 160
         },
         "damageValue": 8,
         "baseWeapons": [
           {
             "id": "main",
             "weaponId": "LIGHT_AT_GUN",
-            "description": "Gyro-stabilised turret-mounted light anti-tank gun",
-            "specialRuleIds": ["GYROSTABILISED"]
+            "description": "Turret-mounted Light Anti-Tank Gun"
           },
           {
             "id": "coaxial",
@@ -158,44 +198,64 @@
             "description": "Forward-facing hull-mounted MMG"
           }
         ],
-        "weaponOptions": [
+        "specialRuleIds": [
+          "RECCE"
+        ]
+      },
+      {
+        "id": "GB_StuartVI",
+        "name": "Stuart VI",
+        "unitType": "Vehicle",
+        "subType": "Tank",
+        "cost": {
+          "Inexperienced": 130,
+          "Regular": 155,
+          "Veteran": 180
+        },
+        "damageValue": 8,
+        "baseWeapons": [
           {
-            "id": "Pintle_MMG",
-            "optionSetId": "Pintle_MG",
-            "description": "Add one additional pintle-mounted MMG for +15pts",
-            "weapons": [
-              {
-                "id": "pintle_mg",
-                "weaponId": "MMG_VEH",
-                "description": "Pintle-mounted MMG"
-              }
-            ],
-            "cost": 15
+            "id": "main",
+            "weaponId": "LIGHT_AT_GUN",
+            "description": "Turret-mounted Light Anti-Tank Gun"
           },
           {
-            "id": "Pintle_HMG",
-            "optionSetId": "Pintle_MG",
-            "description": "Add one additional pintle-mounted HMG for +25pts",
-            "weapons": [
-              {
-                "id": "pintle_mg",
-                "weaponId": "HMG_VEH",
-                "description": "Pintle-mounted HMG"
-              }
-            ],
-            "cost": 25
-          }
-        ],
-        "options": [
+            "id": "coaxial",
+            "weaponId": "MMG_VEH",
+            "description": "Coaxial MMG"
+          },
           {
-            "id": "RECCE",
-            "specialRuleId": "RECCE",
-            "description": "Gain the Recce rule for +10pts",
-            "cost": 10
+            "id": "hull_mg",
+            "weaponId": "MMG_VEH",
+            "description": "Forward-facing hull-mounted MMG"
           }
         ],
         "specialRuleIds": [
-          "REINFORCED_FRONT"
+          "REINFORCED_FRONT",
+          "RECCE"
+        ]
+      },
+      {
+        "id": "GB_StuartRecce",
+        "name": "Stuart Recce",
+        "unitType": "Vehicle",
+        "subType": "Tank",
+        "cost": {
+          "Inexperienced": 70,
+          "Regular": 95,
+          "Veteran": 120
+        },
+        "damageValue": 8,
+        "baseWeapons": [
+          {
+            "id": "hull_mg",
+            "weaponId": "MMG_VEH",
+            "description": "Forward-facing hull-mounted MMG"
+          }
+        ],
+        "specialRuleIds": [
+          "RECCE",
+          "OPEN_TOPPED"
         ]
       }
     ]

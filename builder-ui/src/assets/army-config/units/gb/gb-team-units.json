@@ -143,6 +143,17 @@
         "baseMen": 3,
         "options": [
           {
+            "id": "25PDR_AT",
+            "specialRuleId": "25PDR_AT",
+            "description": "Upgrade the light howitzer with 25-pdr AT shell for +5 pts",
+            "cost": 5
+          },
+          {
+            "id": "SPOTTER",
+            "description": "May add a spotter for +10pts",
+            "cost": 10
+          },
+          {
             "id": "GUN_SHIELD",
             "specialRuleId": "GUN_SHIELD",
             "description": "Add gun shield for +5pts",
@@ -201,13 +212,30 @@
         ]
       },
       {
-        "id": "GB_AA_AUTO",
-        "name": "AA Automatic Cannon",
+        "id": "GB_AA_AUTO_L",
+        "name": "AA Automatic Cannon - 20mm Polsten",
         "unitType": "FieldArtillery",
         "cost": {
-          "Inexperienced": 35,
+          "Inexperienced": 25,
+          "Regular": 35,
+          "Veteran": 46
+        },
+        "baseWeaponId": "LAC",
+        "baseWeaponDescription": "Light automatic cannon on a rotating platform",
+        "baseMen": 3,
+        "specialRuleIds": [
+          "FLAK"
+        ],
+        "warning": "No support for adding additional cannons at present"
+      },
+      {
+        "id": "GB_AA_AUTO_H",
+        "name": "AA Automatic Cannon - 40mm Bofors",
+        "unitType": "FieldArtillery",
+        "cost": {
+          "Inexperienced": 40,
           "Regular": 50,
-          "Veteran": 65
+          "Veteran": 61
         },
         "baseWeaponId": "HAC",
         "baseWeaponDescription": "Heavy automatic cannon on a rotating platform",
@@ -221,33 +249,14 @@
         "name": "Dual Purpose AA/AT Gun",
         "unitType": "FieldArtillery",
         "cost": {
-          "Inexperienced": 102,
-          "Regular": 145,
-          "Veteran": 189
+          "Inexperienced": 70,
+          "Regular": 100
         },
-        "baseWeaponId": "SUPER_HEAVY_AT_GUN",
-        "baseWeaponDescription": "Super-heavy anti-tank gun on a rotating platform",
-        "baseMen": 5,
+        "baseWeaponId": "HEAVY_AT_GUN",
+        "baseWeaponDescription": "Heavy anti-tank gun on a rotating platform",
+        "baseMen": 6,
         "specialRuleIds": [
-          "GUN_SHIELD",
-          "FLAK"
-        ]
-      },
-      {
-        "id": "GB_M51_MULTIMMG",
-        "name": "M51 Multiple Machine Gun",
-        "unitType": "FieldArtillery",
-        "cost": {
-          "Inexperienced": 108,
-          "Regular": 135,
-          "Veteran": 162
-        },
-        "baseWeaponId": "HMG",
-        "baseWeaponQty": 4,
-        "baseWeaponDescription": "Platform-mountd HMGs",
-        "baseMen": 4,
-        "specialRuleIds": [
-          "CUMBERSOME",
+          "IMPROVISED_ROLE",
           "FLAK"
         ]
       },
@@ -282,16 +291,16 @@
         ]
       },
       {
-        "id": "GB_HVY_AT",
-        "name": "Heavy Anti-Tank Gun",
+        "id": "GB_SHVY_AT",
+        "name": "Super Heavy Anti-Tank Gun",
         "unitType": "FieldArtillery",
         "cost": {
-          "Inexperienced": 85,
-          "Regular": 100,
-          "Veteran": 115
+          "Inexperienced": 125,
+          "Regular": 140,
+          "Veteran": 155
         },
-        "baseWeaponId": "HEAVY_AT_GUN",
-        "baseMen": 4,
+        "baseWeaponId": "SUPER_HEAVY_AT_GUN",
+        "baseMen": 5,
         "specialRuleIds": [
           "GUN_SHIELD"
         ]
