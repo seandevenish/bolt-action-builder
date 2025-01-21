@@ -198,7 +198,7 @@
       },
       {
         "id": "JAP_REG_INF",
-        "name": "IJA or SNLSF Infantry Squad",
+        "name": "IJA or SNLF Infantry Squad",
         "unitType": "InfantrySquad",
         "subType": null,
         "cost": {
@@ -252,7 +252,7 @@
       },
       {
         "id": "JAP_GRENADIERS",
-        "name": "IJA or SNLSF Grenadier Squad",
+        "name": "IJA or SNLF Grenadier Squad",
         "unitType": "InfantrySquad",
         "subType": null,
         "cost": {

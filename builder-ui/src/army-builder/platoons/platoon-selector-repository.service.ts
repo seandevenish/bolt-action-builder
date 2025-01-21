@@ -16,17 +16,17 @@ export class PlatoonSelectorRepositoryService {
 
   /**
    * Fetches the core platoons and faction-specific platoons from their respective JSON files.
-   * @param faction The faction name to load specific platoons for. This will be expanded to include other properties that identify the force selector in question
+   * @param factionId The faction name to load specific platoons for. This will be expanded to include other properties that identify the force selector in question
    * @returns An Observable of PlatoonSelector[] combining core and faction-specific platoons.
    */
-  getPlatoonsForForceSelector(faction: string, forceSelectorId: string): Observable<PlatoonSelector[]> {
-    const factionConfigUrl = `${this.factionConfigUrlTemplate}/${faction.toLowerCase()}-platoons.json`;
+  getPlatoonsForForceSelector(factionId: string, forceSelectorId: string): Observable<PlatoonSelector[]> {
+    const factionConfigUrl = `${this.factionConfigUrlTemplate}/${factionId.toLowerCase()}-platoons.json`;
 
     return forkJoin({
       corePlatoons: this.loadPlatoonsFromFile(this.coreConfigUrl),
       factionPlatoons: this.loadPlatoonsFromFile(factionConfigUrl).pipe(
         catchError(error => {
-          console.error(`No definition for faction '${faction}':`, error);
+          console.error(`No definition for faction '${factionId}':`, error);
           return of([]); // Fallback to an empty list if the faction file is missing or fails to load
         })
       )

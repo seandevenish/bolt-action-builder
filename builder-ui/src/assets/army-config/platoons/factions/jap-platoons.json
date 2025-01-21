@@ -12,7 +12,7 @@
         { "id": "FOO", "types": ["ForwardObserver"], "min": 0, "max": 1 },
         { "id": "Sniper", "types": ["SniperTeam"], "min": 0, "max": 1 },
         { "id": "AntiTank", "types": ["AntiTankTeam"], "min": 0, "max": 1 },
-        { "id": "SuicideAntiTank", "unitSelectorIds": ["JAP_SUICIDEAT"], "min": 0, "max": 3, "requirementName": "Suicide Anti-Tank Team"}
+        { "id": "SuicideAntiTank", "unitSelectorIds": ["JAP_SUICIDEAT"], "min": 0, "max": 3, "requirementName": "Suicide Anti-Tank Team"},
         { "id": "Mortar", "types": ["MortarTeam"], "subTypes": ["LightMortar"], "min": 0, "max": 1 },
         { "id": "Transports", "types": ["TransportVehicle"], "min": 0, "maxPerUnit": 1, "requirementName": "Transport Vehicles" }
       ]

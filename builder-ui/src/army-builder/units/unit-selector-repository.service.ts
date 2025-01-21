@@ -56,10 +56,10 @@ export class UnitSelectorRepositoryService {
       )
     }).pipe(
       map(({ coreVehicleUnits, infantryUnits, vehicleUnits, teamUnits }) => [
-        ...coreVehicleUnits,
         ...infantryUnits,
         ...vehicleUnits,
-        ...teamUnits
+        ...teamUnits,
+        ...coreVehicleUnits
       ])
     );
   }
