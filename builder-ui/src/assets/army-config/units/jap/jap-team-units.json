@@ -1,0 +1,295 @@
+{
+    "units": [
+      {
+        "id": "JAP_MMG",
+        "name": "Medium Machine Gun Team",
+        "unitType": "MachineGunTeam",
+        "cost": {
+          "Inexperienced": 35,
+          "Regular": 50,
+          "Veteran": 65
+        },
+        "specialRuleIds": [
+          "TEAM",
+          "FIXED"
+        ],
+        "baseWeaponId": "MMG",
+        "baseMen": 3
+      },
+      {
+        "id": "JAP_ANTITANKRIFLE",
+        "name": "Anti-Tank Rifle Team",
+        "unitType": "AntiTankTeam",
+        "cost": {
+          "Inexperienced": 18,
+          "Regular": 25,
+          "Veteran": 33
+        },
+        "specialRuleIds": [
+          "TEAM"
+        ],
+        "baseWeaponId": "ATR",
+        "baseWeaponDescription": "Anti-Tank Rifle",
+        "baseMen": 2
+      },
+      {
+        "id": "JAP_SUICIDEAT",
+        "name": "Suicide Anti-Tank Team",
+        "unitType": "AntiTankTeam",
+        "cost": {
+          "Inexperienced": 14,
+          "Regular": 20,
+          "Veteran": 26
+        },
+        "specialRuleIds": [
+          "KAMIKAZE",
+          "TANKHUN",
+          "INFILTRATOR"
+        ],
+        "baseWeaponId": "SPECIAL",
+        "baseWeaponDescription": "Lunge mine, artillery shell, satchel charge, magnetic mine, or similar",
+        "baseMen": 1
+      },
+      {
+        "id": "JAP_FT",
+        "name": "Flamethrower Team",
+        "unitType": "FlamethrowerTeam",
+        "cost": {
+          "Regular": 50,
+          "Veteran": 65
+        },
+        "specialRuleIds": [
+          "TEAM",
+          "FLAMETHROWER"
+        ],
+        "options": [
+          {
+            "id": "TANKHUNT",
+            "specialRuleId": "TANKHUNT",
+            "description": "The team can be given <em>anti-tank grenades</em> for +2pts per man",
+            "costPerMan": 2
+          }
+        ],
+        "baseWeaponId": "FLAMETHROWER_INF",
+        "baseMen": 2
+      },
+      {
+        "id": "JAP_LGT_MORTAR",
+        "name": "Light Mortar Team",
+        "unitType": "MortarTeam",
+        "subType": "LightMortar",
+        "cost": {
+          "Inexperienced": 25,
+          "Regular": 35,
+          "Veteran": 46
+        },
+        "specialRuleIds": [
+          "TEAM"
+        ],
+        "baseWeaponId": "LIGHT_MORTAR",
+        "baseMen": 3
+      },
+      {
+        "id": "JAP_LGT_MORTAR_2C",
+        "name": "Light Mortar Team (2 Crew)",
+        "unitType": "MortarTeam",
+        "subType": "LightMortar",
+        "cost": {
+          "Inexperienced": 20,
+          "Regular": 30,
+          "Veteran": 41
+        },
+        "specialRuleIds": [
+          "TEAM"
+        ],
+        "baseWeaponId": "LIGHT_MORTAR",
+        "baseMen": 2
+      },
+      {
+        "id": "JAP_MDM_MORTAR",
+        "name": "Medium Mortar Team",
+        "unitType": "MortarTeam",
+        "subType": "MediumMortar",
+        "cost": {
+          "Inexperienced": 35,
+          "Regular": 45,
+          "Veteran": 56
+        },
+        "specialRuleIds": [
+          "TEAM",
+          "FIXED"
+        ],
+        "baseWeaponId": "MEDIUM_MORTAR",
+        "baseMen": 3,
+        "options": [
+          {
+            "id": "SPOTTER",
+            "description": "May add a spotter for +10pts",
+            "cost": 10
+          }
+        ]
+      },
+      {
+        "id": "JAP_HVY_MORTAR",
+        "name": "Heavy Mortar Team",
+        "unitType": "MortarTeam",
+        "subType": "HeavyMortar",
+        "cost": {
+          "Inexperienced": 50,
+          "Regular": 60,
+          "Veteran": 71
+        },
+        "specialRuleIds": [
+          "TEAM",
+          "FIXED"
+        ],
+        "baseWeaponId": "HEAVY_MORTAR",
+        "baseMen": 4,
+        "options": [
+          {
+            "id": "SPOTTER",
+            "description": "May add a spotter for +10pts",
+            "cost": 10
+          }
+        ]
+      },
+      {
+        "id": "JAP_LGT_HWTZ",
+        "name": "Light Howitzer",
+        "unitType": "FieldArtillery",
+        "cost": {
+          "Inexperienced": 32,
+          "Regular": 45,
+          "Veteran": 59
+        },
+        "baseWeaponId": "LIGHT_HOWITZER",
+        "baseMen": 3,
+        "options": [
+          {
+            "id": "SPOTTER",
+            "description": "May add a spotter for +10pts",
+            "cost": 10
+          },
+          {
+            "id": "GUN_SHIELD",
+            "specialRuleId": "GUN_SHIELD",
+            "description": "Add gun shield for +5pts",
+            "cost": 5
+          }
+        ]
+      },
+      {
+        "id": "JAP_MED_HWTZ",
+        "name": "Medium Howitzer",
+        "unitType": "FieldArtillery",
+        "cost": {
+          "Inexperienced": 72,
+          "Regular": 85,
+          "Veteran": 99
+        },
+        "baseWeaponId": "MEDIUM_HOWITZER",
+        "baseMen": 4,
+        "options": [
+          {
+            "id": "SPOTTER",
+            "description": "May add a spotter for +10pts",
+            "cost": 10
+          },
+          {
+            "id": "GUN_SHIELD",
+            "specialRuleId": "GUN_SHIELD",
+            "description": "Add gun shield for +5pts",
+            "cost": 5
+          }
+        ]
+      },
+      {
+        "id": "JAP_HVY_HWTZ",
+        "name": "Heavy Howitzer",
+        "unitType": "FieldArtillery",
+        "cost": {
+          "Inexperienced": 122,
+          "Regular": 135,
+          "Veteran": 149
+        },
+        "baseWeaponId": "HEAVY_HOWITZER",
+        "baseMen": 5,
+        "options": [
+          {
+            "id": "SPOTTER",
+            "description": "May add a spotter for +10pts",
+            "cost": 10
+          },
+          {
+            "id": "GUN_SHIELD",
+            "specialRuleId": "GUN_SHIELD",
+            "description": "Add gun shield for +5pts",
+            "cost": 5
+          }
+        ]
+      },
+      {
+        "id": "JAP_AA_AUTO_L",
+        "name": "AA Automatic Cannon",
+        "unitType": "FieldArtillery",
+        "cost": {
+          "Inexperienced": 25,
+          "Regular": 35,
+          "Veteran": 46
+        },
+        "baseWeaponId": "LAC",
+        "baseWeaponDescription": "Light automatic cannon on a rotating platform",
+        "baseMen": 3,
+        "specialRuleIds": [
+          "FLAK"
+        ]
+      },
+      {
+        "id": "JAP_AA_AUTO_L",
+        "name": "AA Automatic Cannon (Type 2)",
+        "unitType": "FieldArtillery",
+        "cost": {
+          "Inexperienced": 55,
+          "Regular": 65,
+          "Veteran": 76
+        },
+        "baseWeaponId": "LAC",
+        "baseWeaponDescription": "Light automatic cannon on a rotating platform",
+        "baseMen": 3,
+        "baseWeaponQty": 2,
+        "specialRuleIds": [
+          "FLAK"
+        ]
+      },
+      {
+        "id": "JAP_LGT_AT",
+        "name": "Light Anti-Tank Gun",
+        "unitType": "FieldArtillery",
+        "cost": {
+          "Inexperienced": 35,
+          "Regular": 50,
+          "Veteran": 65
+        },
+        "baseWeaponId": "LIGHT_AT_GUN",
+        "baseMen": 3,
+        "specialRuleIds": [
+          "GUN_SHIELD"
+        ]
+      },
+      {
+        "id": "JAP_MDM_AT",
+        "name": "Medium Anti-Tank Gun",
+        "unitType": "FieldArtillery",
+        "cost": {
+          "Inexperienced": 55,
+          "Regular": 70,
+          "Veteran": 85
+        },
+        "baseWeaponId": "MEDIUM_AT_GUN",
+        "baseMen": 3,
+        "specialRuleIds": [
+          "GUN_SHIELD"
+        ]
+      }
+    ]
+  }

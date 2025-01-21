@@ -1,6 +1,10 @@
 {
   "weapons": [
     {
+      "id": "SPECIAL",
+      "name": "Special Weapon"
+    },
+    {
       "id": "RIFLE",
       "name": "Rifle",
       "type": "Small Arms",

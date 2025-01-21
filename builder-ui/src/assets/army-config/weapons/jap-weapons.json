@@ -12,6 +12,19 @@
       "shots": 0,
       "specialRuleIds": [],
       "heDiameter": 0
+    },
+    {
+      "id": "JAP_LUNGE_MINE",
+      "name": "Lunge Mine",
+      "type": "Small Arms",
+      "penetrationValue": 8,
+      "hits": 1,
+      "range": 0,
+      "minIndirectRange": 0,
+      "maxIndirectRange": 0,
+      "shots": 1,
+      "specialRuleIds": [],
+      "heDiameter": 0
     }
   ]
 }
