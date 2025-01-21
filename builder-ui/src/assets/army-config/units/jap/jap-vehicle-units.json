@@ -1,0 +1,649 @@
+{
+    "units": [
+      {
+        "id": "JAP_HAGO",
+        "name": "Ha-Go",
+        "unitType": "Vehicle",
+        "subType": "Tank",
+        "cost": {
+          "Inexperienced": 76,
+          "Regular": 95,
+          "Veteran": 114
+        },
+        "damageValue": 7,
+        "baseWeapons": [
+          {
+            "id": "main",
+            "weaponId": "LIGHT_AT_GUN_LOWV",
+            "description": "Turret-mounted low-velocity light anti-tank gun"
+          },
+          {
+            "id": "main_rear",
+            "weaponId": "MMG_VEH",
+            "description": "Turret-mounted rear-facing MMG"
+          },
+          {
+            "id": "hull_mg",
+            "weaponId": "MMG_VEH",
+            "description": "Forward-facing hull-mounted MMG"
+          }
+        ],
+        "options": [],
+        "specialRuleIds": ["ONEMANTURRET"]
+      },
+      {
+        "id": "JAP_KAMI",
+        "name": "Ka-Mi",
+        "unitType": "Vehicle",
+        "subType": "Tank",
+        "cost": {
+          "Inexperienced": 71,
+          "Regular": 90,
+          "Veteran": 109
+        },
+        "damageValue": 7,
+        "baseWeapons": [
+          {
+            "id": "main",
+            "weaponId": "LIGHT_AT_GUN_LOWV",
+            "description": "Turret-mounted low-velocity light anti-tank gun"
+          },
+          {
+            "id": "hull_mg",
+            "weaponId": "MMG_VEH",
+            "description": "Forward-facing hull-mounted MMG"
+          }
+        ],
+        "options": [],
+        "specialRuleIds": ["ONEMANTURRET", "AMPHIBIOUS"]
+      },
+      {
+        "id": "JAP_KENU",
+        "name": "Ke-Nu",
+        "unitType": "Vehicle",
+        "subType": "Tank",
+        "cost": {
+          "Inexperienced": 96,
+          "Regular": 105,
+          "Veteran": 134
+        },
+        "damageValue": 7,
+        "baseWeapons": [
+          {
+            "id": "main",
+            "weaponId": "LIGHT_HOWITZER",
+            "description": "Turret-mounted light howitzer"
+          },
+          {
+            "id": "main_rear",
+            "weaponId": "MMG_VEH",
+            "description": "Turret-mounted rear-facing MMG"
+          },
+          {
+            "id": "hull_mg",
+            "weaponId": "MMG_VEH",
+            "description": "Forward-facing hull-mounted MMG"
+          }
+        ],
+        "options": [],
+        "specialRuleIds": []
+      },
+      {
+        "id": "JAP_KENI",
+        "name": "Ke-Ni",
+        "unitType": "Vehicle",
+        "subType": "Tank",
+        "cost": {
+          "Inexperienced": 92,
+          "Regular": 115,
+          "Veteran": 138
+        },
+        "damageValue": 8,
+        "baseWeapons": [
+          {
+            "id": "main",
+            "weaponId": "LIGHT_AT_GUN_LOWV",
+            "description": "Turret-mounted low-velocity light anti-tank gun"
+          },
+          {
+            "id": "coaxial",
+            "weaponId": "MMG_VEH",
+            "description": "Coaxial MMG"
+          }
+        ],
+        "options": [],
+        "specialRuleIds": []
+      },
+      {
+        "id": "JAP_KETO",
+        "name": "Ke-To",
+        "unitType": "Vehicle",
+        "subType": "Tank",
+        "cost": {
+          "Inexperienced": 102,
+          "Regular": 125,
+          "Veteran": 148
+        },
+        "damageValue": 8,
+        "baseWeapons": [
+          {
+            "id": "main",
+            "weaponId": "LIGHT_AT_GUN",
+            "description": "Turret-mounted light anti-tank gun"
+          },
+          {
+            "id": "coaxial",
+            "weaponId": "MMG_VEH",
+            "description": "Coaxial MMG"
+          }
+        ],
+        "options": [],
+        "specialRuleIds": []
+      },
+      {
+        "id": "JAP_YIGO",
+        "name": "Yi-Go",
+        "unitType": "Vehicle",
+        "subType": "Tank",
+        "cost": {
+          "Inexperienced": 102,
+          "Regular": 124,
+          "Veteran": 148
+        },
+        "damageValue": 8,
+        "baseWeapons": [
+          {
+            "id": "main",
+            "weaponId": "LIGHT_HOWITZER",
+            "description": "Turret-mounted light howitzer"
+          },
+          {
+            "id": "main_rear",
+            "weaponId": "MMG_VEH",
+            "description": "Turret-mounted rear-facing MMG"
+          },
+          {
+            "id": "hull_mg",
+            "weaponId": "MMG_VEH",
+            "description": "Forward-facing hull-mounted MMG"
+          }
+        ],
+        "options": [],
+        "specialRuleIds": ["SLOW"]
+      },
+      {
+        "id": "JAP_CHIHA",
+        "name": "Chi-Ha",
+        "unitType": "Vehicle",
+        "subType": "Tank",
+        "cost": {
+          "Inexperienced": 112,
+          "Regular": 134,
+          "Veteran": 158
+        },
+        "damageValue": 8,
+        "baseWeapons": [
+          {
+            "id": "main",
+            "weaponId": "LIGHT_HOWITZER",
+            "description": "Turret-mounted light howitzer"
+          },
+          {
+            "id": "main_rear",
+            "weaponId": "MMG_VEH",
+            "description": "Turret-mounted rear-facing MMG"
+          },
+          {
+            "id": "hull_mg",
+            "weaponId": "MMG_VEH",
+            "description": "Forward-facing hull-mounted MMG"
+          }
+        ],
+        "options": [],
+        "specialRuleIds": []
+      },
+      {
+        "id": "JAP_SHIKI",
+        "name": "Shi-Ki",
+        "unitType": "Vehicle",
+        "subType": "Tank",
+        "cost": {
+          "Inexperienced": 112,
+          "Regular": 134,
+          "Veteran": 158
+        },
+        "damageValue": 8,
+        "baseWeapons": [
+          {
+            "id": "main_turret",
+            "weaponId": "MMG_VEH",
+            "description": "Turret-mounted MMG"
+          },
+          {
+            "id": "main_hull",
+            "weaponId": "LIGHT_AT_GUN",
+            "description": "Hull-mounted light anti-tank gun"
+          }
+        ],
+        "options": [],
+        "specialRuleIds": ["COMMAND_VEHICLE"]
+      },
+      {
+        "id": "JAP_SHINHOTO_CHIHA",
+        "name": "Shinhoto Chi-Ha",
+        "unitType": "Vehicle",
+        "subType": "Tank",
+        "cost": {
+          "Inexperienced": 132,
+          "Regular": 154,
+          "Veteran": 178
+        },
+        "damageValue": 8,
+        "baseWeapons": [
+          {
+            "id": "main",
+            "weaponId": "MEDIUM_AT_GUN",
+            "description": "Turret-mounted medium anti-tank gun"
+          },
+          {
+            "id": "main_rear",
+            "weaponId": "MMG_VEH",
+            "description": "Turret-mounted rear-facing MMG"
+          },
+          {
+            "id": "hull_mg",
+            "weaponId": "MMG_VEH",
+            "description": "Forward-facing hull-mounted MMG"
+          }
+        ],
+        "options": [],
+        "specialRuleIds": []
+      },
+      {
+        "id": "JAP_CHI-HE",
+        "name": "Chi-He",
+        "unitType": "Vehicle",
+        "subType": "Tank",
+        "cost": {
+          "Inexperienced": 156,
+          "Regular": 195
+        },
+        "damageValue": 9,
+        "baseWeapons": [
+          {
+            "id": "main",
+            "weaponId": "MEDIUM_AT_GUN",
+            "description": "Turret-mounted medium anti-tank gun"
+          },
+          {
+            "id": "main_rear",
+            "weaponId": "MMG_VEH",
+            "description": "Turret-mounted rear-facing MMG"
+          },
+          {
+            "id": "hull_mg",
+            "weaponId": "MMG_VEH",
+            "description": "Forward-facing hull-mounted MMG"
+          }
+        ],
+        "options": [],
+        "specialRuleIds": []
+      },
+      {
+        "id": "JAP_HOI",
+        "name": "Ho-I",
+        "unitType": "Vehicle",
+        "subType": "Tank",
+        "cost": {
+          "Inexperienced": 136,
+          "Regular": 175
+        },
+        "damageValue": 9,
+        "baseWeapons": [
+          {
+            "id": "main",
+            "weaponId": "LIGHT_HOWITZER",
+            "description": "Turret-mounted light howitzer"
+          },
+          {
+            "id": "main_rear",
+            "weaponId": "MMG_VEH",
+            "description": "Turret-mounted rear-facing MMG"
+          },
+          {
+            "id": "hull_mg",
+            "weaponId": "MMG_VEH",
+            "description": "Forward-facing hull-mounted MMG"
+          }
+        ],
+        "options": [],
+        "specialRuleIds": []
+      },
+      {
+        "id": "JAP_CHI-NU",
+        "name": "Chi-Nu",
+        "unitType": "Vehicle",
+        "subType": "Tank",
+        "cost": {
+          "Inexperienced": 151,
+          "Regular": 190
+        },
+        "damageValue": 9,
+        "baseWeapons": [
+          {
+            "id": "main",
+            "weaponId": "MEDIUM_AT_GUN",
+            "description": "Turret-mounted medium anti-tank gun"
+          },
+          {
+            "id": "hull_mg",
+            "weaponId": "MMG_VEH",
+            "description": "Forward-facing hull-mounted MMG"
+          }
+        ],
+        "options": [],
+        "specialRuleIds": []
+      },
+      {
+        "id": "JAP_CHI-NU",
+        "name": "Chi-Nu",
+        "unitType": "Vehicle",
+        "subType": "Tank",
+        "cost": {
+          "Inexperienced": 156,
+          "Regular": 195
+        },
+        "damageValue": 9,
+        "baseWeapons": [
+          {
+            "id": "main",
+            "weaponId": "MEDIUM_AT_GUN",
+            "description": "Turret-mounted medium anti-tank gun"
+          },
+          {
+            "id": "coaxial",
+            "weaponId": "MMG_VEH",
+            "description": "Coaxial MMG"
+          },
+          {
+            "id": "hull_mg",
+            "weaponId": "MMG_VEH",
+            "description": "Forward-facing hull-mounted MMG"
+          }
+        ],
+        "options": [],
+        "specialRuleIds": ["AMPHIBIOUS"]
+      },
+      {
+        "id": "JAP_SOMO_SUMIDA",
+        "name": "So-Mo, Sumida",
+        "unitType": "Vehicle",
+        "subType": "ArmouredCar",
+        "cost": {
+          "Inexperienced": 44,
+          "Regular": 55,
+          "Veteran": 66
+        },
+        "damageValue": 7,
+        "baseWeapons": [
+          {
+            "id": "main",
+            "weaponId": "LMG_VEH",
+            "description": "Turret-mounted LMG"
+          }
+        ],
+        "options": [],
+        "specialRuleIds": []
+      },
+      {
+        "id": "JAP_TYPE87",
+        "name": "Type 87",
+        "unitType": "Vehicle",
+        "subType": "ArmouredCar",
+        "cost": {
+          "Inexperienced": 59,
+          "Regular": 70,
+          "Veteran": 81
+        },
+        "damageValue": 7,
+        "baseWeapons": [
+          {
+            "id": "main",
+            "weaponId": "MMG_VEH",
+            "description": "Turret-mounted MMG",
+            "qty": 2
+          }
+        ],
+        "options": [],
+        "specialRuleIds": []
+      },
+      {
+        "id": "JAP_TYPE94",
+        "name": "Type 94",
+        "unitType": "Vehicle",
+        "subType": "ArmouredCar",
+        "cost": {
+          "Inexperienced": 56,
+          "Regular": 70,
+          "Veteran": 84
+        },
+        "damageValue": 7,
+        "baseWeapons": [
+          {
+            "id": "main",
+            "weaponId": "MMG_VEH",
+            "description": "Turret-mounted MMG"
+          }
+        ],
+        "options": [],
+        "specialRuleIds": ["RECCE"]
+      },
+      {
+        "id": "JAP_TYPE92",
+        "name": "Type 92",
+        "unitType": "Vehicle",
+        "subType": "ArmouredCar",
+        "cost": {
+          "Inexperienced": 76,
+          "Regular": 90,
+          "Veteran": 104
+        },
+        "damageValue": 7,
+        "baseWeapons": [
+          {
+            "id": "main",
+            "weaponId": "MMG_VEH",
+            "description": "Turret-mounted MMG"
+          },
+          {
+            "id": "hull_mg",
+            "weaponId": "HMG_VEH",
+            "description": "Forward-facing hull-mounted HMG"
+          }
+        ],
+        "options": [],
+        "specialRuleIds": ["RECCE"]
+      },
+      {
+        "id": "JAP_TYPE97TEKE",
+        "name": "Type 97 Te-Ke",
+        "unitType": "Vehicle",
+        "subType": "ArmouredCar",
+        "cost": {
+          "Inexperienced": 76,
+          "Regular": 90,
+          "Veteran": 104
+        },
+        "damageValue": 7,
+        "baseWeapons": [
+          {
+            "id": "main",
+            "weaponId": "LIGHT_AT_GUN_LOWV",
+            "description": "Turret-mounted low-velocity light anti-tank gun"
+          }
+        ],
+        "options": [],
+        "specialRuleIds": ["ONEMANTURRET"]
+      },
+      {
+        "id": "JAP_TYPE98",
+        "name": "Type 98",
+        "unitType": "Vehicle",
+        "subType": "AntiAircraftVehicle",
+        "cost": {
+          "Inexperienced": 40,
+          "Regular": 50,
+          "Veteran": 60
+        },
+        "damageValue": 6,
+        "baseWeapons": [
+          {
+            "id": "main",
+            "weaponId": "LAC",
+            "description": "Platform-mounted light autocannon with 360-degree arc of fire"
+          }
+        ],
+        "options": [],
+        "specialRuleIds": ["FLAK"]
+      },
+      {
+        "id": "JAP_HO-HA",
+        "name": "Ho-Ha Half-Track",
+        "unitType": "TransportVehicle",
+        "cost": {
+          "Inexperienced": 66,
+          "Regular": 83,
+          "Veteran": 100
+        },
+        "damageValue": 7,
+        "transportCapacity": 13,
+        "tow": "Light or medium howitzers, light or medium anti-tank guns, light anti-aircraft guns",
+        "baseWeapons": [
+          {
+            "id": "hull_left",
+            "weaponId": "MMG_VEH",
+            "description": "Hull-mounted MMG covering the left arc"
+          },
+          {
+            "id": "hull_right",
+            "weaponId": "MMG_VEH",
+            "description": "Hull-mounted MMG covering the right arc"
+          },
+          {
+            "id": "pintle",
+            "weaponId": "MMG_VEH",
+            "description": "Pintle-mounted MMG covering the rear arc"
+          }
+        ]
+      },
+      {
+        "id": "JAP_SODA",
+        "name": "So-Da Fully-Tracked Carrier",
+        "unitType": "TransportVehicle",
+        "cost": {
+          "Inexperienced": 33,
+          "Regular": 41,
+          "Veteran": 49
+        },
+        "damageValue": 7,
+        "transportCapacity": 6,
+        "tow": "Light or medium howitzers, light or medium anti-tank guns, light anti-aircraft guns"
+      },
+      {
+        "id": "JAP_HOKI",
+        "name": "Ho-Ki Fully-Tracked Carrier",
+        "unitType": "TransportVehicle",
+        "cost": {
+          "Inexperienced": 40,
+          "Regular": 48,
+          "Veteran": 56
+        },
+        "damageValue": 7,
+        "transportCapacity": 13,
+        "tow": "Light or medium howitzers, light or medium anti-tank guns, light anti-aircraft guns",
+        "weaponOptions": [
+          {
+            "id": "Pintle_Forward_MMG",
+            "description": "Add one additional pintle-mounted MMG covering the forward arc for +15pts",
+            "weapons": [
+              {
+                "id": "pintle_forward_mg",
+                "weaponId": "MMG_VEH",
+                "description": "Pintle-mounted MMG covering the forward arc"
+              }
+            ],
+            "cost": 15
+          },
+          {
+            "id": "Pintle_Rear_MMG",
+            "description": "Add one additional pintle-mounted MMG covering the rear arc for +15pts",
+            "weapons": [
+              {
+                "id": "pintle_rear_mg",
+                "weaponId": "MMG_VEH",
+                "description": "Pintle-mounted MMG covering the rear arc"
+              }
+            ],
+            "cost": 15
+          }
+        ]
+      },
+      {
+        "id": "JAP_TYPE95",
+        "name": "Type 95 Kurogane",
+        "unitType": "TransportVehicle",
+        "cost": {
+          "Inexperienced": 15,
+          "Regular": 19,
+          "Veteran": 23
+        },
+        "damageValue": 6,
+        "transportCapacity": 4,
+        "tow": "None"
+      },
+      {
+        "id": "JAP_TYPE95",
+        "name": "Type 95 Kurogane (with Pintle MMG)",
+        "unitType": "ArmouredCar",
+        "cost": {
+          "Inexperienced": 35,
+          "Regular": 39,
+          "Veteran": 43
+        },
+        "damageValue": 6,
+        "baseWeapons": [
+          {
+            "id": "pintle",
+            "weaponId": "MMG_VEH",
+            "description": "Pintle-mounted MMG with 360-degree arc of fire"
+          }
+        ]
+      },
+      {
+        "id": "JAP_SHIKE",
+        "name": "Shi-Ke Prime Mover",
+        "unitType": "TransportVehicle",
+        "cost": {
+          "Inexperienced": 8,
+          "Regular": 10,
+          "Veteran": 12
+        },
+        "damageValue": 6,
+        "transportCapacity": 4,
+        "tow": "Any anti-tank gun, howitzer or anti-aircraft gun"
+      },
+      {
+        "id": "JAP_ROKE",
+        "name": "Ro-Ke Prime Mover",
+        "unitType": "TransportVehicle",
+        "cost": {
+          "Inexperienced": 10,
+          "Regular": 12,
+          "Veteran": 14
+        },
+        "damageValue": 6,
+        "transportCapacity": 6,
+        "tow": "Any anti-tank gun, howitzer or anti-aircraft gun"
+      }
+    ]
+  }

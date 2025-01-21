@@ -254,6 +254,19 @@
       "heDiameter": 0
     },
     {
+      "id": "LIGHT_AT_GUN_LOWV",
+      "name": "Low Velocity Light Anti-Tank Gun",
+      "type": "Heavy Weapons",
+      "penetrationValue": 3,
+      "hits": 1,
+      "range": 48,
+      "minIndirectRange": 0,
+      "maxIndirectRange": 0,
+      "shots": 1,
+      "specialRuleIds": ["TEAM", "FIXED", "HE_1"],
+      "heDiameter": 1
+    },
+    {
       "id": "LIGHT_AT_GUN",
       "name": "Light Anti-Tank Gun",
       "type": "Heavy Weapons",
