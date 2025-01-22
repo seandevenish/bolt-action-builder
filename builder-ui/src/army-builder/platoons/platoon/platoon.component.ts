@@ -14,11 +14,13 @@ import { UnitDetailModalComponent } from '../../units/unit-detail-modal/unit-det
 import { combineLatest, concat, merge, Subject, takeUntil, tap } from 'rxjs';
 import { Library } from '../../units/library.interface';
 import { IconComponent } from "../../../app/components/icon/icon.component";
+import { CdkDrag, CdkDragDrop, CdkDragHandle, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
+import { MatTooltip } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-platoon',
   standalone: true,
-  imports: [CommonModule, MatButtonModule, MatCardModule, MatMenuModule, DecimalPipe, IconComponent],
+  imports: [CommonModule, MatButtonModule, MatCardModule, MatMenuModule, DecimalPipe, IconComponent, CdkDrag, CdkDropList, CdkDragHandle, MatTooltip],
   templateUrl: './platoon.component.html',
   styleUrl: './platoon.component.scss'
 })
@@ -66,6 +68,11 @@ export class PlatoonComponent implements OnInit, OnDestroy {
     visualiser.addUnit(unit);
   }
 
+  copyUnit(visualiser: UnitSlotVisualiser, selector: UnitSelector, unit: Unit) {
+    const unitCopy = UnitFactory.loadUnit(unit, selector, visualiser.requirement, this.library);
+    visualiser.addUnit(unitCopy);
+  }
+
   editUnit(visualiser: UnitSlotVisualiser, unit: Unit): void {
     const dialogRef = this.dialog.open(UnitDetailModalComponent, {
       panelClass: 'app-dialog-container',
@@ -82,6 +89,10 @@ export class PlatoonComponent implements OnInit, OnDestroy {
           return;
         }
       });
+  }
+
+  drop(event: CdkDragDrop<Unit[]> | any, visualiser: UnitSlotVisualiser): void {
+    visualiser.reorderUnits(event.previousIndex, event.currentIndex);
   }
 
 }

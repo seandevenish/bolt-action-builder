@@ -27,6 +27,7 @@ export const SharedIconPack: IIconPack = {
         'contact',
         'copy',
         'dictionary',
+        'draggable',
         'earth',
         'edit',
         'enter',

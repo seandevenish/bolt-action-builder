@@ -1,4 +1,4 @@
-import { BehaviorSubject, combineLatest, debounceTime, distinctUntilChanged, map, Observable, scan, share, shareReplay, startWith, Subject, tap } from "rxjs";
+import { BehaviorSubject, combineLatest, debounceTime, distinctUntilChanged, map, Observable, scan, share, shareReplay, startWith, Subject, take, tap } from "rxjs";
 import { UnitSelector } from "../units/unit-selector.class";
 import { UnitRequirement } from "./unit-requirement.interface";
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -6,7 +6,7 @@ import { UnitType } from "../units/unit-type.enum";
 import { Signal } from "@angular/core";
 import { Library } from "../units/library.interface";
 import { Unit } from "../units/unit.class";
-
+import { moveItemInArray } from '@angular/cdk/drag-drop';
 export interface ISlot {
   isMandatory: boolean;
   upToQty?: number;
@@ -22,7 +22,7 @@ export class UnitSlotVisualiser {
   private readonly min: number | null;
   private readonly max: number | null | 'indeterminate';
 
-  private readonly unitActions$ = new Subject<{ action: 'add' | 'remove' | 'removeAll', units?: Unit[] }>();
+  private readonly unitActions$ = new Subject<{ action: 'add' | 'remove' | 'removeAll' | 'init', units?: Unit[] }>();
 
   public readonly selectedUnits$: Observable<Unit[]>;
 
@@ -140,6 +140,19 @@ export class UnitSlotVisualiser {
   removeAllUnits(): void {
     this.unitActions$.next({ action: 'removeAll' });
     this._updated$.next(this);
+  }
+
+  /**
+   * Reorders the selected units.
+   * @param previousIndex The previous index of the unit.
+   * @param currentIndex The new index of the unit.
+   */
+  reorderUnits(previousIndex: number, currentIndex: number): void {
+    this.selectedUnits$.pipe(take(1)).subscribe(units => {
+      moveItemInArray(units, previousIndex, currentIndex);
+      this.unitActions$.next({ action: 'init', units });
+      this._updated$.next(this);
+    });
   }
 
   private calculateTitle(requirement: UnitRequirement) {

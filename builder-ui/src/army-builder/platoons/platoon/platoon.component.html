@@ -12,17 +12,29 @@
         {{ visualiser.title }}
       </div>
 
+      <!-- Add cdkDropList to the container and cdkDrag to the units -->
       <div [ngClass]="{
         '': visualiser.groupable,
         'grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 md:gap-4 xl:grid-cols-4': !visualiser.groupable
-      }">
+      }"
+        cdkDropList
+        (cdkDropListDropped)="drop($event, visualiser)"
+        cdkDropListOrientation="mixed"
+      >
 
         <!-- Render filled units as cards -->
-        <ng-container *ngFor="let unit of visualiser.units()">
-          <button type="button" class="flex items-center w-full h-16 rounded bg-gray-800 border border-gray-600 px-3 shadow-lg cursor-pointer hover:bg-gray-900"
+        <div *ngFor="let unit of visualiser.units(); let i = index" cdkDrag>
+          <button type="button" class="flex items-center w-full h-16 rounded bg-gray-800 border border-gray-600 px-1 shadow-lg hover:bg-gray-900"
+          [class.pl-3]="(visualiser.units()?.length ?? 0) < 2"
+          [class.pr-3]="(visualiser.slots()?.length ?? 0) < 1"
           [class.border-red-400]="unit.errors?.length"
-            (click)="editUnit(visualiser, unit)">
-            <div class="flex-1 overflow-hidden">
+            >
+            <!-- Drag Handle -->
+            <div class="text-white cursor-move1" cdkDragHandle *ngIf="(visualiser.units()?.length ?? 0) >= 2">
+              <app-icon pack="shared" icon="draggable" size="md"></app-icon>
+            </div>
+            <!-- Card Content -->
+            <div class="flex-1 overflow-hidden cursor-pointer ml-1" (click)="editUnit(visualiser, unit)">
                 <div class="text-sm font-semibold text-gray-300 truncate w-full text-left mb-1 flex align-middle">
                   <app-icon pack="shared" icon="warning-filled" class="mr-1 text-red-400" *ngIf="unit.errors?.length"></app-icon>
                   {{unit.selector!.name}}
@@ -36,11 +48,14 @@
                       {{unit.experience}}
                     </span>
                   </div>
-                  <span class="text-sm text-gray-200">{{unit.cost | number}} Pts</span>
                 </div>
             </div>
+            <!-- Duplicate button -->
+            <button type="button" class="text-xs text-gray-300 px-1" (click)="copyUnit(visualiser, unit.selector, unit)" matTooltip="Duplicate Unit" title="Duplicate Unit" *ngIf="(visualiser.slots()?.length ?? 0) >= 1">
+              <app-icon pack="shared" icon="copy" size="sm"></app-icon>
+            </button>
           </button>
-        </ng-container>
+        </div>
 
         <!-- Render mandatory slots as buttons -->
         <ng-container *ngFor="let slot of visualiser.slots()">
