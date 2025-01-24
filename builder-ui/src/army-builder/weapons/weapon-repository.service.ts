@@ -17,7 +17,7 @@ export class WeaponRepositoryService {
    * @returns An Observable of Weapon[] containing the global set of weapons.
    */
   getWeapons(factionId: string): Observable<Weapon[]> {
-    const factionWeaponConfigUrl = `assets/army-config/weapons/${factionId}-weapons.json`;
+    const factionWeaponConfigUrl = `assets/army-config/weapons/${factionId.toLowerCase()}-weapons.json`;
 
     return forkJoin({
       coreWeapons: this.fetchWeapons(this.weaponConfigUrl),

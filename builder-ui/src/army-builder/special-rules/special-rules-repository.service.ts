@@ -20,6 +20,7 @@ export class SpecialRulesRepositoryService {
       { id: 'INFILTRATOR', name: 'Infiltrator', shortDescription: '', description: '' },
       { id: 'STUBBORN', name: 'Stubborn', shortDescription: '', description: '' },
       { id: 'BICYCLES', name: 'Bicycles', shortDescription: '', description: '' },
+      { id: 'GREEN', name: 'Green', shortDescription: '', description: '' },
       { id: 'BEHIND', name: 'Behind Enemy Lines', shortDescription: 'When outflanking, ignore -1 modifier to the Order test for coming onto the table', description: '' },
       { id: 'SCARY', name: 'Scary Blighters!', shortDescription: 'Enemy unit fighting in close combat halves number of attacks (rounding up)', description: '' },
       { id: 'FANATICS', name: 'Fanatics', shortDescription: '', description: '' },

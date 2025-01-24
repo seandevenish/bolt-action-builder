@@ -87,7 +87,7 @@
           </div>
 
           <!-- Weapon Options -->
-          <div class="grid grid-cols-6 gap-x-6 gap-y-8" formGroupName="generalWeaponIds">
+          <div class="grid grid-cols-6 gap-x-6 gap-y-8" formGroupName="generalWeaponIds" *ngIf="form.get('generalWeaponIds')">
             <div class="col-span-3 md:col-span-2 flex flex-col justify-between" *ngFor="let wOption of infantryUnitSelector.generalWeaponOptions">
               <label [for]="wOption.weaponId" class="block mb-2 text-sm font-medium text-gray-900 mt-auto">
                 {{ wOption.description ?? wOption.weapon?.name }}
